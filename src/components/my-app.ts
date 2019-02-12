@@ -8,7 +8,15 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { LitElement, html, css, property, PropertyValues } from 'lit-element'
+import {
+  LitElement,
+  html,
+  css,
+  property,
+  PropertyValues,
+  CSSResult,
+  TemplateResult,
+} from 'lit-element'
 import { setPassiveTouchGestures } from '@polymer/polymer/lib/utils/settings.js'
 import { connect } from 'pwa-helpers/connect-mixin.js'
 import { installMediaQueryWatcher } from 'pwa-helpers/media-query.js'
@@ -20,7 +28,13 @@ import { updateMetadata } from 'pwa-helpers/metadata.js'
 import { store, RootState } from '../store.js'
 
 // These are the actions needed by this element.
-import { navigate, updateOffline, updateDrawerState } from '../actions/app.js'
+import {
+  navigate,
+  updateOffline,
+  updateDrawerState,
+  AppActionUpdateDrawerState,
+  AppActionUpdateOffline,
+} from '../actions/app.js'
 
 // The following line imports the type only - it will be removed by tsc so
 // another import for app-drawer.js is required below.
@@ -36,21 +50,21 @@ import './snack-bar.js'
 
 class MyApp extends connect(store)(LitElement) {
   @property({ type: String })
-  appTitle = ''
+  appTitle: string = ''
 
   @property({ type: String })
-  private _page = ''
+  private _page: string = ''
 
   @property({ type: Boolean })
-  private _drawerOpened = false
+  private _drawerOpened: boolean = false
 
   @property({ type: Boolean })
-  private _snackbarOpened = false
+  private _snackbarOpened: boolean = false
 
   @property({ type: Boolean })
-  private _offline = false
+  private _offline: boolean = false
 
-  static styles = css`
+  static styles: CSSResult = css`
     :host {
       display: block;
 
@@ -192,7 +206,7 @@ class MyApp extends connect(store)(LitElement) {
     }
   `
 
-  protected render() {
+  protected render(): TemplateResult {
     // Anything that's related to rendering should be done in here.
     return html`
       <!-- Header -->
@@ -256,19 +270,24 @@ class MyApp extends connect(store)(LitElement) {
     setPassiveTouchGestures(true)
   }
 
-  protected firstUpdated() {
-    installRouter(location =>
-      store.dispatch(navigate(decodeURIComponent(location.pathname))),
+  protected firstUpdated(): void {
+    installRouter(
+      (location: Location): void =>
+        store.dispatch(navigate(decodeURIComponent(location.pathname))),
     )
-    installOfflineWatcher(offline => store.dispatch(updateOffline(offline)))
-    installMediaQueryWatcher(`(min-width: 460px)`, () =>
-      store.dispatch(updateDrawerState(false)),
+    installOfflineWatcher(
+      (offline: boolean): void => store.dispatch(updateOffline(offline)),
+    )
+    installMediaQueryWatcher(
+      `(min-width: 460px)`,
+      (): AppActionUpdateDrawerState =>
+        store.dispatch(updateDrawerState(false)),
     )
   }
 
-  protected updated(changedProps: PropertyValues) {
+  protected updated(changedProps: PropertyValues): void {
     if (changedProps.has('_page')) {
-      const pageTitle = this.appTitle + ' - ' + this._page
+      const pageTitle: string = this.appTitle + ' - ' + this._page
       updateMetadata({
         title: pageTitle,
         description: pageTitle,
@@ -277,11 +296,11 @@ class MyApp extends connect(store)(LitElement) {
     }
   }
 
-  private _menuButtonClicked() {
+  private _menuButtonClicked(): void {
     store.dispatch(updateDrawerState(true))
   }
 
-  private _drawerOpenedChanged(e: Event) {
+  private _drawerOpenedChanged(e: Event): void {
     store.dispatch(updateDrawerState((e.target as AppDrawerElement).opened))
   }
 
