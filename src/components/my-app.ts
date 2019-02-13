@@ -33,7 +33,6 @@ import {
   updateOffline,
   updateDrawerState,
   AppActionUpdateDrawerState,
-  AppActionUpdateOffline,
 } from '../actions/app.js'
 
 // The following line imports the type only - it will be removed by tsc so
