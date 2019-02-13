@@ -1,13 +1,3 @@
-/**
-@license
-Copyright (c) 2018 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
-*/
-
 import {
   LitElement,
   html,
@@ -24,10 +14,8 @@ import { installOfflineWatcher } from 'pwa-helpers/network.js'
 import { installRouter } from 'pwa-helpers/router.js'
 import { updateMetadata } from 'pwa-helpers/metadata.js'
 
-// This element is connected to the Redux store.
 import { store, RootState } from '../store.js'
 
-// These are the actions needed by this element.
 import {
   navigate,
   updateOffline,
@@ -35,11 +23,8 @@ import {
   AppActionUpdateDrawerState,
 } from '../actions/app.js'
 
-// The following line imports the type only - it will be removed by tsc so
-// another import for app-drawer.js is required below.
 import { AppDrawerElement } from '@polymer/app-layout/app-drawer/app-drawer.js'
 
-// These are the elements needed by this element.
 import '@polymer/app-layout/app-drawer/app-drawer.js'
 import '@polymer/app-layout/app-header/app-header.js'
 import '@polymer/app-layout/app-scroll-effects/effects/waterfall.js'
@@ -104,9 +89,6 @@ class MyApp extends connect(store)(LitElement) {
       font-family: 'Pacifico';
       text-transform: lowercase;
       font-size: 30px;
-      /* In the narrow layout, the toolbar is offset by the width of the
-      drawer button, and the text looks not centered. Add a padding to
-      match that button */
       padding-right: 44px;
     }
 
@@ -157,7 +139,6 @@ class MyApp extends connect(store)(LitElement) {
       color: var(--app-drawer-selected-color);
     }
 
-    /* Workaround for IE11 displaying <main> as inline */
     main {
       display: block;
     }
@@ -182,8 +163,6 @@ class MyApp extends connect(store)(LitElement) {
       text-align: center;
     }
 
-    /* Wide layout: when the viewport width is bigger than 460px, layout
-      changes to a wide layout */
     @media (min-width: 460px) {
       .toolbar-list {
         display: block;
@@ -197,8 +176,6 @@ class MyApp extends connect(store)(LitElement) {
         padding-top: 107px;
       }
 
-      /* The drawer button isn't shown in the wide layout, so we don't
-      need to offset the title */
       [main-title] {
         padding-right: 0px;
       }
@@ -206,9 +183,7 @@ class MyApp extends connect(store)(LitElement) {
   `
 
   protected render(): TemplateResult {
-    // Anything that's related to rendering should be done in here.
     return html`
-      <!-- Header -->
       <app-header condenses reveals effects="waterfall">
         <app-toolbar class="toolbar-top">
           <button
@@ -221,7 +196,6 @@ class MyApp extends connect(store)(LitElement) {
           <div main-title>${this.appTitle}</div>
         </app-toolbar>
 
-        <!-- This gets hidden on a small screen-->
         <nav class="toolbar-list">
           <a ?selected="${this._page === 'view1'}" href="/view1">View One</a>
           <a ?selected="${this._page === 'view2'}" href="/view2">View Two</a>
@@ -229,7 +203,6 @@ class MyApp extends connect(store)(LitElement) {
         </nav>
       </app-header>
 
-      <!-- Drawer content -->
       <app-drawer
         .opened="${this._drawerOpened}"
         @opened-changed="${this._drawerOpenedChanged}"
@@ -241,7 +214,6 @@ class MyApp extends connect(store)(LitElement) {
         </nav>
       </app-drawer>
 
-      <!-- Main content -->
       <main role="main" class="main-content">
         <my-view1 class="page" ?active="${this._page === 'view1'}"></my-view1>
         <my-view2 class="page" ?active="${this._page === 'view2'}"></my-view2>
@@ -264,8 +236,6 @@ class MyApp extends connect(store)(LitElement) {
 
   constructor() {
     super()
-    // To force all event listeners for gestures to be passive.
-    // See https://www.polymer-project.org/3.0/docs/devguide/settings#setting-passive-touch-gestures
     setPassiveTouchGestures(true)
   }
 
@@ -290,7 +260,6 @@ class MyApp extends connect(store)(LitElement) {
       updateMetadata({
         title: pageTitle,
         description: pageTitle,
-        // This object also takes an image property, that points to an img src.
       })
     }
   }
