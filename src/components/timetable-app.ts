@@ -23,7 +23,6 @@ import {
   AppActionUpdateDrawerState,
 } from '../actions/app.js'
 
-import { menuIcon } from './my-icons.js'
 import './snack-bar.js'
 
 class TimetableApp extends connect(store)(LitElement) {
@@ -32,9 +31,6 @@ class TimetableApp extends connect(store)(LitElement) {
 
   @property({ type: String })
   private _page: string = ''
-
-  @property({ type: Boolean })
-  private _drawerOpened: boolean = false
 
   @property({ type: Boolean })
   private _snackbarOpened: boolean = false
@@ -63,39 +59,29 @@ class TimetableApp extends connect(store)(LitElement) {
       --app-drawer-text-color: var(--app-light-text-color);
       --app-drawer-selected-color: #78909c;
     }
+
+    /* Styling of sidebar */
+    #sidebar {
+      position: fixed;
+      left: 0;
+      top: 0;
+
+      width: 80px;
+      height: 100vh;
+
+      background: #172a3a;
+    }
   `
 
   protected render(): TemplateResult {
     return html`
-      <app-header condenses reveals effects="waterfall">
-        <app-toolbar class="toolbar-top">
-          <button
-            class="menu-btn"
-            title="Menu"
-            @click="${this._menuButtonClicked}"
-          >
-            ${menuIcon}
-          </button>
-          <div main-title>${this.appTitle}</div>
-        </app-toolbar>
-
-        <nav class="toolbar-list">
+      <aside id="sidebar">
+        <nav>
           <a ?selected="${this._page === 'view1'}" href="/view1">View One</a>
           <a ?selected="${this._page === 'view2'}" href="/view2">View Two</a>
           <a ?selected="${this._page === 'view3'}" href="/view3">View Three</a>
         </nav>
-      </app-header>
-
-      <app-drawer
-        .opened="${this._drawerOpened}"
-        @opened-changed="${this._drawerOpenedChanged}"
-      >
-        <nav class="drawer-list">
-          <a ?selected="${this._page === 'view1'}" href="/view1">View One</a>
-          <a ?selected="${this._page === 'view2'}" href="/view2">View Two</a>
-          <a ?selected="${this._page === 'view3'}" href="/view3">View Three</a>
-        </nav>
-      </app-drawer>
+      </aside>
 
       <main role="main" class="main-content">
         <my-view1 class="page" ?active="${this._page === 'view1'}"></my-view1>
@@ -145,14 +131,6 @@ class TimetableApp extends connect(store)(LitElement) {
         description: pageTitle,
       })
     }
-  }
-
-  private _menuButtonClicked(): void {
-    store.dispatch(updateDrawerState(true))
-  }
-
-  private _drawerOpenedChanged(e: Event): void {
-    store.dispatch(updateDrawerState((e.target as AppDrawerElement).opened))
   }
 
   stateChanged(state: RootState) {
