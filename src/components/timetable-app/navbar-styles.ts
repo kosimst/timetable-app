@@ -29,5 +29,11 @@ export default css`
 
   #sidebar nav .center {
     top: 50%;
+
+    transform: translateY(-50%);
+  }
+
+  #sidebar nav a:last-child {
+    bottom: 0;
   }
 `
