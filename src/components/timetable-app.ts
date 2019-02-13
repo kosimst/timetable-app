@@ -32,7 +32,7 @@ import '@polymer/app-layout/app-toolbar/app-toolbar.js'
 import { menuIcon } from './my-icons.js'
 import './snack-bar.js'
 
-class MyApp extends connect(store)(LitElement) {
+class TimetableApp extends connect(store)(LitElement) {
   @property({ type: String })
   appTitle: string = ''
 
@@ -280,4 +280,4 @@ class MyApp extends connect(store)(LitElement) {
   }
 }
 
-window.customElements.define('my-app', MyApp)
+window.customElements.define('timetable-app', TimetableApp)
