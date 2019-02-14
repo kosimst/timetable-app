@@ -67,7 +67,7 @@ class TimetableApp extends connect(store)(LitElement) {
     return html`
       <aside id="sidebar">
         <nav>
-          <a ?selected="${this._page === 'view1'}" href="/view1">
+          <a ?selected="${this._page === 'view-main'}" href="/main">
             <box-icon type="solid" name="user-detail"></box-icon>
           </a>
           <div class="center">
@@ -85,7 +85,7 @@ class TimetableApp extends connect(store)(LitElement) {
       </aside>
 
       <main role="main" class="main-content">
-        <my-view1 class="page" ?active="${this._page === 'view1'}"></my-view1>
+        <view-main class="page" ?active="${this._page === 'main'}"></view-main>
         <my-view2 class="page" ?active="${this._page === 'view2'}"></my-view2>
         <my-view3 class="page" ?active="${this._page === 'view3'}"></my-view3>
         <my-view404
