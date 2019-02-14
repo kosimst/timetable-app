@@ -28,7 +28,7 @@ type ThunkResult = ThunkAction<void, RootState, undefined, AppAction>;
 
 export const navigate: ActionCreator<ThunkResult> = (path: string) => (dispatch) => {
   // Extract the page name from path.
-  const page = path === '/' ? 'view1' : path.slice(1);
+  const page = path === '/' ? 'main' : path.slice(1);
 
   // Any other info you might want to extract from the path (like page type),
   // you can do here
