@@ -82,7 +82,7 @@ class TimetableApp extends connect(store)(LitElement) {
     return html`
       <aside id="sidebar">
         <nav>
-          <a ?selected="${this._page === 'view-main'}" href="/main">
+          <a ?selected="${this._page === 'view-main'}" href="/">
             <box-icon type="solid" name="user-detail"></box-icon>
           </a>
           <div class="center">
