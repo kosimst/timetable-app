@@ -54,6 +54,11 @@ class TimetableApp extends connect(store)(LitElement) {
       --app-sidebar-width: 64px;
     }
 
+    /* Only show active view */
+    .page:not([active]) {
+      display: none;
+    }
+
     /* Styling of sidebar */
     ${styles}
   `
