@@ -28,7 +28,7 @@ import {
 import '../snack-bar.js'
 
 // Imports os styles
-import sidebarStyles from './navbar-styles.js'
+import { styles } from './navbar-styles.js'
 
 class TimetableApp extends connect(store)(LitElement) {
   @property({ type: String })
