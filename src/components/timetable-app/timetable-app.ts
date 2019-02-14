@@ -52,6 +52,7 @@ class TimetableApp extends connect(store)(LitElement) {
 
       /* Theme */
       --theme-sidebar-color: #172a3a;
+      --theme-main-gradient: linear-gradient(120.41deg, #508991 0%, #09BC8A 100%);
 
       /* Layout */
       --app-sidebar-width: 64px;
@@ -69,6 +70,8 @@ class TimetableApp extends connect(store)(LitElement) {
       height: 100%;
 
       margin-left: var(--app-sidebar-width);
+
+      background-image: var(--theme-main-gradient);
     }
 
     /* Styling of sidebar */
