@@ -47,6 +47,9 @@ class TimetableApp extends connect(store)(LitElement) {
     :host {
       display: block;
 
+      width: 100vw;
+      height: 100vh;
+
       /* Theme */
       --theme-sidebar-color: #172a3a;
 
@@ -57,6 +60,15 @@ class TimetableApp extends connect(store)(LitElement) {
     /* Only show active view */
     .page:not([active]) {
       display: none;
+    }
+
+    /* Main */
+
+    main {
+      width: calc(100vw - var(--app-sidebar-width));
+      height: 100%;
+
+      margin-left: var(--app-sidebar-width);
     }
 
     /* Styling of sidebar */
