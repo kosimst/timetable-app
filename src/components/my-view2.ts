@@ -28,7 +28,7 @@ store.addReducers({
 import './counter-element.js';
 
 // These are the shared styles needed by this element.
-import { SharedStyles } from './shared-styles.js';
+import { styles as SharedStyles } from '../styles/shared-styles.js';
 
 class MyView2 extends connect(store)(PageViewElement) {
   @property({type: Number})
