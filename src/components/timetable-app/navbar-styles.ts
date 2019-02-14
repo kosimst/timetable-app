@@ -1,6 +1,6 @@
-import { css } from 'lit-element'
+import { css, CSSResult } from 'lit-element'
 
-export default css`
+export const styles: CSSResult = css`
   #sidebar {
     position: fixed;
     left: 0;
