@@ -11,7 +11,7 @@ install:
   - npm i -g polymer-cli
   - npm i -g gulp
 scripts:
-  - google-chrome -v
+  - google-chrome --version
   - npm run build
 before_deploy:
   - cd server
