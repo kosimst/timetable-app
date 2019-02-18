@@ -3,6 +3,7 @@ node_js:
   - '10'
 
 install:
+  - npm i
   - npm i -g typescript
   - npm i -g polymer-cli
   - npm i -g gulp
