@@ -44,4 +44,6 @@ class ViewMain extends PageViewElement {
   }
 }
 
+export const title: string = 'Mein Stundenplan'
+
 customElements.define('view-main', ViewMain)

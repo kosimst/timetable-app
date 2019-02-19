@@ -43,6 +43,9 @@ class TimetableApp extends connect(store)(LitElement) {
   @property({ type: Boolean })
   private _offline: boolean = false
 
+  @property({ type: Boolean })
+  private _title: string = ''
+
   static styles: CSSResult = css`
     :host {
       display: block;
@@ -141,10 +144,9 @@ class TimetableApp extends connect(store)(LitElement) {
 
   protected updated(changedProps: PropertyValues): void {
     if (changedProps.has('_page')) {
-      const pageTitle: string = this.appTitle + ' - ' + this._page
       updateMetadata({
-        title: pageTitle,
-        description: pageTitle,
+        title: this._title,
+        description: this._title,
       })
     }
   }
@@ -153,6 +155,7 @@ class TimetableApp extends connect(store)(LitElement) {
     this._page = state.app!.page
     this._offline = state.app!.offline
     this._snackbarOpened = state.app!.snackbarOpened
+    this._title = state.app!.title
   }
 }
 

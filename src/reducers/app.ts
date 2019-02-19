@@ -8,21 +8,23 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { Reducer } from 'redux';
+import { Reducer } from 'redux'
 import {
   UPDATE_PAGE,
   UPDATE_OFFLINE,
   OPEN_SNACKBAR,
   CLOSE_SNACKBAR,
-  UPDATE_DRAWER_STATE
-} from '../actions/app.js';
-import { RootAction } from '../store.js';
+  UPDATE_DRAWER_STATE,
+  UPDATE_TITLE,
+} from '../actions/app.js'
+import { RootAction } from '../store.js'
 
 export interface AppState {
-  page: string;
-  offline: boolean;
-  drawerOpened: boolean;
-  snackbarOpened: boolean;
+  page: string
+  offline: boolean
+  drawerOpened: boolean
+  snackbarOpened: boolean
+  title: string
 }
 
 const INITIAL_STATE: AppState = {
@@ -30,38 +32,44 @@ const INITIAL_STATE: AppState = {
   offline: false,
   drawerOpened: false,
   snackbarOpened: false,
-};
+  title: 'Mein Stundenplan',
+}
 
 const app: Reducer<AppState, RootAction> = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case UPDATE_PAGE:
       return {
         ...state,
-        page: action.page
-      };
+        page: action.page,
+      }
     case UPDATE_OFFLINE:
       return {
         ...state,
-        offline: action.offline
-      };
+        offline: action.offline,
+      }
     case UPDATE_DRAWER_STATE:
       return {
         ...state,
-        drawerOpened: action.opened
-      };
+        drawerOpened: action.opened,
+      }
     case OPEN_SNACKBAR:
       return {
         ...state,
-        snackbarOpened: true
-      };
+        snackbarOpened: true,
+      }
     case CLOSE_SNACKBAR:
       return {
         ...state,
-        snackbarOpened: false
-      };
+        snackbarOpened: false,
+      }
+    case UPDATE_TITLE:
+      return {
+        ...state,
+        title: action.title,
+      }
     default:
-      return state;
+      return state
   }
-};
+}
 
-export default app;
+export default app
