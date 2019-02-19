@@ -12,7 +12,7 @@ import { html } from 'lit-element'
 import { PageViewElement } from './page-view-element.js'
 
 // These are the shared styles needed by this element.
-import { styles as SharedStyles } from '../styles/shared-styles.js'
+import { styles as SharedStyles } from './styles/shared-styles.js'
 
 class MyView404 extends PageViewElement {
   static styles = SharedStyles
