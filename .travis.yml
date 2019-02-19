@@ -38,3 +38,5 @@ matrix:
           api_key: $GH_TOKEN
           skip_cleanup: true
           name: timetable-app_${TRAVIS_BRANCH}
+      after_deploy:
+        - cd ..
