@@ -1,36 +1,35 @@
-include:
-  - node_js: '10'
-    os: osx
-    script: npm run test:integration
-  - node_js: '10'
-    sudo: required
-    os: linux
-    dist: trusty
-    addons:
-      chrome: stable
-      firefox: latest
-    install:
-      - npm i
-      - npm i -g typescript
-      - npm i -g polymer-cli
-      - npm i -g gulp
-    before_script:
-      - export DISPLAY=:99.0
-      - sh -e /etc/init.d/xvfb start
-    script:
-      - npm run test:unit
-      - if [ "${TRAVIS_PULL_REQUEST}" = "false" ]; then npm run test:sauce; fi
-      - npm run build
-    before_deploy:
-      - cd server
-    deploy:
-      - provider: 'heroku'
-        on: 'master'
-        app: 'untis'
-        skip_cleanup: true
-        api_key:
-          secure: Of2vkSKuk1hCZyUUjLwDhbHWXLBeP+7tc8kk3FlQ4nxn1647Yk2kGfoiiLTFM+1N5cLWhKMhGGTmo3H0r+1B8K5tGaAHeeVk1BFHB+eTZKyvODCKUkRJOejJhQSx1yq2n1fK5JTa3pEj1oAOTk/yIB1uug6vZ6uiteQ1NQrnpHTEOkzRU6sHEljtAqEj0wKAPGVBKZ+tkz/soVr+Hbc6PqKQBkQofkyuTDG84FTkTnnU+xJg2s2vwlap51Ly5sj4riNnrQsWb87PpbNFKivksVodbnTtmr+hG3EMlbiW+L4N+F+QBlMJv+JUD369+Q8WdQ4gl+yEBWnA8Ba0T89ZPjXKZ9jFb/ZETSiBHcqo4qYOCB9SR3x6zzocFmi7LXJUosqP0n2dDOqf7aM9G/TjrP5f4Vat8PXGeLvJRRhHsruNQFo4GHm4DxCoL4FHmfEjtiDF/L25v/Gp3M1Z8NBvdVkTbKSzt2cHIEeYwe05LPGlgQScs6eOvyNHf3yEyAxr5ioOHq1xFwBRsd+hp/t1Pm+U1dU3lsSd0GJLpPyr1Wx1E8b5NmZQnfLCIK1I1eCzBzq54hQi/uqS4Jk6B9N4T403wPOq0SyZh09TqM0XEdmXEW8EzSsjqB/aTjbKyHl/gPCs8aCZ/gb/TMCHVybbRsN0PHI+GUdqEV+FynTKkuM=
-      - provider: releases
-        api_key: $GH_TOKEN
-        skip_cleanup: true
-        name: timetable-app_${TRAVIS_BRANCH}
+- node_js: '10'
+  os: osx
+  script: npm run test:integration
+- node_js: '10'
+  sudo: required
+  os: linux
+  dist: trusty
+  addons:
+    chrome: stable
+    firefox: latest
+  install:
+    - npm i
+    - npm i -g typescript
+    - npm i -g polymer-cli
+    - npm i -g gulp
+  before_script:
+    - export DISPLAY=:99.0
+    - sh -e /etc/init.d/xvfb start
+  script:
+    - npm run test:unit
+    - if [ "${TRAVIS_PULL_REQUEST}" = "false" ]; then npm run test:sauce; fi
+    - npm run build
+  before_deploy:
+    - cd server
+  deploy:
+    - provider: 'heroku'
+      on: 'master'
+      app: 'untis'
+      skip_cleanup: true
+      api_key:
+        secure: Of2vkSKuk1hCZyUUjLwDhbHWXLBeP+7tc8kk3FlQ4nxn1647Yk2kGfoiiLTFM+1N5cLWhKMhGGTmo3H0r+1B8K5tGaAHeeVk1BFHB+eTZKyvODCKUkRJOejJhQSx1yq2n1fK5JTa3pEj1oAOTk/yIB1uug6vZ6uiteQ1NQrnpHTEOkzRU6sHEljtAqEj0wKAPGVBKZ+tkz/soVr+Hbc6PqKQBkQofkyuTDG84FTkTnnU+xJg2s2vwlap51Ly5sj4riNnrQsWb87PpbNFKivksVodbnTtmr+hG3EMlbiW+L4N+F+QBlMJv+JUD369+Q8WdQ4gl+yEBWnA8Ba0T89ZPjXKZ9jFb/ZETSiBHcqo4qYOCB9SR3x6zzocFmi7LXJUosqP0n2dDOqf7aM9G/TjrP5f4Vat8PXGeLvJRRhHsruNQFo4GHm4DxCoL4FHmfEjtiDF/L25v/Gp3M1Z8NBvdVkTbKSzt2cHIEeYwe05LPGlgQScs6eOvyNHf3yEyAxr5ioOHq1xFwBRsd+hp/t1Pm+U1dU3lsSd0GJLpPyr1Wx1E8b5NmZQnfLCIK1I1eCzBzq54hQi/uqS4Jk6B9N4T403wPOq0SyZh09TqM0XEdmXEW8EzSsjqB/aTjbKyHl/gPCs8aCZ/gb/TMCHVybbRsN0PHI+GUdqEV+FynTKkuM=
+    - provider: releases
+      api_key: $GH_TOKEN
+      skip_cleanup: true
+      name: timetable-app_${TRAVIS_BRANCH}
