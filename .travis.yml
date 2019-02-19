@@ -2,16 +2,15 @@ language: node_js
 node_js:
   - '10'
 cache: npm
-addons:
-  - chrome: stable
 
 install:
+  - sudo apt install google-chrome
+  - google-chrome --version
   - npm i
   - npm i -g typescript
   - npm i -g polymer-cli
   - npm i -g gulp
 scripts:
-  - google-chrome --version
   - npm run build
 before_deploy:
   - cd server
