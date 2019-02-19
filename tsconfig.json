@@ -3,7 +3,7 @@
     "target": "es2017",
     "module": "esnext",
     "moduleResolution": "node",
-    "lib": ["es2017", "dom", "es2018"],
+    "lib": ["es2017", "dom", "es2018", "dom.iterable"],
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
