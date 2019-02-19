@@ -64,9 +64,11 @@ const loadPage: ActionCreator<ThunkResult> = (page: string) => dispatch => {
         dispatch(updateTitle(title))
       })
       break
-    case 'view2':
-      import('../components/my-view2.js')
-      break
+    case 'timetable':
+    import('../components/views/view-timetable.js').then(({ title }) => {
+      dispatch(updateTitle(title))
+    })
+    break
     case 'view3':
       import('../components/my-view3.js')
       break
