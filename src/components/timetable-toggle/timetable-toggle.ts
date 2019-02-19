@@ -7,8 +7,10 @@ import {
   CSSResult,
 } from 'lit-element'
 
+import '@polymer/paper-ripple/paper-ripple.js'
+
 import { styles as SharedStyles } from '../styles/shared-styles.js'
-import { styles as Shadows } from "../styles/shadows.js";
+import { styles as Shadows } from '../styles/shadows.js'
 
 class TimetableToggle extends LitElement {
   @property({ type: String, reflect: true })
@@ -45,6 +47,15 @@ class TimetableToggle extends LitElement {
 
       background: white;
 
+      box-shadow: var(--shadow-elevation-8dp);
+      transition: var(--shadow-transition);
+    }
+
+    :host(:hover) {
+      box-shadow: var(--shadow-elevation-16dp);
+    }
+
+    :host(:active) {
       box-shadow: var(--shadow-elevation-6dp);
     }
 
@@ -86,7 +97,7 @@ class TimetableToggle extends LitElement {
     }
 
     #on {
-      transition: color .2s var(--duration) ease-out;
+      transition: color 0.2s var(--duration) ease-out;
     }
 
     :host([active]) #on {
@@ -96,7 +107,7 @@ class TimetableToggle extends LitElement {
     :host([active]) #off {
       color: white;
 
-      transition: color .2s var(--duration) ease-out;
+      transition: color 0.2s var(--duration) ease-out;
     }
 
     :host([active]) #toggler {
@@ -148,6 +159,7 @@ class TimetableToggle extends LitElement {
 
   protected render(): TemplateResult {
     return html`
+      <paper-ripple></paper-ripple>
       <div id="toggler"></div>
       <div id="on">${this.on}</div>
       <div id="off">${this.off}</div>
