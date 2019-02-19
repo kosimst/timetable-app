@@ -82,18 +82,18 @@ class TimetableApp extends connect(store)(LitElement) {
     return html`
       <aside id="sidebar">
         <nav>
-          <a ?selected="${this._page === 'view-main'}" href="/">
+          <a ?current="${this._page === 'main'}" href="/">
             <box-icon type="solid" name="user-detail"></box-icon>
           </a>
           <div class="center">
-            <a ?selected="${this._page === 'view2'}" href="/view2"
+            <a ?current="${this._page === 'view2'}" href="/view2"
               ><box-icon name="calendar"></box-icon
             ></a>
-            <a ?selected="${this._page === 'view3'}" href="/view3"
+            <a ?current="${this._page === 'view3'}" href="/view3"
               ><box-icon name="book-open" type="solid"></box-icon
             ></a>
           </div>
-          <a ?selected="${this._page === 'view3'}" href="/view3"
+          <a ?current="${this._page === 'view3'}" href="/view3"
             ><box-icon name="cog"></box-icon
           ></a>
         </nav>
