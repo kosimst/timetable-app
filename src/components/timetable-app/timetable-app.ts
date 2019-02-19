@@ -56,6 +56,7 @@ class TimetableApp extends connect(store)(LitElement) {
       /* Theme */
       --theme-sidebar-color: #172a3a;
       --theme-main-gradient: linear-gradient(120.41deg, #508991 0%, #09BC8A 100%);
+      --theme-second-gradient: linear-gradient(115.75deg, #004346 0%, #508991 100%);
 
       /* Layout */
       --app-sidebar-width: 64px;
