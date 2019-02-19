@@ -90,7 +90,7 @@ class TimetableApp extends connect(store)(LitElement) {
             <box-icon type="solid" name="user-detail"></box-icon>
           </a>
           <div class="center">
-            <a ?current="${this._page === 'view2'}" href="/view2"
+            <a ?current="${this._page === 'timetable'}" href="/timetable"
               ><box-icon name="calendar"></box-icon
             ></a>
             <a ?current="${this._page === 'view3'}" href="/view3"
@@ -105,7 +105,7 @@ class TimetableApp extends connect(store)(LitElement) {
 
       <main role="main" class="main-content">
         <view-main class="page" ?active="${this._page === 'main'}"></view-main>
-        <my-view2 class="page" ?active="${this._page === 'view2'}"></my-view2>
+        <view-timetable class="page" ?active="${this._page === 'timetable'}"></view-timetable>
         <my-view3 class="page" ?active="${this._page === 'view3'}"></my-view3>
         <my-view404
           class="page"
