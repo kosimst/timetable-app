@@ -29,7 +29,7 @@ import './shop-products.js';
 import './shop-cart.js';
 
 // These are the shared styles needed by this element.
-import { styles as SharedStyles } from '../styles/shared-styles.js';
+import { styles as SharedStyles } from './styles/shared-styles.js';
 import { ButtonSharedStyles } from './button-shared-styles.js';
 import { addToCartIcon } from './my-icons.js';
 
