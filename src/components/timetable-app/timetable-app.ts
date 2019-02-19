@@ -156,4 +156,4 @@ class TimetableApp extends connect(store)(LitElement) {
   }
 }
 
-window.customElements.define('timetable-app', TimetableApp)
+customElements.define('timetable-app', TimetableApp)

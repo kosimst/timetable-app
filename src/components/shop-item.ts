@@ -31,4 +31,4 @@ class ShopItem extends LitElement {
   }
 }
 
-window.customElements.define('shop-item', ShopItem);
+customElements.define('shop-item', ShopItem);

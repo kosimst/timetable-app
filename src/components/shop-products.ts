@@ -74,4 +74,4 @@ class ShopProducts extends connect(store)(LitElement) {
   }
 }
 
-window.customElements.define('shop-products', ShopProducts);
+customElements.define('shop-products', ShopProducts);

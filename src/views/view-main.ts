@@ -44,4 +44,4 @@ class ViewMain extends PageViewElement {
   }
 }
 
-window.customElements.define('view-main', ViewMain)
+customElements.define('view-main', ViewMain)

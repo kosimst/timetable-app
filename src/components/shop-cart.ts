@@ -76,4 +76,4 @@ class ShopCart extends connect(store)(LitElement) {
   }
 }
 
-window.customElements.define('shop-cart', ShopCart);
+customElements.define('shop-cart', ShopCart);

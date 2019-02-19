@@ -55,4 +55,4 @@ class SnackBar extends LitElement {
   }
 }
 
-window.customElements.define('snack-bar', SnackBar);
+customElements.define('snack-bar', SnackBar);

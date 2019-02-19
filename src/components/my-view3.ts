@@ -115,4 +115,4 @@ class MyView3 extends connect(store)(PageViewElement) {
   }
 }
 
-window.customElements.define('my-view3', MyView3);
+customElements.define('my-view3', MyView3);
