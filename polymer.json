@@ -1,6 +1,6 @@
 {
   "entrypoint": "index.html",
-  "shell": "src/components/timetable-app.js",
+  "shell": "src/components/timetable-app/timetable-app.js",
   "sources": [
     "images/**/*"
   ],
