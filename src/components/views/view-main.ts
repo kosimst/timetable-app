@@ -16,7 +16,7 @@ import { styles as SharedStyles } from '../styles/shared-styles.js'
 import { styles as ViewStyles } from '../styles/view-styles.js'
 
 class ViewMain extends PageViewElement {
-  static styles = css`
+  static styles: CSSResult = css`
     ${SharedStyles}
     ${ViewStyles}
 
