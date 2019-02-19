@@ -27,7 +27,7 @@ class ViewMain extends PageViewElement {
       display: grid;
 
       grid-template-columns: 2% 90% 8%;
-      grid-template-rows: 15% 10% 80%;
+      grid-template-rows: 12% 10% 83%;
       grid-column-gap: 0px;
       grid-row-gap: 0px;
 
