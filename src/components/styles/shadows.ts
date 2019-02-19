@@ -2,6 +2,7 @@ import { css, CSSResult } from 'lit-element'
 
 export const styles: CSSResult = css`
   :host {
+    --shadow-transition: box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1);
     --shadow-elevation-2dp: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
       0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
     --shadow-elevation-3dp: 0 3px 4px 0 rgba(0, 0, 0, 0.14),
