@@ -55,8 +55,16 @@ class TimetableApp extends connect(store)(LitElement) {
 
       /* Theme */
       --theme-sidebar-color: #172a3a;
-      --theme-main-gradient: linear-gradient(120.41deg, #508991 0%, #09BC8A 100%);
-      --theme-second-gradient: linear-gradient(115.75deg, #004346 0%, #508991 100%);
+      --theme-main-gradient: linear-gradient(
+        120.41deg,
+        #508991 0%,
+        #09bc8a 100%
+      );
+      --theme-second-gradient: linear-gradient(
+        115.75deg,
+        #004346 0%,
+        #508991 100%
+      );
 
       /* Layout */
       --app-sidebar-width: 64px;
@@ -105,12 +113,14 @@ class TimetableApp extends connect(store)(LitElement) {
 
       <main role="main" class="main-content">
         <view-main class="page" ?active="${this._page === 'main'}"></view-main>
-        <view-timetable class="page" ?active="${this._page === 'timetable'}"></view-timetable>
-        <my-view3 class="page" ?active="${this._page === 'view3'}"></my-view3>
-        <my-view404
+        <view-timetable
           class="page"
-          ?active="${this._page === 'view404'}"
-        ></my-view404>
+          ?active="${this._page === 'timetable'}"
+        ></view-timetable>
+        <view-notfound
+          class="page"
+          ?active="${this._page === 'notfound'}"
+        ></view-notfound>
       </main>
 
       <footer>

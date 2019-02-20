@@ -9,12 +9,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 
 import { html } from 'lit-element'
-import { PageViewElement } from './page-view-element.js'
+import { PageViewElement } from '../page-view-element.js'
 
 // These are the shared styles needed by this element.
-import { styles as SharedStyles } from './styles/shared-styles.js'
+import { styles as SharedStyles } from '../styles/shared-styles.js'
 
-class MyView404 extends PageViewElement {
+class ViewNotfound extends PageViewElement {
   static styles = SharedStyles
 
   protected render() {
@@ -30,4 +30,6 @@ class MyView404 extends PageViewElement {
   }
 }
 
-customElements.define('my-view404', MyView404)
+export const title: string = 'Ups… Seite nicht gefunden'
+
+customElements.define('view-notfound', ViewNotfound)

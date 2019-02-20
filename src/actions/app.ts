@@ -70,8 +70,10 @@ const loadPage: ActionCreator<ThunkResult> = (page: string) => dispatch => {
       })
       break
     default:
-      page = 'view404'
-      import('../components/my-view404.js')
+      page = 'notfound'
+      import('../components/views/view-notfound.js').then(({ title }) => {
+        dispatch(updateTitle(title))
+      })
   }
 
   dispatch(updatePage(page))
