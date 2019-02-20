@@ -179,6 +179,8 @@ class TimetableSelect extends LitElement {
   private _changeValue({ target: { value } }: { target: HTMLInputElement }) {
     this.value = value
     this.opened = false
+
+    this.dispatchEvent(new Event('change'))
   }
 }
 

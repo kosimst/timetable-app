@@ -1,15 +1,20 @@
 import { html, css, CSSResult } from 'lit-element'
 import { PageViewElement } from '../page-view-element.js'
 
+import { connect } from 'pwa-helpers'
+
 // These are the shared styles needed by this element.
 import { styles as SharedStyles } from '../styles/shared-styles.js'
 import { styles as ViewStyles } from '../styles/view-styles.js'
+
+import { store } from '../../store.js'
+import { changeKlasse } from '../../actions/timetable.js'
 
 import '../timetable-grid/timetable-grid.js'
 import '../timetable-toggle/timetable-toggle.js'
 import '../timetable-select/timetable-select.js'
 
-class ViewTimetable extends PageViewElement {
+class ViewTimetable extends connect(store)(PageViewElement) {
   static styles: CSSResult = css`
     ${SharedStyles}
     ${ViewStyles}
@@ -52,7 +57,10 @@ class ViewTimetable extends PageViewElement {
       <h1 id="title">Mein Stundenplan</h1>
       <div id="menubar" role="menubar">
         <timetable-toggle on="Klassen" off="Lehrer"></timetable-toggle>
-        <timetable-select>
+        <timetable-select
+          @change=${(e: { target: { value: string } }) =>
+            store.dispatch(changeKlasse(e!.target!.value))}
+        >
           <option value="1A">1A</option>
           <option value="1B">1B</option>
           <option value="2A">2A</option>
