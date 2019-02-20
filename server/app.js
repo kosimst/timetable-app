@@ -8,7 +8,7 @@ const app = express()
 
 /* Rendertron proxy for bots */
 app.use(rendertron.makeMiddleware({
-  proxyUrl: ' https://render-tron.appspot.com/render'
+  proxyUrl: 'https://render-tron.appspot.com/render'
 }))
 
 app.get('/*', prpl.makeHandler('./build'))
