@@ -32,7 +32,7 @@ import { styles } from './navbar-styles.js'
 
 class TimetableApp extends connect(store)(LitElement) {
   @property({ type: String })
-  appTitle: string = ''
+  public appTitle: string = ''
 
   @property({ type: String })
   private _page: string = ''
