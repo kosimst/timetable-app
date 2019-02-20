@@ -9,7 +9,23 @@
     "node_modules/@webcomponents/webcomponentsjs/**",
     "push-manifest.json"
   ],
-  "builds": [
+  "builds": [{
+      "name": "esm-unbundled",
+      "browserCapabilities": [
+        "es2015",
+        "modules"
+      ],
+      "js": {
+        "minify": true
+      },
+      "css": {
+        "minify": true
+      },
+      "html": {
+        "minify": true
+      },
+      "addServiceWorker": true
+    },
     {
       "name": "esm-bundled",
       "browserCapabilities": [
