@@ -144,7 +144,7 @@ class TimetableApp extends connect(store)(LitElement) {
   }
 
   protected updated(changedProps: PropertyValues): void {
-    if (changedProps.has('_page')) {
+    if (changedProps.has('_description') || changedProps.has('_title')) {
       updateMetadata({
         title: this._title,
         description: this._title,
