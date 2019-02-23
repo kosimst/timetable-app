@@ -1,50 +1,61 @@
 import { Action, ActionCreator } from 'redux'
 import { ThunkAction } from 'redux-thunk'
 import { RootState } from '../store.js'
-export const CHANGE_KLASSE = 'CHANGE_KLASSE'
-export const LOAD_KLASSE = 'LOAD_KLASSE'
-export const UPDATE_KLASSE = 'UPDATE_KLASSE'
+export const CHANGE_MODE = 'CHANGE_MODE'
+export const CHANGE_SOURCE = 'CHANGE_SOURCE'
+export const FETCH_TIMETABLE = 'FETCH_TIMETABLE'
+export const REJECT_TIMETABLE = 'FETCH_TIMETABLE'
+export const UPDATE_SOURCE = 'UPDATE_SOURCE'
 export const UPDATE_TIMETABLE = 'UPDATE_TIMETABLE'
-export const UPDATE_MODE = 'UPDATE_MODE'
+export const UPDATE_ERROR = 'UPDATE_ERROR'
+export const UPDATE_TIMESTAMP = 'UPDATE_TIMESTAMP'
 
-export interface TimetableActionUpdateKlasse extends Action<'UPDATE_KLASSE'> {
-  klasse: string
+export interface TimetableActionChangeSource extends Action<'CHANGE_SOURCE'> {
+  source: string
 }
-export interface TimetableActionChangeKlasse extends Action<'CHANGE_KLASSE'> {
-  klasse: string
-}
-export interface TimetableActionLoadKlasse extends Action<'LOAD_KLASSE'> {
-  klasse: string
-}
-export interface TimetableActionUpdateMode extends Action<'UPDATE_MODE'> {
-  mode: 'klasse' | 'teacher'
-}
-
-// TODO: Create type for timetable data
 export interface TimetableActionUpdateTimetable
   extends Action<'UPDATE_TIMETABLE'> {
   timetable: any
 }
+export interface TimetableActionChangeMode extends Action<'CHANGE_MODE'> {
+  mode: 'klasse' | 'teacher'
+}
+export interface TimetableActionFetchTimetable
+  extends Action<'FETCH_TIMETABLE'> {
+  source: string
+}
+
+export interface TimetableActionRejectTimetable
+  extends Action<'REJECT_TIMETABLE'> {
+  error: string
+}
+
+export interface TimetableActionUpdateSource extends Action<'UPDATE_SOURCE'> {
+  source: string
+}
+
 export type TimetableAction =
-  | TimetableActionChangeKlasse
-  | TimetableActionLoadKlasse
-  | TimetableActionUpdateKlasse
+  | TimetableActionChangeMode
   | TimetableActionUpdateTimetable
-  | TimetableActionUpdateMode
+  | TimetableActionChangeSource
+  | TimetableActionFetchTimetable
+  | TimetableActionRejectTimetable
+  | TimetableActionUpdateSource
 
 type ThunkResult = ThunkAction<void, RootState, undefined, TimetableAction>
 
-export const changeKlasse: ActionCreator<ThunkResult> = (
-  klasse: string,
+export const changeSource: ActionCreator<ThunkResult> = (
+  source: string,
 ) => dispatch => {
-  dispatch(loadKlasse(klasse))
+  dispatch(fetchTimetable(source))
 }
 
-const loadKlasse: ActionCreator<ThunkResult> = (
-  klasse: string,
+const fetchTimetable: ActionCreator<ThunkResult> = (
+  source: string,
 ) => async dispatch => {
+  // TODO: Handle error and dispatch error msg
   dispatch(updateTimetable(await fetch('https://api.ipify.org?format=json')))
-  dispatch(updateKlasse(klasse))
+  dispatch(updateSource(source))
 }
 
 const updateTimetable: ActionCreator<TimetableActionUpdateTimetable> = (
@@ -56,26 +67,20 @@ const updateTimetable: ActionCreator<TimetableActionUpdateTimetable> = (
   }
 }
 
-const updateKlasse: ActionCreator<TimetableActionUpdateKlasse> = (
-  klasse: string,
+const updateSource: ActionCreator<TimetableActionUpdateSource> = (
+  source: string,
 ) => {
   return {
-    type: UPDATE_KLASSE,
-    klasse,
+    type: UPDATE_SOURCE,
+    source,
   }
 }
 
-export const updateMode: ActionCreator<ThunkResult> = (mode: string) => (
-  dispatch,
-  getState,
+export const changeMode: ActionCreator<TimetableActionChangeMode> = (
+  mode: 'klasse' | 'teacher',
 ) => {
-  switch (mode) {
-    case 'klasse': {
-      const { timetable: klasse } = getState()
-      dispatch(loadKlasse(klasse))
-      break
-    }
-    case 'teacher': {
-    }
+  return {
+    mode,
+    type: CHANGE_MODE,
   }
 }
