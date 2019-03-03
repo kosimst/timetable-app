@@ -60,7 +60,7 @@ gulp.task('serve', () => {
     proxy: 'localhost:8081',
     port: 3000,
     files: 'src/**/*',
-    browser: "google-chrome",
+    browser: "opera",
     notify: false,
     minify: false,
   })
