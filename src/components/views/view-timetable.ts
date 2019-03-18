@@ -20,8 +20,8 @@ class ViewTimetable extends connect(store)(PageViewElement) {
   @property({ type: String })
   private _source: string = ''
 
-  @property({ type: String })
-  private _mode: string = ''
+  /* @property({ type: String })
+  private _mode: string = '' */
 
   @property({ type: String })
   private _timestamp: Date = new Date(0)
@@ -90,7 +90,7 @@ class ViewTimetable extends connect(store)(PageViewElement) {
 
   stateChanged(state: RootState) {
     this._source = state.timetable!.source
-    this._mode = state.timetable!.mode
+    /* this._mode = state.timetable!.mode */
     this._timestamp = new Date(state.timetable!.timestamp)
   }
 }
