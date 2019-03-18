@@ -88,6 +88,7 @@ class TimetableSelect extends LitElement {
       line-height: 40px;
       text-align: center;
       font-family: Poppins;
+      font-weight: 700;
       font-size: 14px;
       position: relative;
       z-index: 2;
@@ -103,7 +104,6 @@ class TimetableSelect extends LitElement {
       text-align: center;
       font-family: Poppins;
       color: grey;
-      font-weight: 100;
       max-height: 0;
       overflow-y: hidden;
       font-size: 14px;
@@ -112,6 +112,10 @@ class TimetableSelect extends LitElement {
 
     :host([opened]) #select {
       max-height: 5000px;
+    }
+
+    option {
+      font-weight: 700;
     }
   `
 

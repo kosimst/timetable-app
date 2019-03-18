@@ -86,6 +86,7 @@ class TimetableToggle extends LitElement {
       float: left;
 
       font-family: Poppins;
+      font-weight: 700;
       font-size: 14px;
       text-align: center;
       line-height: 40px;
