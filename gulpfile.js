@@ -15,6 +15,9 @@ const del = require('del')
 const spawn = require('child_process').spawn
 const browserSync = require('browser-sync').create()
 
+const express = require('express')
+const proxy = require('express-http-proxy')
+
 /**
  * Cleans the prpl-server build in the server directory.
  */
@@ -56,8 +59,15 @@ gulp.task('serve', () => {
   }
   spawn('tsc', ['--watch'], spawnOptions)
   spawn('polymer', ['serve'], spawnOptions)
+
+  const app = express()
+  app.use('/api', proxy('localhost:7000'))
+  app.use('/', proxy('localhost:8081'))
+
+  app.listen(5000)
+
   browserSync.init({
-    proxy: 'localhost:8081',
+    proxy: 'localhost:5000',
     port: 3000,
     files: 'src/**/*',
     browser: "opera",
