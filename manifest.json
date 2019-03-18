@@ -1,7 +1,7 @@
 {
   "name": "Stundenplan App",
   "short_name": "Stundenplan",
-  "description": "My App description",
+  "description": "Mein Stundenplan",
   "start_url": "/",
   "display": "standalone",
   "theme_color": "#3f51b5",
