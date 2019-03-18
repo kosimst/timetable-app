@@ -51,6 +51,8 @@ class ViewTimetable extends connect(store)(PageViewElement) {
       grid-column-start: 2;
       align-self: center;
 
+      user-select: none;
+
       height: 40px;
     }
 
@@ -60,6 +62,16 @@ class ViewTimetable extends connect(store)(PageViewElement) {
       float: left;
 
       margin-right: 32px;
+    }
+
+    #timestamp {
+      float: right;
+      height: 100%;
+      line-height: 40px;
+
+      color: white;
+      opacity: .7;
+      font-weight: 500;
     }
   `
 
