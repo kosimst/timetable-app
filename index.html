@@ -1,76 +1,100 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="de">
   <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
     <title>Mein Stundenplan</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="My App description">
-    <base href="/">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Stundenplan Webapp für Untis" />
+    <base href="/" />
 
-    <link rel="icon" href="images/favicon.ico">
+    <link rel="icon" href="images/favicon.ico" />
 
     <!-- See https://goo.gl/OOhYW5 -->
-    <link rel="manifest" href="manifest.json">
+    <link rel="manifest" href="manifest.json" />
 
     <!-- See https://goo.gl/qRE0vM -->
-    <meta name="theme-color" content="#3f51b5">
+    <meta name="theme-color" content="#3f51b5" />
 
     <!-- Add to homescreen for Chrome on Android. Fallback for manifest.json -->
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="Mein Stundenplan">
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="application-name" content="Mein Stundenplan" />
 
     <!-- Add to homescreen for Safari on iOS -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="Mein Stundenplan">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Mein Stundenplan" />
 
     <!-- Homescreen icons -->
-    <link rel="apple-touch-icon" href="images/manifest/icon-48x48.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="images/manifest/icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="96x96" href="images/manifest/icon-96x96.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="images/manifest/icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="192x192" href="images/manifest/icon-192x192.png">
+    <link rel="apple-touch-icon" href="images/manifest/icon-48x48.png" />
+    <link
+      rel="apple-touch-icon"
+      sizes="72x72"
+      href="images/manifest/icon-72x72.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="96x96"
+      href="images/manifest/icon-96x96.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="144x144"
+      href="images/manifest/icon-144x144.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="192x192"
+      href="images/manifest/icon-192x192.png"
+    />
 
     <!-- Tile icon for Windows 8 (144x144 + tile color) -->
-    <meta name="msapplication-TileImage" content="images/manifest/icon-144x144.png">
-    <meta name="msapplication-TileColor" content="#3f51b5">
-    <meta name="msapplication-tap-highlight" content="no">
+    <meta
+      name="msapplication-TileImage"
+      content="images/manifest/icon-144x144.png"
+    />
+    <meta name="msapplication-TileColor" content="#3f51b5" />
+    <meta name="msapplication-tap-highlight" content="no" />
 
     <!-- Default twitter cards -->
-    <meta name="twitter:card" content="summary">
-    <meta name="twitter:site" content="@username">
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="timetable-app">
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@username" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="timetable-app" />
     <meta property="og:image" content="images/manifest/icon-144x144.png" />
 
-    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
     <script>
       // Load and register pre-caching Service Worker
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', function() {
           navigator.serviceWorker.register('service-worker.js', {
             scope: '/',
-          });
-        });
+          })
+        })
       }
 
       // Redux assumes `process.env.NODE_ENV` exists in the ES module build.
       // https://github.com/reactjs/redux/issues/2907
-      window.process = { env: { NODE_ENV: 'production' } };
+      window.process = { env: { NODE_ENV: 'production' } }
     </script>
 
     <!-- Add any global styles for body, document, etc. -->
     <style>
+      @import url('https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i');
+
       @font-face {
         font-family: 'Pacifico';
         font-style: normal;
         font-weight: 400;
-        src: local('Pacifico Regular'), local('Pacifico-Regular'), url(https://fonts.gstatic.com/s/pacifico/v12/Q_Z9mv4hySLTMoMjnk_rCXYhjbSpvc47ee6xR_80Hnw.woff2) format('woff2');
+        src: local('Pacifico Regular'), local('Pacifico-Regular'),
+          url('https://fonts.gstatic.com/s/pacifico/v12/Q_Z9mv4hySLTMoMjnk_rCXYhjbSpvc47ee6xR_80Hnw.woff2')
+            format('woff2');
         font-display: swap;
       }
+
       * {
         margin: 0;
-        font-family: Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+        font-family: Poppins;
         line-height: 1.5;
         min-height: 100vh;
         -webkit-font-smoothing: antialiased;
@@ -85,9 +109,13 @@
   <body>
     <timetable-app></timetable-app>
     <noscript>
-      Das sollte nicht so aussehen! Bitte aktiviere JavaScript, um diese Webseite zu benutzen
+      Das sollte nicht so aussehen! Bitte aktiviere JavaScript, um diese
+      Webseite zu benutzen
     </noscript>
     <script src="node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
-    <script type="module" src="src/components/timetable-app/timetable-app.js"></script>
+    <script
+      type="module"
+      src="src/components/timetable-app/timetable-app.js"
+    ></script>
   </body>
 </html>
