@@ -1,6 +1,6 @@
 {
-  "name": "My App",
-  "short_name": "My App",
+  "name": "Stundenplan App",
+  "short_name": "Stundenplan",
   "description": "My App description",
   "start_url": "/",
   "display": "standalone",
