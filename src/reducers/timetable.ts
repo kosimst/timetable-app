@@ -1,43 +1,50 @@
 import { Reducer } from 'redux'
 import {
-  CHANGE_KLASSE,
-  LOAD_KLASSE,
-  UPDATE_KLASSE,
   UPDATE_TIMETABLE,
+  CHANGE_MODE,
+  UPDATE_SOURCE,
+  UPDATE_TIMESTAMP,
 } from '../actions/timetable.js'
 import { RootAction } from '../store.js'
 
 export interface TimetableState {
-  klasse: string
+  mode: 'klasse' | 'teacher'
+  source: string
   timetable: any
+  timestamp: number
 }
 
 const INITIAL_STATE: TimetableState = {
-  klasse: '1A',
+  mode: 'klasse',
+  source: '1A',
   timetable: {},
+  timestamp: 0,
 }
 
-const timetable: Reducer<TimetableState, RootAction> = (state = INITIAL_STATE, action) => {
+const timetable: Reducer<TimetableState, RootAction> = (
+  state = INITIAL_STATE,
+  action,
+) => {
   switch (action.type) {
-    case UPDATE_KLASSE:
+    case UPDATE_SOURCE:
       return {
         ...state,
-        klasse: action.klasse,
+        source: action.source,
       }
     case UPDATE_TIMETABLE:
       return {
         ...state,
         timetable: action.timetable,
       }
-    case LOAD_KLASSE:
+    case CHANGE_MODE:
       return {
         ...state,
-        klasse: action.klasse,
+        mode: action.mode,
       }
-    case CHANGE_KLASSE:
+    case UPDATE_TIMESTAMP:
       return {
         ...state,
-        klasse: action.klasse
+        timestamp: action.timestamp,
       }
     default:
       return state

@@ -6,6 +6,7 @@ import {
   CLOSE_SNACKBAR,
   UPDATE_DRAWER_STATE,
   UPDATE_TITLE,
+  UPDATE_LOADING,
 } from '../actions/app.js'
 import { RootAction } from '../store.js'
 
@@ -15,6 +16,7 @@ export interface AppState {
   drawerOpened: boolean
   snackbarOpened: boolean
   title: string
+  loading: boolean
 }
 
 const INITIAL_STATE: AppState = {
@@ -23,6 +25,7 @@ const INITIAL_STATE: AppState = {
   drawerOpened: false,
   snackbarOpened: false,
   title: 'Mein Stundenplan',
+  loading: true,
 }
 
 const app: Reducer<AppState, RootAction> = (state = INITIAL_STATE, action) => {
@@ -56,6 +59,11 @@ const app: Reducer<AppState, RootAction> = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         title: action.title,
+      }
+    case UPDATE_LOADING:
+      return {
+        ...state,
+        loading: action.loading,
       }
     default:
       return state

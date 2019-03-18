@@ -43,8 +43,11 @@ class TimetableApp extends connect(store)(LitElement) {
   @property({ type: Boolean })
   private _offline: boolean = false
 
-  @property({ type: Boolean })
+  @property({ type: String })
   private _title: string = ''
+
+  @property({ type: Boolean, reflect: true })
+  private loading: boolean = true
 
   static styles: CSSResult = css`
     :host {
@@ -167,6 +170,7 @@ class TimetableApp extends connect(store)(LitElement) {
     this._offline = state.app!.offline
     this._snackbarOpened = state.app!.snackbarOpened
     this._title = state.app!.title
+    this.loading = state.app!.loading
   }
 }
 

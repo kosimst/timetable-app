@@ -1,61 +1,107 @@
 import { Action, ActionCreator } from 'redux'
 import { ThunkAction } from 'redux-thunk'
 import { RootState } from '../store.js'
-export const CHANGE_MODE = 'CHANGE_MODE'
-export const CHANGE_SOURCE = 'CHANGE_SOURCE'
-export const FETCH_TIMETABLE = 'FETCH_TIMETABLE'
-export const REJECT_TIMETABLE = 'FETCH_TIMETABLE'
-export const UPDATE_SOURCE = 'UPDATE_SOURCE'
-export const UPDATE_TIMETABLE = 'UPDATE_TIMETABLE'
-export const UPDATE_ERROR = 'UPDATE_ERROR'
-export const UPDATE_TIMESTAMP = 'UPDATE_TIMESTAMP'
 
-export interface TimetableActionChangeSource extends Action<'CHANGE_SOURCE'> {
-  source: string
-}
+export const domain = 'timetable/'
+
+export const CHANGE_MODE = 'timetable/CHANGE_MODE'
+export const LOADING_TIMETABLE = 'timetable/LOADING_TIMETABLE'
+export const UPDATE_SOURCE = 'timetable/UPDATE_SOURCE'
+export const UPDATE_TIMETABLE = 'timetable/UPDATE_TIMETABLE'
+export const UPDATE_ERROR = 'timetable/UPDATE_ERROR'
+export const UPDATE_TIMESTAMP = 'timetable/UPDATE_TIMESTAMP'
+
 export interface TimetableActionUpdateTimetable
-  extends Action<'UPDATE_TIMETABLE'> {
+  extends Action<'timetable/UPDATE_TIMETABLE'> {
   timetable: any
 }
-export interface TimetableActionChangeMode extends Action<'CHANGE_MODE'> {
+export interface TimetableActionChangeMode
+  extends Action<'timetable/CHANGE_MODE'> {
   mode: 'klasse' | 'teacher'
 }
+export interface TimetableActionLoadingTimetable
+  extends Action<'timetable/LOADING_TIMETABLE'> {
+  loading: boolean
+}
 export interface TimetableActionFetchTimetable
-  extends Action<'FETCH_TIMETABLE'> {
+  extends Action<'timetable/FETCH_TIMETABLE'> {
   source: string
 }
 
-export interface TimetableActionRejectTimetable
-  extends Action<'REJECT_TIMETABLE'> {
-  error: string
+export interface TimetableActionUpdateError
+  extends Action<'timetable/UPDATE_ERROR'> {
+  error: string | null
 }
 
-export interface TimetableActionUpdateSource extends Action<'UPDATE_SOURCE'> {
+export interface TimetableActionUpdateSource
+  extends Action<'timetable/UPDATE_SOURCE'> {
   source: string
+}
+
+export interface TimetableActionUpdateTimestamp
+  extends Action<'timetable/UPDATE_TIMESTAMP'> {
+  timestamp: number
 }
 
 export type TimetableAction =
   | TimetableActionChangeMode
   | TimetableActionUpdateTimetable
-  | TimetableActionChangeSource
   | TimetableActionFetchTimetable
-  | TimetableActionRejectTimetable
+  | TimetableActionUpdateError
   | TimetableActionUpdateSource
+  | TimetableActionLoadingTimetable
+  | TimetableActionUpdateTimestamp
 
 type ThunkResult = ThunkAction<void, RootState, undefined, TimetableAction>
 
 export const changeSource: ActionCreator<ThunkResult> = (
   source: string,
 ) => dispatch => {
-  dispatch(fetchTimetable(source))
+  dispatch(loadTimetable(source))
 }
 
-const fetchTimetable: ActionCreator<ThunkResult> = (
+const loadTimetable: ActionCreator<ThunkResult> = (
   source: string,
 ) => async dispatch => {
-  // TODO: Handle error and dispatch error msg
-  dispatch(updateTimetable(await fetch('https://api.ipify.org?format=json')))
-  dispatch(updateSource(source))
+  dispatch(loadingTimetable(true))
+  dispatch(
+    updateTimetable(
+      fetch(`${location.origin}/api/timetable/${source}`)
+        .then(res => {
+          res.json().then((timetable: any) => {
+            dispatch(updateTimetable(res))
+            dispatch(updateSource(source))
+            dispatch(updateTimestamp(timetable.timestamp || Date.now()))
+          })
+        })
+        .catch(e => {
+          // TODO: Switch for different msg
+          dispatch(updateError(e))
+          dispatch(updateTimestamp(Date.now()))
+        })
+        .finally(() => {
+          dispatch(loadingTimetable(false))
+        }),
+    ),
+  )
+}
+
+const updateError: ActionCreator<TimetableActionUpdateError> = (
+  error: string | null,
+) => {
+  return {
+    type: UPDATE_ERROR,
+    error,
+  }
+}
+
+const loadingTimetable: ActionCreator<TimetableActionLoadingTimetable> = (
+  loading: boolean,
+) => {
+  return {
+    type: LOADING_TIMETABLE,
+    loading,
+  }
 }
 
 const updateTimetable: ActionCreator<TimetableActionUpdateTimetable> = (
@@ -64,6 +110,15 @@ const updateTimetable: ActionCreator<TimetableActionUpdateTimetable> = (
   return {
     type: UPDATE_TIMETABLE,
     timetable,
+  }
+}
+
+const updateTimestamp: ActionCreator<TimetableActionUpdateTimestamp> = (
+  timestamp: number,
+) => {
+  return {
+    type: UPDATE_TIMESTAMP,
+    timestamp,
   }
 }
 

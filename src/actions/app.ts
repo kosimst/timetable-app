@@ -7,6 +7,7 @@ export const UPDATE_DRAWER_STATE = 'UPDATE_DRAWER_STATE'
 export const OPEN_SNACKBAR = 'OPEN_SNACKBAR'
 export const CLOSE_SNACKBAR = 'CLOSE_SNACKBAR'
 export const UPDATE_TITLE = 'UPDATE_TITLE'
+export const UPDATE_LOADING = 'UPDATE_LOADING'
 
 export interface AppActionUpdatePage extends Action<'UPDATE_PAGE'> {
   page: string
@@ -17,6 +18,9 @@ export interface AppActionUpdateOffline extends Action<'UPDATE_OFFLINE'> {
 export interface AppActionUpdateDrawerState
   extends Action<'UPDATE_DRAWER_STATE'> {
   opened: boolean
+}
+export interface AppActionUpdateLoading extends Action<'UPDATE_LOADING'> {
+  loading: boolean
 }
 export interface AppActionUpdateTitle extends Action<'UPDATE_TITLE'> {
   title: string
@@ -30,6 +34,7 @@ export type AppAction =
   | AppActionOpenSnackbar
   | AppActionCloseSnackbar
   | AppActionUpdateTitle
+  | AppActionUpdateLoading
 
 type ThunkResult = ThunkAction<void, RootState, undefined, AppAction>
 
@@ -48,31 +53,52 @@ export const navigate: ActionCreator<ThunkResult> = (
 }
 
 const loadPage: ActionCreator<ThunkResult> = (page: string) => dispatch => {
-  switch (page) {
-    case 'main':
-      import('../components/views/view-main.js').then(({ title }) => {
-        dispatch(updateTitle(title))
-      })
-      break
-    case 'timetable':
-      import('../components/views/view-timetable.js').then(({ title }) => {
-        dispatch(updateTitle(title))
-      })
-      break
-    default:
-      page = 'notfound'
-      import('../components/views/view-notfound.js').then(({ title }) => {
-        dispatch(updateTitle(title))
-      })
-  }
-
-  dispatch(updatePage(page))
+  dispatch(updateTitle('Mein Stundenplan: Seite wird geladen...'))
+  dispatch(updateLoading(true))
+  !(() =>
+    new Promise(
+      async (resolve: ({ title }: { title: string }) => void, reject) => {
+        switch (page) {
+          case 'main':
+            import('../components/views/view-main.js')
+              .then(resolve)
+              .catch(reject)
+            break
+          case 'timetable':
+            import('../components/views/view-timetable.js')
+              .then(resolve)
+              .catch(reject)
+            break
+          default:
+            page = 'notfound'
+            import('../components/views/view-notfound.js')
+              .then(resolve)
+              .catch(reject)
+            break
+        }
+      },
+    ))()
+    .then(({ title }: { title: string }) => {
+      dispatch(updateTitle(title))
+      dispatch(updateLoading(false))
+      dispatch(updatePage(page))
+    })
+    .catch(() => {})
 }
 
 const updatePage: ActionCreator<AppActionUpdatePage> = (page: string) => {
   return {
     type: UPDATE_PAGE,
     page,
+  }
+}
+
+const updateLoading: ActionCreator<AppActionUpdateLoading> = (
+  loading: boolean,
+) => {
+  return {
+    type: UPDATE_LOADING,
+    loading,
   }
 }
 
