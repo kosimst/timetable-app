@@ -5,3 +5,5 @@ _site/
 .DS_Store
 src/**/*.js
 src/**/*.js.map
+assets/**/*.js
+assets/**/*.js.map
