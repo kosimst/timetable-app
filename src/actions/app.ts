@@ -83,7 +83,9 @@ const loadPage: ActionCreator<ThunkResult> = (page: string) => dispatch => {
       dispatch(updateLoading(false))
       dispatch(updatePage(page))
     })
-    .catch(() => {})
+    .catch((e: Error) => {
+      console.error(`Failed to load page '${page}':`, e)
+    })
 }
 
 const updatePage: ActionCreator<AppActionUpdatePage> = (page: string) => {
