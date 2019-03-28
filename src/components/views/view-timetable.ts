@@ -16,6 +16,9 @@ import '../timetable-grid/timetable-grid.js'
 import '../timetable-toggle/timetable-toggle.js'
 import '../timetable-select/timetable-select.js'
 
+import '../timetable-grid/timetable-grid.js'
+import '../timetable-hour/timetable-hour.js'
+
 class ViewTimetable extends connect(store)(PageViewElement) {
   @property({ type: String })
   private _source: string = ''
@@ -97,6 +100,8 @@ class ViewTimetable extends connect(store)(PageViewElement) {
           zuletzt aktualisiert ${dateback(this._timestamp)}
         </div>
       </div>
+
+      <timetable-grid></timetable-grid>
     `
   }
 

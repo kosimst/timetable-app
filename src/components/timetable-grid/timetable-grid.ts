@@ -1,9 +1,15 @@
-import { html, LitElement } from 'lit-element'
+import { html, LitElement, css } from 'lit-element'
 
 class TimetableGrid extends LitElement {
+  static styles = css`
+    :host {
+      display: grid;
+    }
+  `
+
   protected render() {
     return html`
-    
+      <slot></slot>
     `
   }
 }
