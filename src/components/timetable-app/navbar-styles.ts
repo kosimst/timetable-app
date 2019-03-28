@@ -10,11 +10,11 @@ export const styles: CSSResult = css`
     height: 100vh;
 
     background: var(--theme-sidebar-color);
+
+    --padding: 16px;
   }
 
   #sidebar nav box-icon {
-    --padding: 12px;
-
     width: calc(var(--app-sidebar-width) - 2 * var(--padding));
     height: calc(var(--app-sidebar-width) - 2 * var(--padding));
 
@@ -22,9 +22,9 @@ export const styles: CSSResult = css`
 
     fill: white;
 
-    opacity: .8;
+    opacity: 0.8;
 
-    transition: opacity .2s ease-out;
+    transition: opacity 0.2s ease-out;
   }
 
   aside#sidebar nav > * {
@@ -59,7 +59,7 @@ export const styles: CSSResult = css`
   }
 
   #sidebar nav a:hover box-icon {
-    opacity: .9;
+    opacity: 0.9;
   }
 
   #sidebar nav a[current] {
@@ -87,5 +87,17 @@ export const styles: CSSResult = css`
 
   #sidebar nav a[current]::after {
     width: 5px;
+  }
+
+  #sidebar > nav > a > .icon {
+    stroke: white;
+    stroke-width: 1.5px;
+    fill: none;
+
+    display: block;
+
+    width: calc(var(--app-sidebar-width) - 2 * var(--padding));
+    height: calc(var(--app-sidebar-width) - 2 * var(--padding));
+    margin: var(--padding);
   }
 `

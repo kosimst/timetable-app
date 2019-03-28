@@ -27,6 +27,8 @@ import {
 
 import '../snack-bar.js'
 
+import '../../../assets/icons/student.svg.js'
+
 // Imports os styles
 import { styles } from './navbar-styles.js'
 
@@ -98,7 +100,7 @@ class TimetableApp extends connect(store)(LitElement) {
       <aside id="sidebar">
         <nav>
           <a ?current="${this._page === 'main'}" href="/">
-            <box-icon type="solid" name="user-detail"></box-icon>
+            <icon-student class="icon"></icon-student>
           </a>
           <div class="center">
             <a ?current="${this._page === 'timetable'}" href="/timetable"
