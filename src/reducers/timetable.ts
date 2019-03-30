@@ -6,11 +6,12 @@ import {
   UPDATE_TIMESTAMP,
 } from '../actions/timetable.js'
 import { RootAction } from '../store.js'
+import { Week } from '../types/timetable.js';
 
 export interface TimetableState {
   mode: 'klasse' | 'teacher'
   source: string
-  timetable: any
+  timetable: Week
   timestamp: number
 }
 

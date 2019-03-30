@@ -2,6 +2,8 @@ import { Action, ActionCreator } from 'redux'
 import { ThunkAction } from 'redux-thunk'
 import { RootState } from '../store.js'
 
+import { Week } from '../types/timetable.js';
+
 export const domain = 'timetable/'
 
 export const CHANGE_MODE = 'timetable/CHANGE_MODE'
@@ -13,7 +15,7 @@ export const UPDATE_TIMESTAMP = 'timetable/UPDATE_TIMESTAMP'
 
 export interface TimetableActionUpdateTimetable
   extends Action<'timetable/UPDATE_TIMETABLE'> {
-  timetable: any
+  timetable: Week
 }
 export interface TimetableActionChangeMode
   extends Action<'timetable/CHANGE_MODE'> {
