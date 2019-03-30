@@ -10,7 +10,7 @@ import { styles as SharedStyles } from '../styles/shared-styles.js'
 import { styles as ViewStyles } from '../styles/view-styles.js'
 
 import { store, RootState } from '../../store.js'
-import { changeSource } from '../../actions/timetable.js'
+import { changeSource, loadTimetable } from '../../actions/timetable.js'
 
 import '../timetable-grid/timetable-grid.js'
 import '../timetable-toggle/timetable-toggle.js'
@@ -18,6 +18,8 @@ import '../timetable-select/timetable-select.js'
 
 import '../timetable-grid/timetable-grid.js'
 import '../timetable-hour/timetable-hour.js'
+
+import { Week } from '../../types/timetable'
 
 class ViewTimetable extends connect(store)(PageViewElement) {
   @property({ type: String })
@@ -28,6 +30,9 @@ class ViewTimetable extends connect(store)(PageViewElement) {
 
   @property({ type: String })
   private _timestamp: Date = new Date(0)
+
+  @property({ type: Array })
+  private _timetable: Week = []
 
   static styles: CSSResult = css`
     ${SharedStyles}
@@ -73,7 +78,7 @@ class ViewTimetable extends connect(store)(PageViewElement) {
       line-height: 40px;
 
       color: white;
-      opacity: .7;
+      opacity: 0.7;
       font-weight: 500;
     }
   `
@@ -101,14 +106,30 @@ class ViewTimetable extends connect(store)(PageViewElement) {
         </div>
       </div>
 
-      <timetable-grid></timetable-grid>
+      <timetable-grid>
+        ${this._timetable.map(day => {
+          return day.map(
+            ({ subjectShort }) => html`
+              <timetable-hour subjectShort="${subjectShort}"></timetable-hour>
+            `,
+          )
+        })}
+      </timetable-grid>
     `
+  }
+
+  constructor() {
+    super()
+
+    // @ts-ignore
+    store.dispatch(loadTimetable(store.getState().timetable.source))
   }
 
   stateChanged(state: RootState) {
     this._source = state.timetable!.source
     /* this._mode = state.timetable!.mode */
     this._timestamp = new Date(state.timetable!.timestamp)
+    this._timetable = state.timetable!.timetable
   }
 }
 
