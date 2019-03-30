@@ -1,7 +1,7 @@
 import { svg, SVGTemplateResult, LitElement, css } from 'lit-element'
 
 customElements.define(
-  'icon-student',
+  'icon-monitor',
   class extends LitElement {
     private paths: SVGPathElement[] = []
 
@@ -17,17 +17,7 @@ customElements.define(
 
     render(): SVGTemplateResult {
       return svg`
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-          <path class="a" d="M13.5,13a2.5,2.5,0,0,1-3,0"/>
-          <path class="a" d="M23,23.5V22.394a1.976,1.976,0,0,0-.77-1.579C20.9,19.8,17.73,18,12,18S3.105,19.8,1.77,20.815A1.976,1.976,0,0,0,1,22.394V23.5"/>
-          <path class="a" d="M14,10.25a.25.25,0,1,1-.25.25.25.25,0,0,1,.25-.25"/>
-          <path class="a" d="M10,10.25a.25.25,0,1,1-.25.25.25.25,0,0,1,.25-.25"/>
-          <path class="a" d="M6,4.136V10.5a6,6,0,0,0,12,0V4.136"/>
-          <path class="a" d="M12.222.55l9.705,2.206a.25.25,0,0,1,0,.488l-9.7,2.206a1.008,1.008,0,0,1-.444,0l-9.7-2.206a.25.25,0,0,1,0-.488L11.778.55A1.008,1.008,0,0,1,12.222.55Z"/>
-          <path class="a" d="M6,7.5s1.5,1,6,1,6-1,6-1"/><line class="a" x1="2" y1="3.216" x2="2" y2="8.498"/>
-          <path class="a" d="M3,12.5a7.17,7.17,0,0,0-1-4,7.17,7.17,0,0,0-1,4Z"/>
-          <path class="a" d="M17.17,18.569l-4.825,4.6a.5.5,0,0,1-.69,0l-4.825-4.6"/>
-        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect class="a" x="0.5" y="2" width="23" height="17" rx="1" ry="1"/><line class="a" x1="7" y1="22" x2="17" y2="22"/><line class="a" x1="10.5" y1="19" x2="10.5" y2="22"/><line class="a" x1="13.5" y1="19" x2="13.5" y2="22"/><path class="a" d="M12.894,11.331,18.428,8.96a.5.5,0,0,0,0-.92L12.894,5.669a1,1,0,0,0-.788,0L5.5,8.5l6.606,2.831A1,1,0,0,0,12.894,11.331Z"/><path class="a" d="M8.5,9.786v3.405a.5.5,0,0,0,.276.447l3.277,1.638a1,1,0,0,0,.894,0l3.277-1.638a.5.5,0,0,0,.276-.447V9.786"/><line class="a" x1="5.5" y1="8.5" x2="5.5" y2="12"/><path class="a" d="M5.5,12,4.127,15.662A.249.249,0,0,0,4.361,16H6.639a.249.249,0,0,0,.234-.338L5.5,12"/></svg>
       `
     }
 
@@ -50,8 +40,7 @@ customElements.define(
         path.style.strokeDasharray = `${length} ${length}`
         path.style.strokeDashoffset = `${length}`
         path.getBoundingClientRect()
-        path.style.transition = path.style.transition =
-          `stroke-dashoffset ${duration}ms ease-in-out`
+        path.style.transition = path.style.transition = `stroke-dashoffset ${duration}ms ease-in-out`
         path.style.strokeDashoffset = '0'
       })
     }
