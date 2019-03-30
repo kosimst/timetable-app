@@ -5,7 +5,7 @@ class TimetableHour extends LitElement {
   duration: number = 1
 
   @property({ type: String })
-  shortName: string = ''
+  subjectShort: string = ''
 
   static styles = css`
     :host {
@@ -15,7 +15,7 @@ class TimetableHour extends LitElement {
 
   protected render() {
     return html`
-      ${this.shortName}
+      ${this.subjectShort}
     `
   }
 }
