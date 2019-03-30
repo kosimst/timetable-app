@@ -14,8 +14,6 @@ import { installOfflineWatcher } from 'pwa-helpers/network.js'
 import { installRouter } from 'pwa-helpers/router.js'
 import { updateMetadata } from 'pwa-helpers/metadata.js'
 
-import 'boxicons'
-
 import { store, RootState } from '../../store.js'
 
 import {
@@ -28,6 +26,11 @@ import {
 import '../snack-bar.js'
 
 import '../../../assets/icons/student.svg.js'
+import '../../../assets/icons/monitor.svg.js'
+import '../../../assets/icons/cog.svg.js'
+import '../../../assets/icons/homework.svg.js'
+
+import { Icon } from '../../../assets/icons/icon'
 
 // Imports os styles
 import { styles } from './navbar-styles.js'
@@ -47,6 +50,9 @@ class TimetableApp extends connect(store)(LitElement) {
 
   @property({ type: String })
   private _title: string = ''
+
+  @property({ type: Array })
+  private _icons: Icon[] = []
 
   /* @property({ type: Boolean, reflect: true })
   private loading: boolean = true */
@@ -100,19 +106,23 @@ class TimetableApp extends connect(store)(LitElement) {
       <aside id="sidebar">
         <nav>
           <a ?current="${this._page === 'main'}" href="/">
-            <icon-student class="icon"></icon-student>
+            <icon-student class="icon hover${this._page === 'main' ? ' active' : ''}"></icon-student>
+            <icon-student class="icon underlay"></icon-student>
           </a>
           <div class="center">
-            <a ?current="${this._page === 'timetable'}" href="/timetable"
-              ><box-icon name="calendar"></box-icon
-            ></a>
-            <a ?current="${this._page === 'view3'}" href="/view3"
-              ><box-icon name="book-open" type="solid"></box-icon
-            ></a>
+            <a ?current="${this._page === 'timetable'}" href="/timetable">
+              <icon-monitor class="icon hover${this._page === 'timetable' ? ' active' : ''}"></icon-monitor>
+              <icon-monitor class="icon underlay"></icon-monitor>
+            </a>
+            <a ?current="${this._page === 'view3'}" href="/view3">
+              <icon-homework class="icon hover"></icon-homework>
+              <icon-homework class="icon underlay"></icon-homework>
+            </a>
           </div>
-          <a ?current="${this._page === 'view3'}" href="/view3"
-            ><box-icon name="cog"></box-icon
-          ></a>
+          <a ?current="${this._page === 'view3'}" href="/view3">
+            <icon-cog class="icon hover"></icon-cog>
+            <icon-cog class="icon underlay"></icon-cog>
+          </a>
         </nav>
       </aside>
 
@@ -156,6 +166,16 @@ class TimetableApp extends connect(store)(LitElement) {
       (): AppActionUpdateDrawerState =>
         store.dispatch(updateDrawerState(false)),
     )
+
+    if (this.shadowRoot) {
+      const icons = [...this.shadowRoot.querySelectorAll('.icon')] as Icon[]
+
+      requestAnimationFrame(() => {
+        icons.forEach(icon => icon.paint(300))
+      })
+
+      this._icons = icons
+    }
   }
 
   protected updated(changedProps: PropertyValues): void {

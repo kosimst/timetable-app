@@ -89,15 +89,25 @@ export const styles: CSSResult = css`
     width: 5px;
   }
 
-  #sidebar > nav > a > .icon {
+  #sidebar > nav a > .icon {
     stroke: white;
     stroke-width: 1.5px;
     fill: none;
 
-    display: block;
+    display: inline-block;
 
     width: calc(var(--app-sidebar-width) - 2 * var(--padding));
     height: calc(var(--app-sidebar-width) - 2 * var(--padding));
-    margin: var(--padding);
+    padding: var(--padding);
+
+    position: absolute;
+
+    z-index: 2;
+  }
+
+  #sidebar > nav a > .icon.underlay {
+    stroke: #808B94;
+
+    z-index: 1;
   }
 `
