@@ -18,7 +18,7 @@ export interface TimetableState {
 const INITIAL_STATE: TimetableState = {
   mode: 'klasse',
   source: '1A',
-  timetable: {},
+  timetable: [],
   timestamp: 0,
 }
 
