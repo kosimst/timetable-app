@@ -96,7 +96,6 @@ class TimetableSelect extends LitElement {
 
     #select {
       background: white;
-      box-shadow: var(--shadow-elevation-8dp);
       border-radius: 20px;
       padding-top: 40px;
       position: relative;
@@ -112,6 +111,7 @@ class TimetableSelect extends LitElement {
 
     :host([opened]) #select {
       max-height: 5000px;
+      box-shadow: var(--shadow-elevation-8dp);
     }
 
     option {
