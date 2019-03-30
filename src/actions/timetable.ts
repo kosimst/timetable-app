@@ -62,30 +62,27 @@ export const changeSource: ActionCreator<ThunkResult> = (
   dispatch(loadTimetable(source))
 }
 
-const loadTimetable: ActionCreator<ThunkResult> = (
+export const loadTimetable: ActionCreator<ThunkResult> = (
   source: string,
 ) => async dispatch => {
   dispatch(loadingTimetable(true))
-  dispatch(
-    updateTimetable(
-      fetch(`${location.origin}/api/timetable/${source}`)
-        .then(res => {
-          res.json().then((timetable: any) => {
-            dispatch(updateTimetable(res))
-            dispatch(updateSource(source))
-            dispatch(updateTimestamp(timetable.timestamp || Date.now()))
-          })
-        })
-        .catch(e => {
-          // TODO: Switch for different msg
-          dispatch(updateError(e))
-          dispatch(updateTimestamp(Date.now()))
-        })
-        .finally(() => {
-          dispatch(loadingTimetable(false))
-        }),
-    ),
-  )
+
+  fetch(`${location.origin}/api/timetable/${source}`)
+    .then(res => {
+      res.json().then((timetable: Week) => {
+        dispatch(updateTimetable(timetable))
+        dispatch(updateSource(source))
+        dispatch(updateTimestamp(timetable.timestamp || Date.now()))
+      })
+    })
+    .catch(e => {
+      // TODO: Switch for different msg
+      dispatch(updateError(e))
+      dispatch(updateTimestamp(Date.now()))
+    })
+    .finally(() => {
+      dispatch(loadingTimetable(false))
+    })
 }
 
 const updateError: ActionCreator<TimetableActionUpdateError> = (
@@ -107,7 +104,7 @@ const loadingTimetable: ActionCreator<TimetableActionLoadingTimetable> = (
 }
 
 const updateTimetable: ActionCreator<TimetableActionUpdateTimetable> = (
-  timetable: any,
+  timetable: Week,
 ) => {
   return {
     type: UPDATE_TIMETABLE,
