@@ -41,14 +41,15 @@ class TimetableSelect extends LitElement {
 
       background: white;
 
-      box-shadow: var(--shadow-elevation-8dp);
       transition: var(--shadow-transition), width 0.1s ease-out;
     }
 
     :host(:hover) {
-      box-shadow: var(--shadow-elevation-16dp);
-
       width: 120px;
+    }
+
+    :host(:hover) #select {
+      box-shadow: var(--shadow-elevation-16dp);
     }
 
     :host(:active) {
@@ -106,7 +107,8 @@ class TimetableSelect extends LitElement {
       max-height: 0;
       overflow-y: hidden;
       font-size: 14px;
-      transition: max-height .3s ease-out;
+      transition: max-height 0.3s ease-out;
+      box-shadow: var(--shadow-elevation-8dp);
     }
 
     :host([opened]) #select {
