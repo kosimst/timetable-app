@@ -129,6 +129,14 @@ class TimetableSelect extends LitElement {
     })
   }
 
+  firstUpdated() {
+    if (this.shadowRoot) {
+      this.shadowRoot.children[2].addEventListener('mousedown', e => {
+        e.preventDefault()
+      })
+    }
+  }
+
   protected render(): TemplateResult {
     return html`
       <input
