@@ -51,9 +51,6 @@ class TimetableApp extends connect(store)(LitElement) {
   @property({ type: String })
   private _title: string = ''
 
-  @property({ type: Array })
-  private _icons: Icon[] = []
-
   /* @property({ type: Boolean, reflect: true })
   private loading: boolean = true */
 
@@ -173,8 +170,6 @@ class TimetableApp extends connect(store)(LitElement) {
       requestAnimationFrame(() => {
         icons.forEach(icon => icon.paint(300))
       })
-
-      this._icons = icons
     }
   }
 
