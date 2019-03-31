@@ -85,6 +85,10 @@ class ViewTimetable extends connect(store)(PageViewElement) {
     #timetable {
       grid-column-start: 2;
     }
+
+    timetable-select {
+      z-index: 3;
+    }
   `
 
   protected render() {
