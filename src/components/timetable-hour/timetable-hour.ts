@@ -143,14 +143,34 @@ class TimetableHour extends LitElement {
     }
 
     @keyframes fade-in {
+      from {
+        opacity: 0;
+      }
       to {
         opacity: 1;
+      }
+    }
+
+    @keyframes fade-out {
+      from {
+        opacity: 1;
+      }
+      to {
+        opacity: 0;
       }
     }
 
     #dialog {
       position: fixed;
       z-index: 1000;
+    }
+
+    :host(.unload) {
+      opacity: 1;
+      animation-name: fade-out;
+      animation-duration: 300ms;
+      animation-fill-mode: forwards;
+      animation-delay: calc(var(--highest) * 50ms - var(--delay) * 50ms);
     }
   `
 
