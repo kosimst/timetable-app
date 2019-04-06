@@ -1,8 +1,5 @@
 import { html, LitElement, property, css } from 'lit-element'
 
-import '@polymer/iron-icon'
-import '@polymer/iron-icons'
-
 import { styles as shadows } from '../styles/shadows.js'
 
 class TimetableHour extends LitElement {
@@ -123,25 +120,6 @@ class TimetableHour extends LitElement {
       left: 66%;
     }
 
-    #homeworkShort {
-      color: white;
-      position: absolute;
-      z-index: 3;
-      top: 50%;
-      left: 10%;
-
-      transform: translate(-50%, -50%);
-    }
-
-    #homeworkShort iron-icon {
-      position: relative;
-    }
-
-    #homeworkShort iron-icon::before {
-      content: '2';
-      font-weight: 700;
-    }
-
     @keyframes fade-in {
       from {
         opacity: 0;
@@ -181,9 +159,6 @@ class TimetableHour extends LitElement {
   protected render() {
     return html`
       <div id="cell">
-        <span id="homeworkShort">
-          <iron-icon icon="icons:work"></iron-icon>
-        </span>
         <span id="teacherShort">GUE</span>
         <span id="subjectShort">${this.subjectShort}</span>
         <span id="roomShort">R7C</span>
