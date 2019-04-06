@@ -12,6 +12,9 @@ class TimetableHour extends LitElement {
   @property({ type: String })
   color: string = ''
 
+  @property({ type: Boolean, reflect: true })
+  opened: boolean = false
+
   static styles = css`
     ${shadows}
 
@@ -19,10 +22,10 @@ class TimetableHour extends LitElement {
       display: block;
       width: 100%;
 
-      background-color: white;
       border-radius: 8px;
 
       box-shadow: var(--shadow-elevation-6dp);
+      background: white;
 
       position: relative;
 
@@ -49,6 +52,10 @@ class TimetableHour extends LitElement {
       position: relative;
 
       border-radius: inherit;
+
+      transition-property: visibility;
+      transition-duration: 0ms;
+      transition-delay: 200ms;
     }
 
     :host(:hover) {
@@ -140,7 +147,26 @@ class TimetableHour extends LitElement {
 
     #dialog {
       position: fixed;
-      z-index: 1000;
+      z-index: 10000;
+
+      top: var(--pos-y);
+      left: var(--pos-x);
+
+      width: var(--width);
+      height: var(--height);
+
+      background: linear-gradient(125deg, var(--color), var(--color-brighter))
+        white;
+
+      border-radius: inherit;
+
+      visibility: hidden;
+
+      transition-property: visibility, width, height, top, left;
+      transition-duration: 0ms, 400ms, 400ms, 300ms, 300ms;
+      transition-delay: 200ms, 200ms, 200ms, 600ms, 600ms;
+
+      cursor: default;
     }
 
     :host(.unload) {
@@ -150,10 +176,44 @@ class TimetableHour extends LitElement {
       animation-fill-mode: forwards;
       animation-delay: calc(var(--highest) * 50ms - var(--delay) * 50ms);
     }
+
+    :host([opened]) {
+      z-index: 9999;
+    }
+
+    :host([opened]) div#cell::after {
+      width: 110%;
+    }
+
+    :host([opened]) div#dialog {
+      visibility: visible;
+
+      width: 400px;
+      height: 600px;
+
+      top: 10%;
+      left: calc(50% - 200px);
+    }
+
+    :host([opened]) > div#cell {
+      visibility: hidden;
+
+      box-shadow: none;
+    }
   `
 
   constructor() {
     super()
+
+    this.addEventListener('click', () => {
+      this.opened = true
+    })
+  }
+
+  firstUpdated() {
+    const { left, top, width, height } = this.getBoundingClientRect()
+
+    this._updatePosition(left, top, width, height)
   }
 
   protected render() {
@@ -166,6 +226,14 @@ class TimetableHour extends LitElement {
 
       <div id="dialog"></div>
     `
+  }
+
+  _updatePosition(x: number, y: number, width: number, height: number) {
+    this.style.setProperty('--pos-x', `${x}px`)
+    this.style.setProperty('--pos-y', `${y}px`)
+
+    this.style.setProperty('--width', `${width}px`)
+    this.style.setProperty('--height', `${height}px`)
   }
 }
 
