@@ -66,7 +66,7 @@ class TimetableHour extends LitElement {
       width: 20%;
       transform: skew(10deg);
 
-      box-shadow: var(--shadow-elevation-6dp);
+      box-shadow: var(--shadow-elevation-3dp);
     }
 
     #cell::after {
@@ -155,18 +155,28 @@ class TimetableHour extends LitElement {
       width: var(--width);
       height: var(--height);
 
-      background: linear-gradient(125deg, var(--color), var(--color-brighter))
-        white;
-
       border-radius: inherit;
 
       visibility: hidden;
 
-      transition-property: visibility, width, height, top, left;
-      transition-duration: 0ms, 400ms, 400ms, 300ms, 300ms;
-      transition-delay: 200ms, 200ms, 200ms, 600ms, 600ms;
-
       cursor: default;
+
+      overflow: hidden;
+      background-color: white;
+    }
+
+    #dialog::after {
+      content: '';
+      position: absolute;
+
+      top: 0;
+      right: 0;
+
+      width: 100%;
+      height: 100%;
+
+      background: linear-gradient(125deg, var(--color), var(--color-brighter))
+        white;
     }
 
     :host(.unload) {
@@ -178,7 +188,7 @@ class TimetableHour extends LitElement {
     }
 
     :host([opened]) {
-      z-index: 9999;
+      z-index: 9998;
     }
 
     :host([opened]) div#cell::after {
@@ -186,6 +196,10 @@ class TimetableHour extends LitElement {
     }
 
     :host([opened]) div#dialog {
+      transition-property: visibility, width, height, top, left;
+      transition-duration: 0ms, 400ms, 400ms, 300ms, 300ms;
+      transition-delay: 200ms, 200ms, 200ms, 600ms, 600ms;
+
       visibility: visible;
 
       width: 400px;
@@ -193,6 +207,8 @@ class TimetableHour extends LitElement {
 
       top: 10%;
       left: calc(50% - 200px);
+
+      box-shadow: var(--shadow-elevation-16dp);
     }
 
     :host([opened]) > div#cell {
@@ -200,35 +216,100 @@ class TimetableHour extends LitElement {
 
       box-shadow: none;
     }
+
+    :host([opened]) > #dialog::after {
+      animation: color-move;
+      animation-duration: 300ms;
+      animation-delay: 900ms;
+      animation-timing-function: ease-out;
+      animation-fill-mode: forwards;
+    }
+
+    #backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 9999;
+
+      background: linear-gradient(-45deg, var(--color), var(--theme-color));
+      visibility: hidden;
+      opacity: 0;
+
+      transition-property: opacity;
+      transition-timing-function: ease-out;
+      transition-duration: 500ms;
+      transition-delay: 800ms;
+
+      cursor: default;
+    }
+
+    :host([opened]) > #backdrop {
+      visibility: visible;
+      opacity: 0.9;
+    }
+
+    @keyframes color-move {
+      0% {
+        top: 0;
+        transform: none;
+      }
+
+      50% {
+        top: -78%;
+        transform: skewY(-20deg);
+      }
+
+      100% {
+        top: -90%;
+        transform: none;
+      }
+    }
   `
 
   constructor() {
     super()
 
-    this.addEventListener('click', () => {
-      this.opened = true
+    // @ts-ignore
+    const observer = new MutationObserver(this._updatePosition.bind(this))
+
+    observer.observe(this, {
+      attributes: true,
+      attributeFilter: ['style'],
     })
   }
 
   firstUpdated() {
-    const { left, top, width, height } = this.getBoundingClientRect()
-
-    this._updatePosition(left, top, width, height)
+    this._updatePosition()
   }
 
   protected render() {
     return html`
-      <div id="cell">
+      <div id="cell" @click="${() => (this.opened = true)}">
         <span id="teacherShort">GUE</span>
         <span id="subjectShort">${this.subjectShort}</span>
         <span id="roomShort">R7C</span>
       </div>
 
       <div id="dialog"></div>
+      <div id="backdrop" @click="${() => (this.opened = false)}"></div>
     `
   }
 
-  _updatePosition(x: number, y: number, width: number, height: number) {
+  _updatePosition([entry]: [MutationRecord | null] = [null]) {
+    if (
+      !entry ||
+      (entry.attributeName === 'style' &&
+        !this.style.getPropertyValue('--width'))
+    ) {
+      const { left, top, width, height } = this.getBoundingClientRect()
+
+      this._updateVars(left, top, width, height)
+    }
+  }
+
+  _updateVars(x: number, y: number, width: number, height: number) {
     this.style.setProperty('--pos-x', `${x}px`)
     this.style.setProperty('--pos-y', `${y}px`)
 
