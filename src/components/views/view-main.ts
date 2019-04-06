@@ -10,10 +10,28 @@ import '../timetable-grid/timetable-grid.js'
 class ViewMain extends PageViewElement {
   static styles: CSSResult = css`
     ${SharedStyles}
-    ${ViewStyles}`
+    ${ViewStyles}
+
+    :host {
+      display: block;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+    }
+  `
 
   protected render() {
-    return html``
+    return html`
+      <h1>Hallo!</h1>
+      <p>
+        Diese Seite ist noch lange nicht fertig, das einzige, dass es bis jetzt
+        zu sehen gibt findest du <a href="/timetable">hier</a>. Der Stundenplan
+        wird momentan noch zufällig generiert, es geht nur um das Design und die
+        Animationen. Außerdem ist die Sidebar schon fertig inklusive Animationen.
+      </p>
+    `
   }
 }
 
