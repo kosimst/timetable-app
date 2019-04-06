@@ -108,7 +108,7 @@ class TimetableHour extends LitElement {
 
       transform: translate(-50%, -50%);
 
-      font-size: 15px;
+      font-size: 16px;
       color: white;
 
       transition: color 300ms ease-out;
@@ -120,11 +120,11 @@ class TimetableHour extends LitElement {
     }
 
     #teacherShort {
-      left: 33%;
+      left: 30%;
     }
 
     #roomShort {
-      left: 66%;
+      left: 69%;
     }
 
     @keyframes fade-in {
