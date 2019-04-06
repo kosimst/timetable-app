@@ -31,8 +31,15 @@ class ViewTimetable extends connect(store)(PageViewElement) {
   @property({ type: String })
   private _timestamp: Date = new Date(0)
 
-  @property({ type: Array })
   private _timetable: Week = []
+
+  private _unloadTimestamp: number = 0
+
+  @property({ type: Boolean })
+  private _unload: boolean = false
+
+  @property({ type: Number })
+  private _highest: number = 0
 
   static styles: CSSResult = css`
     ${SharedStyles}
@@ -96,11 +103,7 @@ class ViewTimetable extends connect(store)(PageViewElement) {
       <h1 id="title">Mein Stundenplan</h1>
       <div id="menubar" role="menubar">
         <timetable-toggle on="Klassen" off="Lehrer"></timetable-toggle>
-        <timetable-select
-          @change=${(e: { target: { value: string } }) =>
-            store.dispatch(changeSource(e!.target!.value))}
-          value=${this._source}
-        >
+        <timetable-select @change=${this._changeSource} value=${this._source}>
           <option value="1A">1A</option>
           <option value="1B">1B</option>
           <option value="2A">2A</option>
@@ -116,22 +119,23 @@ class ViewTimetable extends connect(store)(PageViewElement) {
 
       <timetable-grid id="timetable">
         ${this._timetable.map((day, i) => {
-          return day.map(
-            ({ subjectShort, color }, h) => html`
+          return day.map(({ subjectShort, color }, h) => {
+            return html`
               <timetable-hour
                 subjectShort="${subjectShort}"
                 color="${color}"
                 day="${i}"
                 hour="${h}"
-
+                class="${this._unload ? 'unload' : ''}"
                 style="
                   --color: ${color};
                   --color-brighter:${color}AA;
                   --delay: ${i + h};
+                  --highest: ${this._highest};
                 "
               ></timetable-hour>
-            `,
-          )
+            `
+          })
         })}
       </timetable-grid>
     `
@@ -148,7 +152,33 @@ class ViewTimetable extends connect(store)(PageViewElement) {
     this._source = state.timetable!.source
     /* this._mode = state.timetable!.mode */
     this._timestamp = new Date(state.timetable!.timestamp)
-    this._timetable = state.timetable!.timetable
+
+    if (state.timetable!.timetable && state.timetable!.timetable.length) {
+      if (this._unloadTimestamp + this._highest * 50 + 300 <= Date.now()) {
+        this._timetable = state.timetable!.timetable
+        this._unload = false
+      } else {
+        setTimeout(() => {
+          this._unload = false
+          this._timetable = state.timetable!.timetable
+        }, this._unloadTimestamp + this._highest * 50 + 300 - Date.now())
+      }
+
+      // @ts-ignore
+      this._highest = [...state.timetable!.timetable].pop().length - 1 + 4
+    }
+  }
+
+  _loadingFinished() {
+    console.log('kjh')
+    this._unload = false
+  }
+
+  _changeSource(e: Event) {
+    store.dispatch(changeSource((e!.target as HTMLInputElement).value))
+
+    this._unloadTimestamp = Date.now()
+    this._unload = true
   }
 }
 
