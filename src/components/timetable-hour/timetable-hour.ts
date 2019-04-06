@@ -165,7 +165,7 @@ class TimetableHour extends LitElement {
       background-color: white;
     }
 
-    #dialog::after {
+    #dialog::before {
       content: '';
       position: absolute;
 
@@ -202,11 +202,11 @@ class TimetableHour extends LitElement {
 
       visibility: visible;
 
-      width: 400px;
-      height: 600px;
+      width: 500px;
+      height: 300px;
 
       top: 10%;
-      left: calc(50% - 200px);
+      left: calc(50% - 250px);
 
       box-shadow: var(--shadow-elevation-16dp);
     }
@@ -217,7 +217,7 @@ class TimetableHour extends LitElement {
       box-shadow: none;
     }
 
-    :host([opened]) > #dialog::after {
+    :host([opened]) > #dialog::before {
       animation: color-move;
       animation-duration: 300ms;
       animation-delay: 900ms;
@@ -257,14 +257,39 @@ class TimetableHour extends LitElement {
       }
 
       50% {
-        top: -78%;
+        top: -58%;
         transform: skewY(-20deg);
       }
 
       100% {
-        top: -90%;
+        top: -85%;
         transform: none;
       }
+    }
+
+    #subjectLong {
+      color: white;
+      position: absolute;
+
+      margin: 0;
+      padding-left: 32px;
+
+      line-height: 45px;
+      font-size: 0;
+
+      font-weight: 600;
+    }
+
+    #subjectLong span {
+      opacity: 0;
+      font-size: 24px;
+    }
+
+    :host([opened]) #subjectLong span {
+      animation-name: fade-in;
+      animation-duration: 200ms;
+      animation-fill-mode: forwards;
+      animation-delay: calc(var(--delay) * 10ms + 1300ms);
     }
   `
 
@@ -292,7 +317,11 @@ class TimetableHour extends LitElement {
         <span id="roomShort">R7C</span>
       </div>
 
-      <div id="dialog"></div>
+      <div id="dialog">
+        <h1 id="subjectLong">${'Mathematik'.split('').map((letter, i) => html`
+          <span style="--delay: ${i}">${letter}</span>
+        `)}</h1>
+      </div>
       <div id="backdrop" @click="${() => (this.opened = false)}"></div>
     `
   }
