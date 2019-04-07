@@ -1,6 +1,7 @@
 import { html, LitElement, property, css } from 'lit-element'
 
 import { styles as shadows } from '../styles/shadows.js'
+import { styles as dialogStyles } from './dialog-styles.js'
 
 class TimetableHour extends LitElement {
   @property({ type: Number, reflect: true })
@@ -17,6 +18,7 @@ class TimetableHour extends LitElement {
 
   static styles = css`
     ${shadows}
+    ${dialogStyles}
 
     :host {
       display: block;
@@ -145,40 +147,6 @@ class TimetableHour extends LitElement {
       }
     }
 
-    #dialog {
-      position: fixed;
-      z-index: 10000;
-
-      top: var(--pos-y);
-      left: var(--pos-x);
-
-      width: var(--width);
-      height: var(--height);
-
-      border-radius: inherit;
-
-      visibility: hidden;
-
-      cursor: default;
-
-      overflow: hidden;
-      background-color: white;
-    }
-
-    #dialog::before {
-      content: '';
-      position: absolute;
-
-      top: 0;
-      right: 0;
-
-      width: 100%;
-      height: 100%;
-
-      background: linear-gradient(125deg, var(--color), var(--color-brighter))
-        white;
-    }
-
     :host(.unload) {
       opacity: 1;
       animation-name: fade-out;
@@ -227,9 +195,37 @@ class TimetableHour extends LitElement {
       </div>
 
       <div id="dialog">
-        <h1 id="subjectLong">${'Mathematik'.split('').map((letter, i) => html`
-          <span style="--delay: ${i}">${letter}</span>
-        `)}</h1>
+        <h1 id="subjectLong">
+          ${'Mathematik'.split('').map(
+            (letter, i) => html`
+              <span style="--delay: ${i}">${letter}</span>
+            `,
+          )}
+        </h1>
+        <div id="container">
+          <div id="timeLong">
+            <span>Zeit: </span>
+            7:40 bis 9:25 (2 Stunden)
+          </div>
+          <div id="teacherLong">
+            <span>Lehrer: </span>
+            <a href="/timetable/GUE">Erwin Gureczny</a>
+          </div>
+          <div id="teacherLong">
+            <span>Klassen: </span>
+            <a href="/timetable/7A">7A</a>, <a href="/timetable/7B">7B</a>,
+            <a href="/timetable/7C">7C</a>
+          </div>
+          <div id="roomLong">
+            <span>Raum: </span>
+            <a href="/timetable/R7C">R7C</a>
+          </div>
+          <hr>
+          <div id="infos">
+            <span>Infos: </span>
+            keine zusätzlichen Informationen
+          </div>
+        </div>
       </div>
       <div id="backdrop" @click="${() => (this.opened = false)}"></div>
     `
