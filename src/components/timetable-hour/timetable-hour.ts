@@ -195,101 +195,10 @@ class TimetableHour extends LitElement {
       width: 110%;
     }
 
-    :host([opened]) div#dialog {
-      transition-property: visibility, width, height, top, left;
-      transition-duration: 0ms, 400ms, 400ms, 300ms, 300ms;
-      transition-delay: 200ms, 200ms, 200ms, 600ms, 600ms;
-
-      visibility: visible;
-
-      width: 500px;
-      height: 300px;
-
-      top: 10%;
-      left: calc(50% - 250px);
-
-      box-shadow: var(--shadow-elevation-16dp);
-    }
-
     :host([opened]) > div#cell {
       visibility: hidden;
 
       box-shadow: none;
-    }
-
-    :host([opened]) > #dialog::before {
-      animation: color-move;
-      animation-duration: 300ms;
-      animation-delay: 900ms;
-      animation-timing-function: ease-out;
-      animation-fill-mode: forwards;
-    }
-
-    #backdrop {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: 9999;
-
-      background: linear-gradient(-45deg, var(--color), var(--theme-color));
-      visibility: hidden;
-      opacity: 0;
-
-      transition-property: opacity;
-      transition-timing-function: ease-out;
-      transition-duration: 500ms;
-      transition-delay: 800ms;
-
-      cursor: default;
-    }
-
-    :host([opened]) > #backdrop {
-      visibility: visible;
-      opacity: 0.9;
-    }
-
-    @keyframes color-move {
-      0% {
-        top: 0;
-        transform: none;
-      }
-
-      50% {
-        top: -58%;
-        transform: skewY(-20deg);
-      }
-
-      100% {
-        top: -85%;
-        transform: none;
-      }
-    }
-
-    #subjectLong {
-      color: white;
-      position: absolute;
-
-      margin: 0;
-      padding-left: 32px;
-
-      line-height: 45px;
-      font-size: 0;
-
-      font-weight: 600;
-    }
-
-    #subjectLong span {
-      opacity: 0;
-      font-size: 24px;
-    }
-
-    :host([opened]) #subjectLong span {
-      animation-name: fade-in;
-      animation-duration: 200ms;
-      animation-fill-mode: forwards;
-      animation-delay: calc(var(--delay) * 10ms + 1300ms);
     }
   `
 
