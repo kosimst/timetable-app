@@ -21,8 +21,16 @@ class TimetableHour extends LitElement {
     ${dialogStyles}
 
     :host {
+      --margin: 8px;
       display: block;
-      width: 100%;
+      width: calc(
+        100% / var(--total) - (var(--margin) * (var(--total) - 1)) /
+          var(--total)
+      );
+
+      margin-left: var(--margin);
+
+      float: left;
 
       border-radius: 8px;
 
@@ -43,6 +51,12 @@ class TimetableHour extends LitElement {
       cursor: pointer;
 
       transition: var(--shadow-transition);
+
+      height: 100%;
+    }
+
+    :host(:first-child) {
+      margin-left: 0;
     }
 
     #cell {
@@ -65,8 +79,8 @@ class TimetableHour extends LitElement {
     }
 
     :host(:hover) #cell::after {
-      width: 20%;
-      transform: skew(10deg);
+      width: calc(20% + ((var(--total) - 1) * 15%));
+      transform: skew(calc(10deg - ((var(--total) - 1) * 3deg)));
 
       box-shadow: var(--shadow-elevation-3dp);
     }
@@ -78,7 +92,7 @@ class TimetableHour extends LitElement {
       left: -12px;
       top: 0;
 
-      width: 28px;
+      width: calc(28px - ((var(--total) - 1) * 4px));
       height: 100%;
 
       transition: width 200ms ease-out, transform 300ms ease-out,
@@ -111,13 +125,13 @@ class TimetableHour extends LitElement {
       transform: translate(-50%, -50%);
 
       font-size: 16px;
-      color: white;
+      color: #0000;
 
       transition: color 300ms ease-out;
     }
 
-    :host(:hover) #roomShort,
-    :host(:hover) #teacherShort {
+    :host([total='1']:hover) #roomShort,
+    :host([total='1']:hover) #teacherShort {
       color: grey;
     }
 
@@ -220,7 +234,7 @@ class TimetableHour extends LitElement {
             <span>Raum: </span>
             <a href="/timetable/R7C">R7C</a>
           </div>
-          <hr>
+          <hr />
           <div id="infos">
             <span>Infos: </span>
             keine zusätzlichen Informationen

@@ -119,21 +119,31 @@ class ViewTimetable extends connect(store)(PageViewElement) {
 
       <timetable-grid id="timetable">
         ${this._timetable.map((day, i) => {
-          return day.map(({ subjectShort, color }, h) => {
+          return day.map((hour, h) => {
             return html`
-              <timetable-hour
-                subjectShort="${subjectShort}"
-                color="${color}"
-                day="${i}"
-                hour="${h}"
-                class="${this._unload ? 'unload' : ''}"
-                style="
-                  --color: ${color};
-                  --color-brighter:${color}AA;
-                  --delay: ${i + h};
-                  --highest: ${this._highest};
-                "
-              ></timetable-hour>
+              <div day="${i}" hour="${h}">
+                ${hour.map(({ subjectShort, color }, j) => {
+                  return html`
+                    <timetable-hour
+                      subjectShort="${subjectShort}"
+                      color="${color}"
+                      day="${i}"
+                      hour="${h}"
+                      order="${j}"
+                      total="${hour.length}"
+                      class="${this._unload ? 'unload' : ''}"
+                      style="
+                        --color: ${color};
+                        --color-brighter:${color}AA;
+                        --delay: ${i + h};
+                        --highest: ${this._highest};
+                        --total: ${hour.length};
+                        --order: ${j};
+                      "
+                    ></timetable-hour>
+                  `
+                })}
+              </div>
             `
           })
         })}

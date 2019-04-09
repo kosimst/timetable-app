@@ -16,7 +16,7 @@ class TimetableGrid extends LitElement {
       [...Array(5)]
         .map(
           (_, i) => css`
-          ::slotted(timetable-hour[day="${cssLiteral(i)}"]) {
+          ::slotted(div[day="${cssLiteral(i)}"]) {
             grid-column-start: ${cssLiteral(i + 1)};
           }
         `,
@@ -29,7 +29,7 @@ class TimetableGrid extends LitElement {
       [...Array(5)]
         .map(
           (_, i) => css`
-          ::slotted(timetable-hour[hour="${cssLiteral(i)}"]) {
+          ::slotted(div[hour="${cssLiteral(i)}"]) {
             grid-row-start: ${cssLiteral(i + 1)};
           }
         `,
