@@ -7,3 +7,6 @@ src/**/*.js
 src/**/*.js.map
 assets/**/*.js
 assets/**/*.js.map
+server/node_modules
+server/**/*.js
+server/**/*.js.map
