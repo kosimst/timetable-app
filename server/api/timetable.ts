@@ -1,5 +1,6 @@
-const express = require('express')
-const request = require('request')
+import fetch from 'node-fetch'
+import express from 'express'
+
 const router = express.Router()
 require('events').EventEmitter.prototype._maxListeners = 100
 
@@ -18,7 +19,7 @@ router.get('/source/:source', function(req, response) {
     date.getMonth() + 1,
   ).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}&formatId=1`
   console.log(url)
-  request.post(options, (error, res) => {
+  request.post(options, (error: any, res: any) => {
     if (error) {
       console.log(error)
     }
@@ -31,7 +32,7 @@ router.get('/source/:source', function(req, response) {
           Cookie: name + '; ' + id,
         },
       }
-      request(options, function(err, resp, body) {
+      request(options, function(err: any, resp: any, body: any) {
         response.send(body)
         if (err) {
           console.log(err)

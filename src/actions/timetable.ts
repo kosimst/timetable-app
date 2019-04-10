@@ -3,6 +3,7 @@ import { ThunkAction } from 'redux-thunk'
 import { RootState } from '../store.js'
 
 import { Week } from '../types/timetable.js';
+import { fetchTimetable } from '../functions/timetable-cache.js';
 
 export const domain = 'timetable/'
 
@@ -66,6 +67,8 @@ export const loadTimetable: ActionCreator<ThunkResult> = (
   source: string,
 ) => async dispatch => {
   dispatch(loadingTimetable(true))
+
+  fetchTimetable('test')
 
   fetch(`${location.origin}/api/timetable/${source}`)
     .then(res => {
