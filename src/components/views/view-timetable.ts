@@ -137,8 +137,9 @@ class ViewTimetable extends connect(store)(PageViewElement) {
                         --color-brighter:${color}AA;
                         --delay: ${i + h};
                         --highest: ${this._highest};
-                        --total: ${hour.length};
+                        --total: ${1};
                         --order: ${j};
+                        display: ${j === 0 ? 'block' : 'none'}
                       "
                     ></timetable-hour>
                   `
