@@ -2,8 +2,8 @@ import { Action, ActionCreator } from 'redux'
 import { ThunkAction } from 'redux-thunk'
 import { RootState } from '../store.js'
 
-import { Week } from '../types/timetable.js';
-import { fetchTimetable } from '../functions/timetable-cache.js';
+import { Week } from '../types/timetable.js'
+import { fetchTimetable } from '../functions/timetable-cache.js'
 
 export const domain = 'timetable/'
 
@@ -70,13 +70,23 @@ export const loadTimetable: ActionCreator<ThunkResult> = (
 
   fetchTimetable('test')
 
-  fetch(`${location.origin}/api/timetable/${source}`)
+  fetch(`${location.origin}/dev/api/timetable/source/${507 || source}`)
     .then(res => {
-      res.json().then((timetable: Week) => {
-        dispatch(updateTimetable(timetable))
-        dispatch(updateSource(source))
-        dispatch(updateTimestamp(timetable.timestamp || Date.now()))
-      })
+      res
+        .json()
+        .then(
+          ({
+            timetable,
+            timestamp,
+          }: {
+            timetable: Week
+            timestamp: number
+          }) => {
+            dispatch(updateTimetable(timetable))
+            dispatch(updateSource(source))
+            dispatch(updateTimestamp(timestamp || Date.now()))
+          },
+        )
     })
     .catch(e => {
       // TODO: Switch for different msg
