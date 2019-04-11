@@ -122,7 +122,7 @@ class ViewTimetable extends connect(store)(PageViewElement) {
           return day.map((hour, h) => {
             return html`
               <div day="${i}" hour="${h}">
-                ${hour.map(({ subjectShort, color }, j) => {
+                ${hour && hour.map(({ subjectShort, color }, j) => {
                   return html`
                     <timetable-hour
                       subjectShort="${subjectShort}"
