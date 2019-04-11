@@ -47,7 +47,7 @@ export const fetchSource = async (source: string, date: Date) => {
       } = await response.json()
       const times = await fetchTimes()
 
-      const timetable: Period[][][] = Array(5).fill([])
+      const timetable: Period[][][] = [[], [], [], [], []]
 
       const {
         elementPeriods: { [source]: hours },
