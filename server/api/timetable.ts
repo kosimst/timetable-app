@@ -1,5 +1,5 @@
 import express from 'express'
-import { fetchSource } from './middleware'
+import { fetchSource } from './middleware/fetchSource'
 
 const router = express.Router()
 require('events').EventEmitter.prototype._maxListeners = 100

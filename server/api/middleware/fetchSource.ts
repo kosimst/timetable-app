@@ -1,27 +1,10 @@
 import fetch, { Headers } from 'node-fetch'
-import { Time } from '../interfaces/Time'
-import { Detail } from '../interfaces/Detail'
-import { Period } from '../interfaces/Period'
 
-const getSession = async () => {
-  const auth = await fetch(
-    'https://thalia.webuntis.com/WebUntis/?school=ahs-korneuburg',
-  )
+import { Time } from '../../interfaces/Time'
+import { Detail } from '../../interfaces/Detail'
+import { Period } from '../../interfaces/Period'
 
-  const cookiesAll = auth.headers.get('set-cookie')
-  const cookiesFiltered =
-    cookiesAll &&
-    cookiesAll
-      .split('; ')
-      .filter(
-        cookie =>
-          cookie.includes('JSESSIONID') || cookie.includes('schoolname'),
-      )
-      .map(cookie => cookie.replace('HttpOnly, ', ''))
-      .join('; ')
-
-  return cookiesFiltered
-}
+import { getSession } from './getSession'
 
 export const fetchSource = async (source: string, date: Date) => {
   const url = `https://thalia.webuntis.com/WebUntis/api/public/timetable/weekly/data?elementType=1&elementId=${source}&date=${date.getFullYear()}-${String(
