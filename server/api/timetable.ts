@@ -10,7 +10,11 @@ router.get('/source/:source', async function(req, res) {
   const source = req.params.source
   const date = new Date(parseInt(req.query.date) || Date.now())
 
-  res.send(await fetchSource(source, date))
+  if (parseInt(source[0]) == source[0]) {
+    res.send(await fetchSource(source, date))
+  } else {
+    res.send(await fetchTeacher(source, date))
+  }
 })
 
 router.get('/sources', async function(req, res) {
