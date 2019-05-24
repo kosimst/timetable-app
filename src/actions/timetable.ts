@@ -70,7 +70,7 @@ export const loadTimetable: ActionCreator<ThunkResult> = (
 
   fetchTimetable('test')
 
-  fetch(`${location.origin}/dev/api/timetable/source/${507 || source}`)
+  fetch(`${location.origin}/dev/api/timetable/source/${507 || source}?date=1555922152443`)
     .then(res => {
       res
         .json()

@@ -1,4 +1,5 @@
 export function fetchTimetable(source: string) {
+  source
   if (window.indexedDB) {
     const request = indexedDB.open('timetable-db', 1)
 
