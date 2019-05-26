@@ -1,10 +1,14 @@
 const express = require('express')
 const prpl = require('prpl-server')
 const rendertron = require('rendertron-middleware')
+const secure = require('express-force-https')
 
 const app = express()
 
 const timetable = require('./api/timetable');
+
+/* Force https */
+app.use(secure)
 
 /* Redirect API calls to GraphQL */
 
