@@ -1,0 +1,14 @@
+steps:
+- name: gcr.io/cloud-builders/npm
+  args: [install]
+- name: gcr.io/cloud-builders/npm
+  args: [run-script, build]
+- name: gcr.io/cloud-builders/npm
+  args: [install]
+  dir: ./server
+- name: gcr.io/cloud-builders/npm
+  args: [run-script, build]
+  dir: ./server
+- name: gcr.io/cloud-builders/gcloud
+  args: [app, deploy, app.yaml, "--version=${BRANCH_NAME}_${SHORT_SHA}_$(date '+%Y-%m-%d %H:%M:%S')"]
+  dir: ./server

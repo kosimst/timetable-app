@@ -10,5 +10,5 @@ steps:
   args: [run-script, build]
   dir: ./server
 - name: gcr.io/cloud-builders/gcloud
-  args: [app, deploy]
+  args: [app, deploy, app-dev.yaml, "--version=${BRANCH_NAME}_${SHORT_SHA}_$(date '+%Y-%m-%d %H:%M:%S')"]
   dir: ./server
