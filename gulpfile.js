@@ -61,7 +61,9 @@ gulp.task('serve', () => {
   spawn('polymer', ['serve'], spawnOptions)
 
   const app = express()
-  app.use('/dev', proxy('localhost:7000'))
+  app.use('/api', proxy('localhost:7000', {
+    proxyReqPathResolver: req => `/api${req.url}`
+  }))
   app.use('/', proxy('localhost:8081'))
 
   app.listen(5000)
