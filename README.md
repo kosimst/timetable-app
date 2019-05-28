@@ -1,6 +1,4 @@
 [![Built with pwa–starter–kit](https://img.shields.io/badge/built_with-pwa–starter–kit_-blue.svg)](https://github.com/Polymer/pwa-starter-kit 'Built with pwa–starter–kit')
-[![Build Status](https://travis-ci.org/kosimst/timetable-app.svg?branch=master)](https://travis-ci.org/kosimst/timetable-app)
-[![Heroku App Status](https://heroku-shields.herokuapp.com/untis)](https://untis.herokuapp.com)
 
 
 # Timetable App
@@ -13,7 +11,11 @@ This is going to be a PWA for displaying the current timetable from the Untis AP
 
 ## Deployment
 
-Currently this app is automatically built with Travis CI and then being deployed to Heroku under the following URL: <a href="https://untis.herokuapp.com">https://untis.herokuapp.com</a>. This is the the always up-to-date build to the source in this repository.
+Currently this app is build via the Google CloudBuild API and then deployed to AppEngine. There is a master-build and a development-build.
+
+https://timetable-kosimst.tk
+
+https://dev.timetable-kosimst.tk
 
 ## Technologies
 
@@ -25,3 +27,6 @@ Currently this app is automatically built with Travis CI and then being deployed
   - pwa-helpers
 - Server-side
   - Node.Js
+  - TypeScript
+  - GraphQL
+  - Firestore
