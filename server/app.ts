@@ -7,6 +7,8 @@ const app = express()
 
 const timetable = require('./api/timetable');
 
+require('./services/updateTimetables')
+
 /* Force https */
 app.use(secure)
 
