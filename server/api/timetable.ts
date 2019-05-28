@@ -30,4 +30,4 @@ router.get('/teacher/:teacher', async function(req, res) {
   res.send(await fetchTeacher(teacher, date))
 })
 
-module.exports = router
+export default router

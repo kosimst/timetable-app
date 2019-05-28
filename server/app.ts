@@ -1,18 +1,23 @@
-const express = require('express')
+import express from 'express'
+// @ts-ignore
+import secure from 'express-force-https'
 const prpl = require('prpl-server')
 const rendertron = require('rendertron-middleware')
-const secure = require('express-force-https')
+import timetable from './api/timetable'
+import updateTimetables from './services/updateTimetables'
 
 const app = express()
-
-const timetable = require('./api/timetable');
-
-require('./services/updateTimetables')
 
 /* Force https */
 app.use(secure)
 
-/* Redirect API calls to GraphQL */
+updateTimetables()
+
+app.get('/api/update', (req, res, next) => {
+  updateTimetables()
+
+  res.sendStatus(202)
+})
 
 /* Rendertron proxy for bots */
 app.use(

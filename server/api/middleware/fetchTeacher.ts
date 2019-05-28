@@ -1,13 +1,12 @@
 import fetch, { Headers } from 'node-fetch'
 
-import { Time } from '../../interfaces/Time'
-import { Detail } from '../../interfaces/Detail'
-import { Period } from '../../interfaces/Period'
-
 import { getSession } from './getSession'
 import { fetchSources } from './fetchSources'
-import { S_IFDIR } from 'constants'
 import { fetchTimes } from './fetchSource'
+import { Period } from '../../interfaces/Period'
+
+const flat = require('array.prototype.flat')
+flat.shim()
 
 export const fetchTeacher = async (teacher: string, date: Date) => {
   const urlGenerator = (id: number) =>
@@ -60,7 +59,7 @@ export const fetchTeacher = async (teacher: string, date: Date) => {
 
     const times = await fetchTimes()
 
-    const timetable: any[][] = [[], [], [], [], []]
+    const timetable: Period[][][] = [[], [], [], [], []]
 
     for (const hour of periods) {
       const startTime = hour.periods[0].startTime
@@ -79,14 +78,14 @@ export const fetchTeacher = async (teacher: string, date: Date) => {
         hour.periods[0].date,
       )
 
-      const date = new Date(`${year}-${month}-${day}`)
-      const weekDay = date.getDay() - 1
+      const parsedDate = new Date(`${year}-${month}-${day}`)
+      const weekDay = parsedDate.getDay() - 1
 
       timetable[weekDay][startHour] = [
         {
           startHour,
           endHour,
-          date,
+          parsedDate,
           duration,
           roomShort: hour.periods[0].rooms.name,
           roomLong: hour.periods[0].rooms.longName,
@@ -98,6 +97,6 @@ export const fetchTeacher = async (teacher: string, date: Date) => {
       ]
     }
 
-    return timetable
+    return { timetable }
   }
 }

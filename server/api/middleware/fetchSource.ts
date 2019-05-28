@@ -6,7 +6,7 @@ import { Period } from '../../interfaces/Period'
 
 import { getSession } from './getSession'
 
-export const fetchSource = async (source: string, date: Date) => {
+export const fetchSource = async (source: number, date: Date) => {
   const url = `https://thalia.webuntis.com/WebUntis/api/public/timetable/weekly/data?elementType=1&elementId=${source}&date=${date.getFullYear()}-${String(
     date.getMonth() + 1,
   ).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}&formatId=1`
@@ -37,7 +37,7 @@ export const fetchSource = async (source: string, date: Date) => {
         elements: details,
       }: { elementPeriods: any; elements: Detail[] } = data
 
-      for (const { startTime, endTime, elements, date: rawDate } of hours) {
+      for (const { startTime, endTime, elements, date: rawDate, lessonId } of hours) {
         const startHour =
           times.filter(({ startTime: hour }) => startTime === hour)[0].period -
           1
@@ -50,8 +50,8 @@ export const fetchSource = async (source: string, date: Date) => {
           groups: { day, month, year },
         } = /(?<year>[0-9]{4})(?<month>[0-9]{2})(?<day>[0-9]{2})/.exec(rawDate)
 
-        const date = new Date(`${year}-${month}-${day}`)
-        const weekDay = date.getDay() - 1
+        const parsedDate = new Date(`${year}-${month}-${day}`)
+        const weekDay = parsedDate.getDay() - 1
 
         const period: Period = {
           subjectShort: '',
@@ -61,7 +61,12 @@ export const fetchSource = async (source: string, date: Date) => {
           startHour,
           endHour,
           duration,
-          date,
+          parsedDate,
+          startTime,
+          endTime,
+          lessonId,
+          id: source,
+          date: rawDate
         }
 
         for (const { type, id } of elements) {
