@@ -17,8 +17,8 @@ steps:
         --location=global,
         --keyring=timetable-client-auth,
         --key=timetable-kosimst-client-credentials,
-        --plaintext-file=server/credentials/client-auth.json,
-        --ciphertext-file=server/credentials/client-auth.json.encrypted,
+        --plaintext-file=credentials/client-auth.json,
+        --ciphertext-file=credentials/client-auth.json.encrypted,
       ]
     dir: ./server
   - name: gcr.io/cloud-builders/gcloud
