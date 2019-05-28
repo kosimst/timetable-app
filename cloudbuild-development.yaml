@@ -1,14 +1,26 @@
 steps:
-- name: gcr.io/cloud-builders/npm
-  args: [install]
-- name: gcr.io/cloud-builders/npm
-  args: [run-script, build]
-- name: gcr.io/cloud-builders/npm
-  args: [install]
-  dir: ./server
-- name: gcr.io/cloud-builders/npm
-  args: [run-script, build]
-  dir: ./server
-- name: gcr.io/cloud-builders/gcloud
-  args: [app, deploy, app-dev.yaml]
-  dir: ./server
+  - name: gcr.io/cloud-builders/npm
+    args: [install]
+  - name: gcr.io/cloud-builders/npm
+    args: [run-script, build]
+  - name: gcr.io/cloud-builders/npm
+    args: [install]
+    dir: ./server
+  - name: gcr.io/cloud-builders/npm
+    args: [run-script, build]
+    dir: ./server
+  - name: gcr.io/cloud-builders/gcloud
+    args:
+      [
+        kms,
+        decrypt,
+        --location=global,
+        --keyring=timetable-client-auth,
+        --key=timetable-kosimst-client-credentials,
+        --plaintext-file=server/credentials/client-auth.json,
+        --ciphertext-file=server/credentials/client-auth.json.encrypted,
+      ]
+    dir: ./server
+  - name: gcr.io/cloud-builders/gcloud
+    args: [app, deploy, app-dev.yaml]
+    dir: ./server
