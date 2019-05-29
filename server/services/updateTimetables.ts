@@ -66,6 +66,7 @@ export default async () => {
     tasks
       .then(async timetables => {
         console.info('Klassen updated successfully')
+        console.info('Teacher update initiated')
 
         const hours = timetables.flat(3)
 
@@ -168,6 +169,7 @@ export default async () => {
                   })
               }
             }
+            console.log('Teachers updated successfully')
           })
         }
       })
