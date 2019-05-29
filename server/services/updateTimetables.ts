@@ -14,6 +14,9 @@ const flat = require('array.prototype.flat')
 flat.shim()
 
 export default async () => {
+  /**
+   * Get last update time and put in in db
+   */
   const lastTimestamp = await db
     .collection('timetables')
     .doc('stats')
@@ -32,6 +35,11 @@ export default async () => {
     console.info('Klassen update initiated')
 
     const sources = await fetchSources(new Date())
+
+    // Put sources in db
+    db.collection('sources').doc('klassen').set(sources).then(() => {
+      console.info('Klassen list updated successfully')
+    })
 
     const entries = Object.entries(sources)
 
@@ -71,6 +79,12 @@ export default async () => {
       .then(async timetables => {
         console.info('Klassen updated successfully')
         console.info('Teacher update initiated')
+
+        // Update teacher list
+        fetchTeachers(new Date()).then(res => {
+          db.collection('sources').doc('teachers').set(res)
+          console.info('Teacher list updated successfully')
+        })
 
         const hours = timetables.flat(3)
 
