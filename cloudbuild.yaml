@@ -22,5 +22,5 @@ steps:
       ]
     dir: ./server
   - name: gcr.io/cloud-builders/gcloud
-    args: [app, deploy, app.yaml]
+    args: [app, deploy, '${_APPNAME}']
     dir: ./server
