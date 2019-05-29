@@ -21,6 +21,10 @@ export default async () => {
     .then((doc: any) => doc.data()['last-update'])
   const currentTimestamp = await fetchTimestamp()
 
+  db.collection('timetables').doc('stats').set({
+    'last-update': currentTimestamp
+  })
+
   if (currentTimestamp && lastTimestamp < currentTimestamp) {
     /**
      * Update klassen timetables
