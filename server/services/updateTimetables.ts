@@ -110,61 +110,63 @@ export default async () => {
             const times = await fetchTimes()
 
             for (const [teacher, periods] of Object.entries(teachers)) {
-              const timetable: Period[][][] = [[], [], [], [], []]
+              if (teacher) {
+                const timetable: Period[][][] = [[], [], [], [], []]
 
-              // @ts-ignore
-              for (const hour of periods) {
-                const startTime = hour.periods[0].startTime
-                const endTime = hour.periods[0].endTime
+                // @ts-ignore
+                for (const hour of periods) {
+                  const startTime = hour.periods[0].startTime
+                  const endTime = hour.periods[0].endTime
 
-                const startHour =
-                  times.filter(({ startTime: hour }) => startTime === hour)[0]
-                    .period - 1
-                const endHour =
-                  times.filter(({ endTime: hour }) => endTime === hour)[0]
-                    .period - 1
-                const duration = endHour - startHour + 1
+                  const startHour =
+                    times.filter(({ startTime: hour }) => startTime === hour)[0]
+                      .period - 1
+                  const endHour =
+                    times.filter(({ endTime: hour }) => endTime === hour)[0]
+                      .period - 1
+                  const duration = endHour - startHour + 1
 
-                const {
-                  // @ts-ignore
-                  groups: { day, month, year },
-                } = /(?<year>[0-9]{4})(?<month>[0-9]{2})(?<day>[0-9]{2})/.exec(
-                  hour.periods[0].date,
-                )
+                  const {
+                    // @ts-ignore
+                    groups: { day, month, year },
+                  } = /(?<year>[0-9]{4})(?<month>[0-9]{2})(?<day>[0-9]{2})/.exec(
+                    hour.periods[0].date,
+                  )
 
-                const parsedDate = new Date(`${year}-${month}-${day}`)
-                const weekDay = parsedDate.getDay() - 1
+                  const parsedDate = new Date(`${year}-${month}-${day}`)
+                  const weekDay = parsedDate.getDay() - 1
 
-                timetable[weekDay][startHour] = [
-                  {
-                    startHour,
-                    endHour,
-                    parsedDate,
-                    duration,
-                    roomShort: hour.periods[0].rooms.name || '',
-                    roomLong: hour.periods[0].rooms.longName || '',
-                    subjectShort: hour.subjectName || '',
-                    subjectLong: hour.subjectNameLong || '',
-                    klasseShort: hour.klasseName || '',
-                    cancelled: hour.periods[0].isCancelled || false,
-                  },
-                ]
+                  timetable[weekDay][startHour] = [
+                    {
+                      startHour,
+                      endHour,
+                      parsedDate,
+                      duration,
+                      roomShort: hour.periods[0].rooms.name || '',
+                      roomLong: hour.periods[0].rooms.longName || '',
+                      subjectShort: hour.subjectName || '',
+                      subjectLong: hour.subjectNameLong || '',
+                      klasseShort: hour.klasseName || '',
+                      cancelled: hour.periods[0].isCancelled || false,
+                    },
+                  ]
+                }
+
+                const timetableParsed = timetable.map(day => {
+                  const returnDay: any = {}
+
+                  day.forEach((val, i) => {
+                    returnDay[i] = val
+                  })
+                  return returnDay
+                })
+                db.collection('timetables')
+                  .doc(teacher)
+                  .set({
+                    timestamp: Date.now(),
+                    timetable: timetableParsed,
+                  })
               }
-
-              const timetableParsed = timetable.map(day => {
-                const returnDay: any = {}
-
-                day.forEach((val, i) => {
-                  returnDay[i] = val
-                })
-                return returnDay
-              })
-              db.collection('timetables')
-                .doc(teacher)
-                .set({
-                  timestamp: Date.now(),
-                  timetable: timetableParsed,
-                })
             }
           })
         }
