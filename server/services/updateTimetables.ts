@@ -28,7 +28,10 @@ export default async () => {
     'last-update': currentTimestamp
   })
 
+  console.info('Checking for new timetable...')
+
   if (currentTimestamp && lastTimestamp < currentTimestamp) {
+    console.info('New timetable found, updating entries...')
     /**
      * Update klassen timetables
      */
@@ -194,5 +197,7 @@ export default async () => {
       .catch(() => {
         console.error('Klassen update failed')
       })
+  } else {
+    console.info('Timetable is already newest version')
   }
 }
