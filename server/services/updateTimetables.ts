@@ -110,7 +110,7 @@ export default async () => {
             const times = await fetchTimes()
 
             for (const [teacher, periods] of Object.entries(teachers)) {
-              if (teacher) {
+              if (teacher && teacher !== '---') {
                 const timetable: Period[][][] = [[], [], [], [], []]
 
                 // @ts-ignore
