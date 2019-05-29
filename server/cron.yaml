@@ -1,0 +1,5 @@
+cron:
+  - description: 'Update timetables'
+    url: /api/update
+    schedule: every 10 minutes
+    target: dev
