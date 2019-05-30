@@ -1,14 +1,19 @@
 steps:
+  # Install dependencies for client
   - name: gcr.io/cloud-builders/npm
     args: [install]
+  # Build client
   - name: gcr.io/cloud-builders/npm
     args: [run-script, build]
+  # Install dependencies for server
   - name: gcr.io/cloud-builders/npm
     args: [install]
     dir: ./server
+  # Build server
   - name: gcr.io/cloud-builders/npm
     args: [run-script, build]
     dir: ./server
+  # Decrypt firestore credentials
   - name: gcr.io/cloud-builders/gcloud
     args:
       [
@@ -20,7 +25,20 @@ steps:
         --plaintext-file=credentials/client-auth.json,
         --ciphertext-file=credentials/client-auth.json.encrypted,
       ]
+    dir: ./server/services/updateTimetable
+  # Deploy app
+  - name: gcr.io/cloud-builders/gcloud
+    args: [app, deploy, '${_APPNAME}']
     dir: ./server
+  # Install dependencies for update-timetables service
+  - name: gcr.io/cloud-builders/npm
+    args: [install]
+    dir: ./server/services/updateTimetable
+  # Build update-timetables service
+  - name: gcr.io/cloud-builders/npm
+    args: [run-script, build]
+    dir: ./server/services/updateTimetable
+  # Deploy update-timetables service
   - name: gcr.io/cloud-builders/gcloud
     args: [app, deploy, '${_APPNAME}']
     dir: ./server
