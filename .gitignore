@@ -10,4 +10,3 @@ assets/**/*.js.map
 server/node_modules
 server/**/*.js
 server/**/*.js.map
-server/credentials/*.json
