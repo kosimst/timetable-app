@@ -227,7 +227,9 @@ class TimetableHour extends LitElement {
         <h1 id="subjectLong">
           ${(this.subjectLong || this.subjectShort).split('').map(
             (letter, i) => html`
-              <span style="--delay: ${i}">${letter}</span>
+              <span style="--delay: ${i}"
+                >${letter === ' ' ? ' ' : letter}</span
+              >
             `,
           )}
         </h1>
