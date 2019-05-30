@@ -26,7 +26,7 @@ class TimetableGrid extends LitElement {
 
     /* Align per hour */
     ${cssLiteral(
-      [...Array(10)]
+      [...Array(12)]
         .map(
           (_, i) => css`
           ::slotted(div[hour="${cssLiteral(i)}"]) {

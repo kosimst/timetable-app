@@ -5,7 +5,6 @@ import { RootState } from '../store.js'
 import db from '../firestore.js'
 
 import { Week } from '../types/timetable.js'
-import { DH_CHECK_P_NOT_PRIME } from 'constants'
 
 export const domain = 'timetable/'
 
@@ -111,9 +110,13 @@ export const loadTimetable: ActionCreator<ThunkResult> = (
 
   dispatch(updateTimestamp(timestamp || Date.now()))
 
-  const parsedTimetable = timetable.map((day: any) =>
-    Array(...Object.values(day)),
-  )
+  const parsedTimetable: any = [[], [], [], [], []]
+  timetable.forEach((day: any, i: number) => {
+    for (const [h, hour] of Object.entries(day)) {
+      parsedTimetable[i][parseInt(h)] = hour
+    }
+  })
+
   dispatch(updateTimetable(parsedTimetable))
   dispatch(loadingTimetable(false))
 }
