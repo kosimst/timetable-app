@@ -4,6 +4,7 @@ interface Element {
   roomShort: string
   roomLong: string
   color: string
+  klasseShort: string
 }
 
 interface Hour extends Array<Element> {}

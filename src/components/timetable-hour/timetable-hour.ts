@@ -26,6 +26,9 @@ class TimetableHour extends LitElement {
   teacherLong: string = '?'
 
   @property({ type: String })
+  klasseShort: string = '?'
+
+  @property({ type: String })
   color: string = ''
 
   @property({ type: Boolean, reflect: true })
@@ -244,7 +247,7 @@ class TimetableHour extends LitElement {
           </div>
           <div id="teacherLong">
             <span>Klassen: </span>
-            ?
+            <a>${this.klasseShort}</a>
           </div>
           <div id="roomLong">
             <span>Raum: </span>

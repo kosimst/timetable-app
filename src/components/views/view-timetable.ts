@@ -124,7 +124,7 @@ class ViewTimetable extends connect(store)(PageViewElement) {
         ></timetable-toggle>
         <timetable-select @change=${this._changeSource} value=${this._source}>
           ${Object.entries(this._sources).map(
-            ([short, val]) =>
+            ([short]) =>
               html`
                 <option>${short}</option>
               `,
@@ -142,30 +142,39 @@ class ViewTimetable extends connect(store)(PageViewElement) {
             return html`
               <div day="${i}" hour="${h}">
                 ${hour &&
-                  hour.map(({ subjectShort, subjectLong, roomLong }, j) => {
-                    return html`
-                      <timetable-hour
-                        subjectShort="${subjectShort}"
-                        subjectLong="${subjectLong}"
-                        roomLong="${roomLong}"
-                        color="${this._colors[subjectShort] || this._colors['default']}"
-                        day="${i}"
-                        hour="${h}"
-                        order="${j}"
-                        total="${hour.length}"
-                        class="${this._unload ? 'unload' : ''}"
-                        style="
-                        --color: ${this._colors[subjectShort] || this._colors['default']};
-                        --color-brighter:${this._colors[subjectShort] || this._colors['default']}AA;
+                  hour.map(
+                    (
+                      { subjectShort, subjectLong, roomLong, klasseShort },
+                      j,
+                    ) => {
+                      return html`
+                        <timetable-hour
+                          subjectShort="${subjectShort}"
+                          subjectLong="${subjectLong}"
+                          roomLong="${roomLong}"
+                          klasseShort="${klasseShort}"
+                          color="${this._colors[subjectShort] ||
+                            this._colors['default']}"
+                          day="${i}"
+                          hour="${h}"
+                          order="${j}"
+                          total="${hour.length}"
+                          class="${this._unload ? 'unload' : ''}"
+                          style="
+                        --color: ${this._colors[subjectShort] ||
+                            this._colors['default']};
+                        --color-brighter:${this._colors[subjectShort] ||
+                            this._colors['default']}AA;
                         --delay: ${i + h};
                         --highest: ${this._highest};
                         --total: ${1};
                         --order: ${j};
                         display: ${j === 0 ? 'block' : 'none'}
                       "
-                      ></timetable-hour>
-                    `
-                  })}
+                        ></timetable-hour>
+                      `
+                    },
+                  )}
               </div>
             `
           })
@@ -192,8 +201,6 @@ class ViewTimetable extends connect(store)(PageViewElement) {
 
     this._sources = state.timetable!.sources
     this._colors = state.timetable!.colors
-
-    console.log(this._timetable)
 
     if (state.timetable!.timetable && state.timetable!.timetable.length) {
       if (this._unloadTimestamp + this._highest * 50 + 300 <= Date.now()) {
