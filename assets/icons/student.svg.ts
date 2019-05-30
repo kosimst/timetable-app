@@ -2,7 +2,7 @@ import { svg, SVGTemplateResult, LitElement, css } from 'lit-element'
 
 customElements.define(
   'icon-student',
-  class extends LitElement {
+  class IconStudent extends LitElement {
     private paths: SVGPathElement[] = []
 
     static styles = css`

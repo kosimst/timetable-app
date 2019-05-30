@@ -2,7 +2,7 @@ import { svg, SVGTemplateResult, LitElement, css } from 'lit-element'
 
 customElements.define(
   'icon-cog',
-  class extends LitElement {
+  class IconCog extends LitElement {
     private paths: SVGPathElement[] = []
 
     static styles = css`
