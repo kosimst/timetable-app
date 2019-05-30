@@ -11,6 +11,21 @@ class TimetableHour extends LitElement {
   subjectShort: string = ''
 
   @property({ type: String })
+  subjectLong: string = ''
+
+  @property({ type: String })
+  roomShort: string = '?'
+
+  @property({ type: String })
+  roomLong: string = '?'
+
+  @property({ type: String })
+  teacherShort: string = '?'
+
+  @property({ type: String })
+  teacherLong: string = '?'
+
+  @property({ type: String })
   color: string = ''
 
   @property({ type: Boolean, reflect: true })
@@ -210,7 +225,7 @@ class TimetableHour extends LitElement {
 
       <div id="dialog">
         <h1 id="subjectLong">
-          ${'Mathematik'.split('').map(
+          ${(this.subjectLong || this.subjectShort).split('').map(
             (letter, i) => html`
               <span style="--delay: ${i}">${letter}</span>
             `,
@@ -219,20 +234,19 @@ class TimetableHour extends LitElement {
         <div id="container">
           <div id="timeLong">
             <span>Zeit: </span>
-            7:40 bis 9:25 (2 Stunden)
+            ?
           </div>
           <div id="teacherLong">
             <span>Lehrer: </span>
-            <a href="/timetable/GUE">Erwin Gureczny</a>
+            <a>${this.teacherLong}</a>
           </div>
           <div id="teacherLong">
             <span>Klassen: </span>
-            <a href="/timetable/7A">7A</a>, <a href="/timetable/7B">7B</a>,
-            <a href="/timetable/7C">7C</a>
+            ?
           </div>
           <div id="roomLong">
             <span>Raum: </span>
-            <a href="/timetable/R7C">R7C</a>
+            <a>${this.roomLong}</a>
           </div>
           <hr />
           <div id="infos">

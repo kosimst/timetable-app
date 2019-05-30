@@ -1,5 +1,8 @@
 interface Element {
   subjectShort: string
+  subjectLong: string
+  roomShort: string
+  roomLong: string
   color: string
 }
 

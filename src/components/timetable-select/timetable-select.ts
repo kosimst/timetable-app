@@ -82,7 +82,7 @@ class TimetableSelect extends LitElement {
     #current {
       width: 100%;
       height: 100%;
-      background: transparent;
+      background: white;
       border-radius: 99px;
       border: none;
       outline: none;
@@ -111,8 +111,13 @@ class TimetableSelect extends LitElement {
       box-shadow: var(--shadow-elevation-8dp);
     }
 
+    #select::-webkit-scrollbar {
+      display: none;
+    }
+
     :host([opened]) #select {
-      max-height: 5000px;
+      max-height: 190px;
+      overflow-y: scroll;
       box-shadow: var(--shadow-elevation-8dp);
     }
 
