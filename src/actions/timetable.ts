@@ -134,14 +134,14 @@ export const updateColors: ActionCreator<
   })
 }
 
-const updateError: ActionCreator<TimetableActionUpdateError> = (
+/* const updateError: ActionCreator<TimetableActionUpdateError> = (
   error: string | null,
 ) => {
   return {
     type: UPDATE_ERROR,
     error,
   }
-}
+} */
 
 const loadingTimetable: ActionCreator<TimetableActionLoadingTimetable> = (
   loading: boolean,
