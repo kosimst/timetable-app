@@ -1,8 +1,8 @@
 import fetch, { Headers } from 'node-fetch'
 
-import { Time } from '../../interfaces/Time'
-import { Detail } from '../../interfaces/Detail'
-import { Period } from '../../interfaces/Period'
+import { Time } from '../interfaces/Time'
+import { Detail } from '../interfaces/Detail'
+import { Period } from '../interfaces/Period'
 
 import { getSession } from './getSession'
 

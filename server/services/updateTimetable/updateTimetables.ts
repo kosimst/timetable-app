@@ -1,19 +1,21 @@
 import fetch, { Headers } from 'node-fetch'
 
-import db from '../api/database/api'
-import { fetchSource } from '../api/middleware/fetchSource'
-import { fetchSources } from '../api/middleware/fetchSources'
-import { fetchTeachers } from '../api/middleware/fetchTeachers'
-import { fetchTimes } from '../api/middleware/fetchSource'
-import { getSession } from '../api/middleware/getSession'
+import db from './db'
+import { fetchSource } from './middleware/fetchSource'
+import { fetchSources } from './middleware/fetchSources'
+import { fetchTeachers } from './middleware/fetchTeachers'
+import { fetchTimes } from './middleware/fetchSource'
+import { getSession } from './middleware/getSession'
 
-import { Period } from '../interfaces/Period'
-import { fetchTimestamp } from '../api/middleware/fetchTimestamp'
+import { Period } from './interfaces/Period'
+import { fetchTimestamp } from './middleware/fetchTimestamp'
+
+import express from 'express'
 
 const flat = require('array.prototype.flat')
 flat.shim()
 
-export default async () => {
+const update = async () => {
   /**
    * Get last update time and put in in db
    */
@@ -201,3 +203,15 @@ export default async () => {
     console.info('Timetable is already newest version')
   }
 }
+
+const app = express()
+
+app.get('/*', (req, res) => {
+  update()
+
+  res.sendStatus(202)
+})
+
+app.listen(process.env.PORT || 7000)
+
+export default update

@@ -3,7 +3,7 @@ import fetch, { Headers } from 'node-fetch'
 import { getSession } from './getSession'
 import { fetchSources } from './fetchSources'
 import { fetchTimes } from './fetchSource'
-import { Period } from '../../interfaces/Period'
+import { Period } from '../interfaces/Period'
 
 const flat = require('array.prototype.flat')
 flat.shim()

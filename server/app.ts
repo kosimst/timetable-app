@@ -3,21 +3,11 @@ import express from 'express'
 import secure from 'express-force-https'
 const prpl = require('prpl-server')
 const rendertron = require('rendertron-middleware')
-import timetable from './api/timetable'
-import updateTimetables from './services/updateTimetables'
 
 const app = express()
 
 /* Force https */
 app.use(secure)
-
-updateTimetables()
-
-app.get('/api/update', (req, res, next) => {
-  updateTimetables()
-
-  res.sendStatus(202)
-})
 
 /* Rendertron proxy for bots */
 app.use(
@@ -25,8 +15,6 @@ app.use(
     proxyUrl: 'https://render-tron.appspot.com/render',
   }),
 )
-
-app.use('/api/timetable', timetable)
 
 app.get(
   '/*',
