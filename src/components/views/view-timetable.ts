@@ -204,12 +204,14 @@ class ViewTimetable extends connect(store)(PageViewElement) {
 
     if (state.timetable!.timetable && state.timetable!.timetable.length) {
       if (this._unloadTimestamp + this._highest * 50 + 300 <= Date.now()) {
-        this._timetable = state.timetable!.timetable
+        // @ts-ignore
+        this._timetable = store.getState().timetable!.timetable
         this._unload = false
       } else {
         setTimeout(() => {
           this._unload = false
-          this._timetable = state.timetable!.timetable
+          // @ts-ignore
+          this._timetable = store.getState().timetable!.timetable
         }, this._unloadTimestamp + this._highest * 50 + 300 - Date.now())
       }
 
