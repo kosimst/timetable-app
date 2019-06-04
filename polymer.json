@@ -9,7 +9,7 @@
   ],
   "builds": [
     {
-      "name": "standard",
+      "name": "esm",
       "preset": "es6-bundled",
       "browserCapabilities": ["es2015", "push", "modules", "serviceworker"],
       "bundle": false,
@@ -22,7 +22,7 @@
       }
     },
     {
-      "name": "standard_prefetch",
+      "name": "esm_prefetch",
       "preset": "es6-bundled",
       "browserCapabilities": ["es2015", "modules", "serviceworker"],
       "bundle": false,
