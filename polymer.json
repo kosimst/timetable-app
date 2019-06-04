@@ -1,83 +1,38 @@
 {
   "entrypoint": "index.html",
   "shell": "src/components/timetable-app/timetable-app.js",
-  "sources": [
-    "images/**/*"
-  ],
+  "sources": ["images/**/*", "assets/**/*", "src/**/*"],
   "extraDependencies": [
     "manifest.json",
     "node_modules/@webcomponents/webcomponentsjs/**",
     "push-manifest.json"
   ],
-  "builds": [{
-      "name": "esm-unbundled",
-      "browserCapabilities": [
-        "es2015",
-        "modules"
-      ],
-      "js": {
-        "minify": true
-      },
-      "css": {
-        "minify": true
-      },
-      "html": {
-        "minify": true
-      },
-      "addServiceWorker": true
-    },
+  "builds": [
     {
-      "name": "esm-bundled",
-      "browserCapabilities": [
-        "es2015",
-        "modules"
-      ],
+      "name": "default",
+      "preset": "es6-bundled",
+      "browserCapabilities": ["es2015", "push", "modules", "serviceworker"],
+      "bundle": false,
+      "addServiceWorker": true,
+      "addPushManifest": true,
       "js": {
-        "minify": true
-      },
-      "css": {
-        "minify": true
-      },
-      "html": {
-        "minify": true
-      },
-      "bundle": true,
-      "addServiceWorker": true
-    },
-    {
-      "name": "es6-bundled",
-      "browserCapabilities": [
-        "es2015"
-      ],
-      "js": {
-        "compile": "es2015",
         "minify": true,
-        "transformModulesToAmd": true
-      },
-      "css": {
-        "minify": true
-      },
-      "html": {
-        "minify": true
-      },
-      "bundle": true,
-      "addServiceWorker": true
+        "compile": false,
+        "transformModulesToAmd": false
+      }
     },
     {
-      "name": "es5-bundled",
+      "name": "default_prefetch",
+      "preset": "es6-bundled",
+      "browserCapabilities": ["es2015", "modules", "serviceworker"],
+      "bundle": false,
+      "addServiceWorker": true,
+      "insertPrefetchLinks": true,
       "js": {
-        "compile": "es5",
         "minify": true,
-        "transformModulesToAmd": true
-      },
-      "css": {
-        "minify": true
-      },
-      "html": {
-        "minify": true
-      },
-      "bundle": true,
-      "addServiceWorker": true
+        "compile": false,
+        "transformModulesToAmd": false
+      }
     }
   ],
   "moduleResolution": "node",
