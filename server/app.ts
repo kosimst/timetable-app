@@ -3,11 +3,15 @@ import express from 'express'
 import secure from 'express-force-https'
 const prpl = require('prpl-server')
 const rendertron = require('rendertron-middleware')
+const shrinkRay = require('shrink-ray')
 
 const app = express()
 
 /* Force https */
 app.use(secure)
+
+/* Use shrink ray */
+app.use(shrinkRay())
 
 /* Rendertron proxy for bots */
 app.use(
@@ -21,19 +25,11 @@ app.get(
   prpl.makeHandler('./build', {
     builds: [
       {
-        name: 'esm-unbundled',
-        browserCapabilities: ['push', 'es2018', 'modules'],
+        name: 'default',
+        browserCapabilities: ['es2015', 'push', 'modules', 'serviceworker'],
       },
       {
-        name: 'esm-bundled',
-        browserCapabilities: ['es2018', 'modules'],
-      },
-      {
-        name: 'es6-bundled',
-        browserCapabilities: ['es2015'],
-      },
-      {
-        name: 'es5-bundled',
+        name: 'default_prefetch',
         browserCapabilities: [],
       },
     ],
