@@ -64,7 +64,7 @@ class ViewTimetable extends connect(store)(PageViewElement) {
       display: grid;
 
       grid-template-columns: 2% 90% 8%;
-      grid-template-rows: 12% 10% 83%;
+      grid-template-rows: 12% 10% 78%;
       grid-column-gap: 0px;
       grid-row-gap: 0px;
 
@@ -118,8 +118,8 @@ class ViewTimetable extends connect(store)(PageViewElement) {
       <h1 id="title">Mein Stundenplan</h1>
       <div id="menubar" role="menubar">
         <timetable-toggle
-          on="Klassen"
-          off="Lehrer"
+          off="Klassen"
+          on="Lehrer"
           @click="${this._changeMode}"
         ></timetable-toggle>
         <timetable-select @change=${this._changeSource} value=${this._source}>

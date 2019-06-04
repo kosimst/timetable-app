@@ -9,6 +9,13 @@ class TimetableGrid extends LitElement {
       grid-auto-rows: 80px;
 
       grid-gap: 12px;
+
+      overflow: scroll;
+      padding-bottom: 12px;
+    }
+
+    :host::-webkit-scrollbar {
+      display: none;
     }
 
     /* Align per day */
