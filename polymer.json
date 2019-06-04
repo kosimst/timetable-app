@@ -20,19 +20,6 @@
         "compile": false,
         "transformModulesToAmd": false
       }
-    },
-    {
-      "name": "esm_prefetch",
-      "preset": "es6-bundled",
-      "browserCapabilities": ["es2015", "modules", "serviceworker"],
-      "bundle": false,
-      "addServiceWorker": true,
-      "insertPrefetchLinks": true,
-      "js": {
-        "minify": true,
-        "compile": false,
-        "transformModulesToAmd": false
-      }
     }
   ],
   "moduleResolution": "node",

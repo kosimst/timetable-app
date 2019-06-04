@@ -22,12 +22,8 @@ app.get(
     builds: [
       {
         name: 'esm',
-        browserCapabilities: ['es2015', 'push', 'modules', 'serviceworker'],
-      },
-      {
-        name: 'esm_prefetch',
         browserCapabilities: [],
-      },
+      }
     ],
   }),
 )
