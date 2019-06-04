@@ -21,11 +21,11 @@ app.get(
   prpl.makeHandler('./build', {
     builds: [
       {
-        name: 'default',
+        name: 'standard',
         browserCapabilities: ['es2015', 'push', 'modules', 'serviceworker'],
       },
       {
-        name: 'default_prefetch',
+        name: 'standard_prefetch',
         browserCapabilities: [],
       },
     ],
