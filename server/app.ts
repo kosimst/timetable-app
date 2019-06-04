@@ -3,15 +3,11 @@ import express from 'express'
 import secure from 'express-force-https'
 const prpl = require('prpl-server')
 const rendertron = require('rendertron-middleware')
-const shrinkRay = require('shrink-ray')
 
 const app = express()
 
 /* Force https */
 app.use(secure)
-
-/* Use shrink ray */
-app.use(shrinkRay())
 
 /* Rendertron proxy for bots */
 app.use(
