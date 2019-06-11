@@ -41,7 +41,7 @@ export const logIn: ActionCreator<ThunkResult> = () => dispatch => {
       dispatch(updateUser(user))
       dispatch(userLoading(false))
     })
-    .catch((e: any) => {
+    .catch(() => {
       dispatch(userLoading(false))
       dispatch(errorUser('Error'))
     })

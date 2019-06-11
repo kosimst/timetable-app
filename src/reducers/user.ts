@@ -1,5 +1,5 @@
 import { Reducer } from 'redux'
-import { ERROR_USER, UPDATE_USER, USER_LOADING } from '../actions/user.js'
+import { ERROR_USER, UPDATE_USER, /* USER_LOADING */ } from '../actions/user.js'
 import { RootAction } from '../store.js'
 import { User } from '../types/user.js'
 

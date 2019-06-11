@@ -23,7 +23,7 @@ import {
   updateOffline,
   updateDrawerState,
   AppActionUpdateDrawerState,
-  toggleLoginDialog,
+  /* toggleLoginDialog, */
 } from '../../actions/app.js'
 
 import '../snack-bar.js'
@@ -58,8 +58,8 @@ class TimetableApp extends connect(store)(LitElement) {
   @property({ type: String })
   private _title: string = ''
 
-  @property({ type: Boolean })
-  private _loginDialogOpened: boolean = false
+/*   @property({ type: Boolean })
+  private _loginDialogOpened: boolean = false */
 
   @property({ type: Object })
   private _user: User | null = null
@@ -320,7 +320,7 @@ class TimetableApp extends connect(store)(LitElement) {
     this._offline = state.app!.offline
     this._snackbarOpened = state.app!.snackbarOpened
     this._title = state.app!.title
-    this._loginDialogOpened = state.app!.loginDialogOpened
+    /* this._loginDialogOpened = state.app!.loginDialogOpened */
     this._user = state.user!.user
     /* this.loading = state.app!.loading */
   }
