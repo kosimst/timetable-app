@@ -2,7 +2,7 @@ import { Action, ActionCreator } from 'redux'
 import { ThunkAction } from 'redux-thunk'
 
 import { RootState } from '../store.js'
-import db from '../firestore.js'
+import { firestore as db } from '../firebase.js'
 
 import { Week } from '../types/timetable.js'
 

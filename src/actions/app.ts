@@ -8,6 +8,7 @@ export const OPEN_SNACKBAR = 'OPEN_SNACKBAR'
 export const CLOSE_SNACKBAR = 'CLOSE_SNACKBAR'
 export const UPDATE_TITLE = 'UPDATE_TITLE'
 export const UPDATE_LOADING = 'UPDATE_LOADING'
+export const TOGGLE_LOGIN_DIALOG = 'TOGGLE_LOGIN_DIALOG'
 
 export interface AppActionUpdatePage extends Action<'UPDATE_PAGE'> {
   page: string
@@ -22,6 +23,11 @@ export interface AppActionUpdateDrawerState
 export interface AppActionUpdateLoading extends Action<'UPDATE_LOADING'> {
   loading: boolean
 }
+
+export interface AppActionToggleLoginDialog
+  extends Action<'TOGGLE_LOGIN_DIALOG'> {
+  loginDialogOpened: boolean
+}
 export interface AppActionUpdateTitle extends Action<'UPDATE_TITLE'> {
   title: string
 }
@@ -35,6 +41,7 @@ export type AppAction =
   | AppActionCloseSnackbar
   | AppActionUpdateTitle
   | AppActionUpdateLoading
+  | AppActionToggleLoginDialog
 
 type ThunkResult = ThunkAction<void, RootState, undefined, AppAction>
 
@@ -144,5 +151,14 @@ export const updateDrawerState: ActionCreator<AppActionUpdateDrawerState> = (
   return {
     type: UPDATE_DRAWER_STATE,
     opened,
+  }
+}
+
+export const toggleLoginDialog: ActionCreator<AppActionToggleLoginDialog> = (
+  loginDialogOpened: boolean,
+) => {
+  return {
+    type: TOGGLE_LOGIN_DIALOG,
+    loginDialogOpened,
   }
 }

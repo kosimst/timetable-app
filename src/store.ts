@@ -21,14 +21,17 @@ import { AppAction } from './actions/app.js'
 
 import timetable, { TimetableState } from './reducers/timetable.js'
 import { TimetableAction } from './actions/timetable.js'
+import user, { UserState } from './reducers/user.js'
+import { UserAction } from './actions/user.js';
 
 // Overall state extends static states and partials lazy states.
 export interface RootState {
   app?: AppState
   timetable?: TimetableState
+  user?: UserState
 }
 
-export type RootAction = AppAction | TimetableAction
+export type RootAction = AppAction | TimetableAction | UserAction
 
 // Sets up a Chrome extension for time travel debugging.
 // See https://github.com/zalmoxisus/redux-devtools-extension for more information.
@@ -55,4 +58,5 @@ export const store = createStore(
 store.addReducers({
   app,
   timetable,
+  user
 })
