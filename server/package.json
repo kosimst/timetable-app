@@ -16,7 +16,6 @@
     "express": "^4.16.4",
     "express-force-https": "^1.0.0",
     "node-fetch": "^2.3.0",
-    "prpl-server": "^1.4.0",
     "rendertron-middleware": "^0.1.5",
     "ts-node-dev": "^1.0.0-pre.32"
   },
