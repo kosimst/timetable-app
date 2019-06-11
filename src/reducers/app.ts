@@ -7,6 +7,7 @@ import {
   UPDATE_DRAWER_STATE,
   UPDATE_TITLE,
   UPDATE_LOADING,
+  TOGGLE_LOGIN_DIALOG,
 } from '../actions/app.js'
 import { RootAction } from '../store.js'
 
@@ -17,6 +18,7 @@ export interface AppState {
   snackbarOpened: boolean
   title: string
   loading: boolean
+  loginDialogOpened: boolean
 }
 
 const INITIAL_STATE: AppState = {
@@ -26,6 +28,7 @@ const INITIAL_STATE: AppState = {
   snackbarOpened: false,
   title: 'Mein Stundenplan',
   loading: true,
+  loginDialogOpened: false,
 }
 
 const app: Reducer<AppState, RootAction> = (state = INITIAL_STATE, action) => {
@@ -64,6 +67,11 @@ const app: Reducer<AppState, RootAction> = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         loading: action.loading,
+      }
+    case TOGGLE_LOGIN_DIALOG:
+      return {
+        ...state,
+        loginDialogOpened: action.loginDialogOpened,
       }
     default:
       return state

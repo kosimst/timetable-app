@@ -14,6 +14,8 @@ import { installOfflineWatcher } from 'pwa-helpers/network.js'
 import { installRouter } from 'pwa-helpers/router.js'
 import { updateMetadata } from 'pwa-helpers/metadata.js'
 
+import '@polymer/paper-ripple/paper-ripple.js'
+
 import { store, RootState } from '../../store.js'
 
 import {
@@ -21,6 +23,7 @@ import {
   updateOffline,
   updateDrawerState,
   AppActionUpdateDrawerState,
+  toggleLoginDialog,
 } from '../../actions/app.js'
 
 import '../snack-bar.js'
@@ -34,6 +37,10 @@ import { Icon } from '../../../assets/icons/icon'
 
 // Imports os styles
 import { styles } from './navbar-styles.js'
+import { styles as shadows } from '../styles/shadows.js'
+import { User } from '../../types/user.js'
+import { logIn, updateUser } from '../../actions/user.js'
+import { auth } from '../../firebase.js'
 
 class TimetableApp extends connect(store)(LitElement) {
   @property({ type: String })
@@ -51,10 +58,19 @@ class TimetableApp extends connect(store)(LitElement) {
   @property({ type: String })
   private _title: string = ''
 
+  @property({ type: Boolean })
+  private _loginDialogOpened: boolean = false
+
+  @property({ type: Object })
+  private _user: User | null = null
+
   /* @property({ type: Boolean, reflect: true })
   private loading: boolean = true */
 
   static styles: CSSResult = css`
+    /* Shadows */
+    ${shadows}
+
     :host {
       display: block;
 
@@ -97,6 +113,94 @@ class TimetableApp extends connect(store)(LitElement) {
 
     /* Styling of sidebar */
     ${styles}
+
+    /* Styles of user menu */
+    #user {
+      position: fixed;
+      top: 8px;
+      right: 12px;
+
+      width: 150px;
+      height: 40px;
+      border-radius: 999px;
+
+      background-color: white;
+      box-shadow: var(--shadow-elevation-8dp);
+      background: var(--theme-second-gradient);
+      transition: var(--shadow-transition);
+    }
+
+    #sign-in {
+      border: none;
+      outline: none;
+      font-family: Poppins;
+      color: white;
+      background: #0000;
+      font-weight: 600;
+
+      height: 100%;
+      width: 100%;
+      font-size: 16px;
+      border-radius: inherit;
+      cursor: pointer;
+
+      transition: background 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    #user:hover {
+      box-shadow: var(--shadow-elevation-16dp);
+    }
+
+    #user:hover #sign-in {
+      background: #0002;
+    }
+
+    /* Login dialog */
+    #login-dialog {
+      position: fixed;
+      z-index: 10000;
+
+      top: 10%;
+      left: 50%;
+      transform: translateX(-50%) scale(0);
+
+      width: 300px;
+      height: 400px;
+
+      background: white;
+      box-shadow: var(--shadow-elevation-16dp);
+      border-radius: 10px;
+
+      transition: transform 0.2s ease-out;
+    }
+
+    #login-dialog[data-opened] {
+      transform: translateX(-50%) scale(1);
+    }
+
+    /* Overlay for dialogs */
+    #overlay {
+      width: 100vw;
+      height: 100vh;
+
+      top: 0;
+      left: 0;
+
+      position: fixed;
+
+      background: var(--theme-second-gradient);
+      opacity: 0;
+      z-index: 9999;
+
+      visibility: hidden;
+
+      transition: opacity 0.4s ease-out;
+    }
+
+    #overlay[data-opened] {
+      visibility: visible;
+      opacity: 0.9;
+    }
   `
 
   protected render(): TemplateResult {
@@ -104,12 +208,16 @@ class TimetableApp extends connect(store)(LitElement) {
       <aside id="sidebar">
         <nav>
           <a ?current="${this._page === 'main'}" href="/">
-            <icon-student class="icon hover${this._page === 'main' ? ' active' : ''}"></icon-student>
+            <icon-student
+              class="icon hover${this._page === 'main' ? ' active' : ''}"
+            ></icon-student>
             <icon-student class="icon underlay"></icon-student>
           </a>
           <div class="center">
             <a ?current="${this._page === 'timetable'}" href="/timetable">
-              <icon-monitor class="icon hover${this._page === 'timetable' ? ' active' : ''}"></icon-monitor>
+              <icon-monitor
+                class="icon hover${this._page === 'timetable' ? ' active' : ''}"
+              ></icon-monitor>
               <icon-monitor class="icon underlay"></icon-monitor>
             </a>
             <a ?current="${this._page === 'view3'}" href="/view3">
@@ -123,6 +231,18 @@ class TimetableApp extends connect(store)(LitElement) {
           </a>
         </nav>
       </aside>
+
+      <div id="user">
+        <button
+          id="sign-in"
+          @click="${this._user
+            ? () => () => {}
+            : () => store.dispatch(logIn())}"
+        >
+          <span>${this._user ? this._user.name : 'Anmelden'}</span>
+          <paper-ripple></paper-ripple>
+        </button>
+      </div>
 
       <main role="main" class="main-content">
         <view-main class="page" ?active="${this._page === 'main'}"></view-main>
@@ -172,6 +292,18 @@ class TimetableApp extends connect(store)(LitElement) {
         icons.forEach(icon => icon.paint(300))
       })
     }
+
+    auth().onAuthStateChanged((rawUser: any) => {
+      if (rawUser) {
+        const user: User = {
+          email: rawUser.email,
+          name: rawUser.displayName,
+          photo: rawUser.photoURL,
+        }
+
+        store.dispatch(updateUser(user))
+      }
+    })
   }
 
   protected updated(changedProps: PropertyValues): void {
@@ -188,6 +320,8 @@ class TimetableApp extends connect(store)(LitElement) {
     this._offline = state.app!.offline
     this._snackbarOpened = state.app!.snackbarOpened
     this._title = state.app!.title
+    this._loginDialogOpened = state.app!.loginDialogOpened
+    this._user = state.user!.user
     /* this.loading = state.app!.loading */
   }
 }

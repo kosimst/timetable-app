@@ -21,4 +21,9 @@ firebase.firestore().settings({
 })
 firebase.firestore().enablePersistence()
 
-export default firebase.firestore()
+const provider = new firebase.auth.GoogleAuthProvider()
+provider.addScope('profile')
+
+export const firestore = firebase.firestore()
+export const auth = firebase.auth
+export { provider }

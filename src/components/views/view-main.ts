@@ -13,24 +13,61 @@ class ViewMain extends PageViewElement {
     ${ViewStyles}
 
     :host {
-      display: block;
+      display: grid;
+
+      grid-template-columns: 2% 90% 8%;
+      grid-template-rows: 12% 10% 78%;
+      grid-column-gap: 0px;
+      grid-row-gap: 0px;
+
+      justify-items: stretch;
+      align-items: stretch;
     }
 
-    * {
-      margin: 0;
-      padding: 0;
+    h1#title {
+      align-self: end;
+      grid-column-start: 2;
+    }
+
+    #menubar {
+      grid-column-start: 2;
+      align-self: center;
+
+      user-select: none;
+
+      height: 40px;
+    }
+
+    #container {
+      grid-column-start: 2;
+      grid-row-start: 3;
+
+      width: 100%;
+      height: 100%;
+
+      display: flex;
     }
   `
 
   protected render() {
     return html`
-      <h1>Hallo!</h1>
-      <p>
-        Diese Seite ist noch lange nicht fertig, das einzige, dass es bis jetzt
-        zu sehen gibt findest du <a href="/timetable">hier</a>. Der Stundenplan
-        wird momentan noch zufällig generiert, es geht nur um das Design und die
-        Animationen. Außerdem ist die Sidebar schon fertig inklusive Animationen.
-      </p>
+      <h1 id="title">${
+        (() => {
+          const hour = (new Date()).getHours()
+
+          if (hour < 12) {
+            return 'Guten Morgen'
+          } else if (hour < 18) {
+            return 'Hallo'
+          } else {
+            return 'Guten Abend'
+          }
+        })()
+      }!</h1>
+      <div id="menubar">
+        Melde dich an
+      </div>
+      <div id="container"></div>
     `
   }
 }
