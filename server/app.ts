@@ -10,7 +10,7 @@ const app = express()
 app.use(secure)
 
 /* Use static */
-app.use(express.static(path.join(__dirname, 'build')))
+app.use(express.static(path.join(__dirname, '../build')))
 
 /* Rendertron proxy for bots */
 app.use(
@@ -23,7 +23,7 @@ app.use(
 app.get(
   '/*',
   (req, res) => {
-    res.sendFile(path.join(__dirname, 'build/default/index.html'))
+    res.sendFile(path.join(__dirname, '../build/default/index.html'))
   }
 )
 
