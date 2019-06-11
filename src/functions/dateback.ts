@@ -1,8 +1,9 @@
 export default (date: Date) => {
+  const clone = new Date(date.getTime())
   return `${
-    date.setHours(0, 0, 0, 0) === new Date().setHours(0, 0, 0, 0)
+    clone.setHours(0, 0, 0, 0) === new Date().setHours(0, 0, 0, 0)
       ? 'heute'
-      : date.setHours(0, 0, 0, 0) ===
+      : clone.setHours(0, 0, 0, 0) ===
         new Date(Date.now() - 24 * 60 * 60 * 1000).setHours(0, 0, 0, 0)
       ? 'gestern'
       : `vor ${Math.trunc(

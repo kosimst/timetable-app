@@ -10,7 +10,12 @@ import { styles as SharedStyles } from '../styles/shared-styles.js'
 import { styles as ViewStyles } from '../styles/view-styles.js'
 
 import { store, RootState } from '../../store.js'
-import { changeSource, loadTimetable } from '../../actions/timetable.js'
+import {
+  changeSource,
+  loadTimetable,
+  updateSources,
+  updateColors,
+} from '../../actions/timetable.js'
 
 import '../timetable-grid/timetable-grid.js'
 import '../timetable-toggle/timetable-toggle.js'
@@ -41,6 +46,16 @@ class ViewTimetable extends connect(store)(PageViewElement) {
   @property({ type: Number })
   private _highest: number = 0
 
+  @property({ type: Object })
+  private _sources: {
+    [short: string]: string | number
+  } = {}
+
+  @property({ type: Object })
+  private _colors: {
+    [subject: string]: string
+  } = { default: '#1155ff' }
+
   static styles: CSSResult = css`
     ${SharedStyles}
     ${ViewStyles}
@@ -49,7 +64,7 @@ class ViewTimetable extends connect(store)(PageViewElement) {
       display: grid;
 
       grid-template-columns: 2% 90% 8%;
-      grid-template-rows: 12% 10% 83%;
+      grid-template-rows: 12% 10% 78%;
       grid-column-gap: 0px;
       grid-row-gap: 0px;
 
@@ -102,14 +117,18 @@ class ViewTimetable extends connect(store)(PageViewElement) {
     return html`
       <h1 id="title">Mein Stundenplan</h1>
       <div id="menubar" role="menubar">
-        <timetable-toggle on="Klassen" off="Lehrer"></timetable-toggle>
+        <timetable-toggle
+          off="Klassen"
+          on="Lehrer"
+          @click="${this._changeMode}"
+        ></timetable-toggle>
         <timetable-select @change=${this._changeSource} value=${this._source}>
-          <option value="1A">1A</option>
-          <option value="1B">1B</option>
-          <option value="2A">2A</option>
-          <option value="2B">2B</option>
-          <option value="3A">3A</option>
-          <option value="3B">3B</option>
+          ${Object.entries(this._sources).map(
+            ([short]) =>
+              html`
+                <option>${short}</option>
+              `,
+          )}
         </timetable-select>
 
         <div id="timestamp">
@@ -122,28 +141,40 @@ class ViewTimetable extends connect(store)(PageViewElement) {
           return day.map((hour, h) => {
             return html`
               <div day="${i}" hour="${h}">
-                ${hour && hour.map(({ subjectShort, color }, j) => {
-                  return html`
-                    <timetable-hour
-                      subjectShort="${subjectShort}"
-                      color="${color}"
-                      day="${i}"
-                      hour="${h}"
-                      order="${j}"
-                      total="${hour.length}"
-                      class="${this._unload ? 'unload' : ''}"
-                      style="
-                        --color: ${color};
-                        --color-brighter:${color}AA;
+                ${hour &&
+                  hour.map(
+                    (
+                      { subjectShort, subjectLong, roomLong, klasseShort },
+                      j,
+                    ) => {
+                      return html`
+                        <timetable-hour
+                          subjectShort="${subjectShort}"
+                          subjectLong="${subjectLong}"
+                          roomLong="${roomLong}"
+                          klasseShort="${klasseShort}"
+                          color="${this._colors[subjectShort] ||
+                            this._colors['default']}"
+                          day="${i}"
+                          hour="${h}"
+                          order="${j}"
+                          total="${hour.length}"
+                          class="${this._unload ? 'unload' : ''}"
+                          style="
+                        --color: ${this._colors[subjectShort] ||
+                            this._colors['default']};
+                        --color-brighter:${this._colors[subjectShort] ||
+                            this._colors['default']}AA;
                         --delay: ${i + h};
                         --highest: ${this._highest};
                         --total: ${1};
                         --order: ${j};
                         display: ${j === 0 ? 'block' : 'none'}
                       "
-                    ></timetable-hour>
-                  `
-                })}
+                        ></timetable-hour>
+                      `
+                    },
+                  )}
               </div>
             `
           })
@@ -157,6 +188,10 @@ class ViewTimetable extends connect(store)(PageViewElement) {
 
     // @ts-ignore
     store.dispatch(loadTimetable(store.getState().timetable.source))
+    // @ts-ignore
+    store.dispatch(updateSources(store.getState().timetable.mode))
+
+    store.dispatch(updateColors())
   }
 
   stateChanged(state: RootState) {
@@ -164,14 +199,19 @@ class ViewTimetable extends connect(store)(PageViewElement) {
     /* this._mode = state.timetable!.mode */
     this._timestamp = new Date(state.timetable!.timestamp)
 
+    this._sources = state.timetable!.sources
+    this._colors = state.timetable!.colors
+
     if (state.timetable!.timetable && state.timetable!.timetable.length) {
       if (this._unloadTimestamp + this._highest * 50 + 300 <= Date.now()) {
-        this._timetable = state.timetable!.timetable
+        // @ts-ignore
+        this._timetable = store.getState().timetable!.timetable
         this._unload = false
       } else {
         setTimeout(() => {
           this._unload = false
-          this._timetable = state.timetable!.timetable
+          // @ts-ignore
+          this._timetable = store.getState().timetable!.timetable
         }, this._unloadTimestamp + this._highest * 50 + 300 - Date.now())
       }
 
@@ -181,7 +221,6 @@ class ViewTimetable extends connect(store)(PageViewElement) {
   }
 
   _loadingFinished() {
-    console.log('kjh')
     this._unload = false
   }
 
@@ -190,6 +229,15 @@ class ViewTimetable extends connect(store)(PageViewElement) {
 
     this._unloadTimestamp = Date.now()
     this._unload = true
+  }
+
+  _changeMode() {
+    // @ts-ignore
+    const current = store.getState().timetable.mode
+
+    store.dispatch(
+      updateSources(current === 'klassen' ? 'teachers' : 'klassen'),
+    )
   }
 }
 

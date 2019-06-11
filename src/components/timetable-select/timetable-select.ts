@@ -82,7 +82,7 @@ class TimetableSelect extends LitElement {
     #current {
       width: 100%;
       height: 100%;
-      background: transparent;
+      background: white;
       border-radius: 99px;
       border: none;
       outline: none;
@@ -111,8 +111,13 @@ class TimetableSelect extends LitElement {
       box-shadow: var(--shadow-elevation-8dp);
     }
 
+    #select::-webkit-scrollbar {
+      display: none;
+    }
+
     :host([opened]) #select {
-      max-height: 5000px;
+      max-height: 190px;
+      overflow-y: scroll;
       box-shadow: var(--shadow-elevation-8dp);
     }
 
@@ -125,7 +130,10 @@ class TimetableSelect extends LitElement {
     super()
 
     this.addEventListener('blur', () => {
-      this._toggle()
+      this.opened = false
+
+      // @ts-ignore
+      ![...this.children].forEach(el => el.removeAttribute('hidden'))
     })
   }
 
@@ -149,31 +157,51 @@ class TimetableSelect extends LitElement {
           target.select()
         }}
         @keyup=${this._filter}
+        @keydown=${(e: any) => {
+          // @ts-ignore
+          if (e.keyCode === 13 && this.shadowRoot.children[0].value !== '') {
+            // @ts-ignore
+            this.value = [
+              // @ts-ignore
+              ...this.children,
+              // @ts-ignore
+            ].find(el => el.getAttribute('hidden') == null).innerText
+
+            this.removeAttribute('opened')
+
+            // @ts-ignore
+            this.shadowRoot.querySelector('input').blur()
+
+            this.blur()
+
+            this.dispatchEvent(new Event('change'))
+          }
+        }}
       />
       <div id="select" role="listbox" @click=${this._changeValue}>
         <slot></slot>
       </div>
-      <box-icon name="chevron-down" @click=${this._toggle}></box-icon>
+      <box-icon
+        name="chevron-down"
+        @click=${() => {
+          this.opened = !this.opened
+          // @ts-ignore
+          this.shadowRoot.children[0].select()
+        }}
+      ></box-icon>
     `
   }
 
-  private _toggle(): void {
-    // @ts-ignore
-    this.opened ^= true
-    if (this.opened) {
-      this.shadowRoot!.querySelector('input')!.value = ''
-      this.shadowRoot!.querySelector('input')!.focus()
-    } else {
-      this.shadowRoot!.querySelector('input')!.value = this.value
-    }
-  }
-
   private _filter({
+    keyCode,
     target: { value: query },
   }: {
     target: HTMLInputElement
+    keyCode: number
   }): void {
-    this.opened = true
+    if (keyCode !== 13) {
+      this.opened = true
+    }
 
     const children: HTMLOptionElement[] = <HTMLOptionElement[]>(
       (<any>[...this.children])

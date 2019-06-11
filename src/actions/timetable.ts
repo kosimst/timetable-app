@@ -1,9 +1,10 @@
 import { Action, ActionCreator } from 'redux'
 import { ThunkAction } from 'redux-thunk'
+
 import { RootState } from '../store.js'
+import db from '../firestore.js'
 
 import { Week } from '../types/timetable.js'
-import { fetchTimetable } from '../functions/timetable-cache.js'
 
 export const domain = 'timetable/'
 
@@ -13,6 +14,8 @@ export const UPDATE_SOURCE = 'timetable/UPDATE_SOURCE'
 export const UPDATE_TIMETABLE = 'timetable/UPDATE_TIMETABLE'
 export const UPDATE_ERROR = 'timetable/UPDATE_ERROR'
 export const UPDATE_TIMESTAMP = 'timetable/UPDATE_TIMESTAMP'
+export const UPDATE_SOURCES = 'timetable/UPDATE_SOURCES'
+export const UPDATE_COLORS = 'timetable/UPDATE_COLORS'
 
 export interface TimetableActionUpdateTimetable
   extends Action<'timetable/UPDATE_TIMETABLE'> {
@@ -20,7 +23,7 @@ export interface TimetableActionUpdateTimetable
 }
 export interface TimetableActionChangeMode
   extends Action<'timetable/CHANGE_MODE'> {
-  mode: 'klasse' | 'teacher'
+  mode: 'klassen' | 'teacher'
 }
 export interface TimetableActionLoadingTimetable
   extends Action<'timetable/LOADING_TIMETABLE'> {
@@ -46,6 +49,20 @@ export interface TimetableActionUpdateTimestamp
   timestamp: number
 }
 
+export interface TimetableActionUpdateSources
+  extends Action<'timetable/UPDATE_SOURCES'> {
+  sources: {
+    [short: string]: string | number
+  }
+}
+
+export interface TimetableActionUpdateColors
+  extends Action<'timetable/UPDATE_COLORS'> {
+  colors: {
+    [subject: string]: string
+  }
+}
+
 export type TimetableAction =
   | TimetableActionChangeMode
   | TimetableActionUpdateTimetable
@@ -54,6 +71,8 @@ export type TimetableAction =
   | TimetableActionUpdateSource
   | TimetableActionLoadingTimetable
   | TimetableActionUpdateTimestamp
+  | TimetableActionUpdateSources
+  | TimetableActionUpdateColors
 
 type ThunkResult = ThunkAction<void, RootState, undefined, TimetableAction>
 
@@ -63,49 +82,66 @@ export const changeSource: ActionCreator<ThunkResult> = (
   dispatch(loadTimetable(source))
 }
 
+export const updateSources: ActionCreator<ThunkResult> = (
+  mode: 'klassen' | 'teacher',
+) => async dispatch => {
+  const sources = (await db
+    .collection('sources')
+    .doc(mode)
+    .get()).data()
+
+  dispatch({ sources, type: 'timetable/UPDATE_SOURCES' })
+  dispatch(changeMode(mode))
+}
+
 export const loadTimetable: ActionCreator<ThunkResult> = (
   source: string,
 ) => async dispatch => {
+  dispatch(updateSource(source))
   dispatch(loadingTimetable(true))
 
-  fetchTimetable('test')
+  const {
+    timetable,
+    timestamp,
+  }: { timestamp: number; timetable: any } = (await db
+    .collection('timetables')
+    .doc(source)
+    .get()).data()
 
-  fetch(`${location.origin}/api/timetable/source/${507 || source}?date=1555922152443`)
-    .then(res => {
-      res
-        .json()
-        .then(
-          ({
-            timetable,
-            timestamp,
-          }: {
-            timetable: Week
-            timestamp: number
-          }) => {
-            dispatch(updateTimetable(timetable))
-            dispatch(updateSource(source))
-            dispatch(updateTimestamp(timestamp || Date.now()))
-          },
-        )
-    })
-    .catch(e => {
-      // TODO: Switch for different msg
-      dispatch(updateError(e))
-      dispatch(updateTimestamp(Date.now()))
-    })
-    .finally(() => {
-      dispatch(loadingTimetable(false))
-    })
+  dispatch(updateTimestamp(timestamp || Date.now()))
+
+  const parsedTimetable: any = [[], [], [], [], []]
+  timetable.forEach((day: any, i: number) => {
+    for (const [h, hour] of Object.entries(day)) {
+      parsedTimetable[i][parseInt(h)] = hour
+    }
+  })
+
+  dispatch(updateTimetable(parsedTimetable))
+  dispatch(loadingTimetable(false))
 }
 
-const updateError: ActionCreator<TimetableActionUpdateError> = (
+export const updateColors: ActionCreator<
+  ThunkResult
+> = () => async dispatch => {
+  const colors = (await db
+    .collection('config')
+    .doc('subject-colors')
+    .get()).data()
+  dispatch({
+    type: UPDATE_COLORS,
+    colors,
+  })
+}
+
+/* const updateError: ActionCreator<TimetableActionUpdateError> = (
   error: string | null,
 ) => {
   return {
     type: UPDATE_ERROR,
     error,
   }
-}
+} */
 
 const loadingTimetable: ActionCreator<TimetableActionLoadingTimetable> = (
   loading: boolean,
@@ -143,8 +179,8 @@ const updateSource: ActionCreator<TimetableActionUpdateSource> = (
   }
 }
 
-export const changeMode: ActionCreator<TimetableActionChangeMode> = (
-  mode: 'klasse' | 'teacher',
+const changeMode: ActionCreator<TimetableActionChangeMode> = (
+  mode: 'klassen' | 'teacher',
 ) => {
   return {
     mode,

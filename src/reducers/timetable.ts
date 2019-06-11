@@ -4,22 +4,32 @@ import {
   CHANGE_MODE,
   UPDATE_SOURCE,
   UPDATE_TIMESTAMP,
+  UPDATE_SOURCES,
+  UPDATE_COLORS
 } from '../actions/timetable.js'
 import { RootAction } from '../store.js'
-import { Week } from '../types/timetable.js';
+import { Week } from '../types/timetable.js'
 
 export interface TimetableState {
-  mode: 'klasse' | 'teacher'
+  sources: {
+    [short: string]: string | number
+  }
+  mode: 'klassen' | 'teacher'
   source: string
   timetable: Week
   timestamp: number
+  colors: {
+    [subject: string]: string
+  }
 }
 
 const INITIAL_STATE: TimetableState = {
-  mode: 'klasse',
+  mode: 'klassen',
   source: '1A',
   timetable: [],
   timestamp: 0,
+  sources: {},
+  colors: { default: '#1155ff' },
 }
 
 const timetable: Reducer<TimetableState, RootAction> = (
@@ -46,6 +56,16 @@ const timetable: Reducer<TimetableState, RootAction> = (
       return {
         ...state,
         timestamp: action.timestamp,
+      }
+    case UPDATE_SOURCES:
+      return {
+        ...state,
+        sources: action.sources,
+      }
+    case UPDATE_COLORS:
+      return {
+        ...state,
+        colors: action.colors,
       }
     default:
       return state

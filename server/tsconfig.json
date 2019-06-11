@@ -11,5 +11,5 @@
     "lib": ["es2017.string", "es2018.regexp", "esnext.array", "esnext"]
   },
   "include": [".", "./src/**/*"],
-  "exclude": ["./services"]
+  "exclude": ["./build"]
 }
