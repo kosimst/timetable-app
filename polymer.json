@@ -9,12 +9,13 @@
   ],
   "builds": [
     {
-      "name": "esm",
+      "name": "default",
       "preset": "es6-bundled",
       "browserCapabilities": ["es2015", "push", "modules", "serviceworker"],
       "bundle": false,
       "addServiceWorker": true,
       "addPushManifest": true,
+      "basePath": "/",
       "js": {
         "minify": true,
         "compile": false,

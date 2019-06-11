@@ -21,8 +21,7 @@ app.get(
   prpl.makeHandler('./build', {
     builds: [
       {
-        name: 'esm',
-        browserCapabilities: [],
+        name: 'default',
       }
     ],
   }),
