@@ -11,7 +11,15 @@ class TimetableGrid extends LitElement {
       grid-gap: 12px;
 
       overflow: scroll;
-      padding-bottom: 12px;
+      padding-bottom: 5%;
+      padding-top: 5%;
+
+      position: relative;
+      top: -5%;
+
+      height: 95%;
+
+      -webkit-mask-image: linear-gradient(rgba(0,0,0,0) 0%, rgba(0,0,0,1) 5%, rgba(0,0,0,1) 95%, rgba(0,0,0,0) 100%);
     }
 
     :host::-webkit-scrollbar {
