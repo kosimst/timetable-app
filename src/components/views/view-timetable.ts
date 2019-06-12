@@ -64,7 +64,7 @@ class ViewTimetable extends connect(store)(PageViewElement) {
       display: grid;
 
       grid-template-columns: 2% 90% 8%;
-      grid-template-rows: 12% 10% 78%;
+      grid-template-rows: 12% 10% 5% 70.5%;
       grid-column-gap: 0px;
       grid-row-gap: 0px;
 
@@ -106,10 +106,31 @@ class ViewTimetable extends connect(store)(PageViewElement) {
 
     #timetable {
       grid-column-start: 2;
+      grid-row-start: 4;
     }
 
     timetable-select {
       z-index: 3;
+    }
+
+    #days {
+      grid-row-start: 3;
+      grid-column-start: 2;
+
+      font-size: 0;
+    }
+
+    #days span {
+      display: inline-block;
+      width: calc(100% / 5);
+      text-align: center;
+
+      font-size: 16px;
+
+      position: relative;
+      top: -4px;
+
+      color: #000A;
     }
   `
 
@@ -180,6 +201,14 @@ class ViewTimetable extends connect(store)(PageViewElement) {
           })
         })}
       </timetable-grid>
+
+      <div id="days">
+        <span>Montag</span>
+        <span>Dienstag</span>
+        <span>Mittwoch</span>
+        <span>Donnerstag</span>
+        <span>Freitag</span>
+      </div>
     `
   }
 

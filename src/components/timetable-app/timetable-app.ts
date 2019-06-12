@@ -58,7 +58,7 @@ class TimetableApp extends connect(store)(LitElement) {
   @property({ type: String })
   private _title: string = ''
 
-/*   @property({ type: Boolean })
+  /*   @property({ type: Boolean })
   private _loginDialogOpened: boolean = false */
 
   @property({ type: Object })
@@ -128,6 +128,8 @@ class TimetableApp extends connect(store)(LitElement) {
       box-shadow: var(--shadow-elevation-8dp);
       background: var(--theme-second-gradient);
       transition: var(--shadow-transition);
+
+      overflow: hidden;
     }
 
     #sign-in {
@@ -153,6 +155,50 @@ class TimetableApp extends connect(store)(LitElement) {
 
     #user:hover #sign-in {
       background: #0002;
+    }
+
+    #user img {
+      display: none;
+    }
+
+    #user[data-logged-in] img {
+      display: inline-block;
+      width: 32px;
+      height: 32px;
+
+      position: absolute;
+      left: 4px;
+      top: 4px;
+      border-radius: 99px;
+
+      z-index: 100;
+    }
+
+    #user[data-logged-in] {
+      width: 200px;
+    }
+
+    #user[data-logged-in]::before {
+      content: '';
+      position: absolute;
+
+      width: 40px;
+      height: 100%;
+      top: 0;
+      left: 0;
+      border-radius: inherit;
+      background: white;
+      filter:
+        drop-shadow(10px 0 15px white)
+        drop-shadow(2.5px 0 2.5px white)
+      ;
+    }
+
+    #user[data-logged-in] span {
+      position: absolute;
+      right: 16px;
+      top: 0;
+      line-height: 40px;
     }
 
     /* Login dialog */
@@ -232,13 +278,14 @@ class TimetableApp extends connect(store)(LitElement) {
         </nav>
       </aside>
 
-      <div id="user">
+      <div id="user" ?data-logged-in="${!!this._user}">
         <button
           id="sign-in"
           @click="${this._user
             ? () => () => {}
             : () => store.dispatch(logIn())}"
         >
+          <img src="${this._user ? this._user.photo : ''}" />
           <span>${this._user ? this._user.name : 'Anmelden'}</span>
           <paper-ripple></paper-ripple>
         </button>
