@@ -165,7 +165,7 @@ class ViewTimetable extends connect(store)(PageViewElement) {
                 ${hour &&
                   hour.map(
                     (
-                      { subjectShort, subjectLong, roomLong, klasseShort, teacherShort, roomShort },
+                      { subjectShort, subjectLong, roomLong, klasseShort, teacherShort, roomShort, teacherLong },
                       j,
                     ) => {
                       return html`
@@ -176,6 +176,7 @@ class ViewTimetable extends connect(store)(PageViewElement) {
                           roomLong="${roomLong}"
                           klasseShort="${klasseShort}"
                           teacherShort="${teacherShort}"
+                          teacherLong="${teacherLong}"
                           color="${this._colors[subjectShort] ||
                             this._colors['default']}"
                           day="${i}"
