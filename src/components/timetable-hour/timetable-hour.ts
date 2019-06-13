@@ -34,6 +34,21 @@ class TimetableHour extends LitElement {
   @property({ type: Boolean, reflect: true })
   opened: boolean = false
 
+  @property({ type: Date })
+  date: Date = new Date()
+
+  @property({ type: Number })
+  startTime: number = 740
+
+  @property({ type: Number })
+  endTime: number = 830
+
+  @property({ type: Boolean })
+  cancelled: boolean = false
+
+  @property({ type: Boolean })
+  substitution: boolean = false
+
   static styles = css`
     ${shadows}
     ${dialogStyles}
@@ -73,6 +88,25 @@ class TimetableHour extends LitElement {
       height: 100%;
     }
 
+    :host([substitution='true'])::before {
+      content: '!';
+      position: absolute;
+
+      right: 8px;
+      top: 8px;
+
+      height: 24px;
+      width: 24px;
+
+      font-weight: 900;
+
+      text-align: center;
+
+      color: white;
+      background: #b71c1c;
+      border-radius: 99px;
+    }
+
     :host(:first-child) {
       margin-left: 0;
     }
@@ -96,7 +130,7 @@ class TimetableHour extends LitElement {
       box-shadow: var(--shadow-elevation-16dp);
     }
 
-    :host(:hover) #cell::after {
+    :host([duration='1']:hover) #cell::after {
       width: calc(20% + ((var(--total) - 1) * 15%));
       transform: skew(calc(10deg - ((var(--total) - 1) * 3deg)));
 
@@ -220,16 +254,23 @@ class TimetableHour extends LitElement {
 
   protected render() {
     return html`
-      <div id="cell" @click="${() => {
+      <div
+        id="cell"
+        @click="${() => {
           this.opened = true
           const e = new CustomEvent('hour-opened', {
-            bubbles: true
+            bubbles: true,
           })
           this.dispatchEvent(e)
-        }
-      }">
-        <span id="teacherShort">${this.teacherShort}</span>
-        <span id="subjectShort">${this.subjectShort}</span>
+        }}"
+      >
+        <span id="teacherShort"
+          >${this.teacherShort.split(', ')[0] +
+            (this.teacherShort.split(', ').length > 1
+              ? `+${this.teacherShort.split(', ').length - 1}`
+              : '')}</span
+        >
+        <span id="subjectShort">${this.subjectShort || '…'}</span>
         <span id="roomShort">${this.roomShort}</span>
       </div>
 
@@ -246,7 +287,18 @@ class TimetableHour extends LitElement {
         <div id="container">
           <div id="timeLong">
             <span>Zeit: </span>
-            ?
+            am
+            ${['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag'][
+              this.date.getDay() - 1
+            ]}
+            von
+            ${String(this.startTime).slice(0, -2)}:${String(
+              this.startTime,
+            ).slice(-2)}
+            bis
+            ${String(this.endTime).slice(0, -2)}:${String(this.endTime).slice(
+              -2,
+            )}
           </div>
           <div id="teacherLong">
             <span>Lehrer: </span>
@@ -267,15 +319,17 @@ class TimetableHour extends LitElement {
           </div>
         </div>
       </div>
-      <div id="backdrop" @click="${() => {
+      <div
+        id="backdrop"
+        @click="${() => {
           this.opened = false
 
           const e = new CustomEvent('hour-closed', {
-            bubbles: true
+            bubbles: true,
           })
           this.dispatchEvent(e)
-        }
-      }"></div>
+        }}"
+      ></div>
     `
   }
 

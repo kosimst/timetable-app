@@ -130,7 +130,7 @@ class ViewTimetable extends connect(store)(PageViewElement) {
       position: relative;
       top: -4px;
 
-      color: #000A;
+      color: #000a;
     }
   `
 
@@ -165,38 +165,64 @@ class ViewTimetable extends connect(store)(PageViewElement) {
                 ${hour &&
                   hour.map(
                     (
-                      { subjectShort, subjectLong, roomLong, klasseShort, teacherShort, roomShort, teacherLong },
+                      {
+                        subjectShort,
+                        subjectLong,
+                        roomLong,
+                        klasseShort,
+                        teacherShort,
+                        roomShort,
+                        teacherLong,
+                        studentGroups,
+                        startTime,
+                        endTime,
+                        parsedDate,
+                        duration,
+                        cancelled,
+                        substitution
+                      },
                       j,
                     ) => {
-                      return html`
-                        <timetable-hour
-                          subjectShort="${subjectShort}"
-                          subjectLong="${subjectLong}"
-                          roomShort="${roomShort}"
-                          roomLong="${roomLong}"
-                          klasseShort="${klasseShort}"
-                          teacherShort="${teacherShort}"
-                          teacherLong="${teacherLong}"
-                          color="${this._colors[subjectShort] ||
-                            this._colors['default']}"
-                          day="${i}"
-                          hour="${h}"
-                          order="${j}"
-                          total="${hour.length}"
-                          class="${this._unload ? 'unload' : ''}"
-                          style="
+                      if (!cancelled) {
+                        return html`
+                          <timetable-hour
+                            subjectShort="${subjectShort ||
+                              studentGroups.split('_')[0]}"
+                            subjectLong="${subjectLong ||
+                              studentGroups.split('_')[0]}"
+                            roomShort="${roomShort}"
+                            roomLong="${roomLong}"
+                            klasseShort="${klasseShort}"
+                            teacherShort="${teacherShort}"
+                            teacherLong="${teacherLong}"
+                            color="${this._colors[subjectShort] ||
+                              this._colors['default']}"
+                            cancelled="${cancelled}"
+                            duration="${duration}"
+                            .date="${new Date(parsedDate.seconds * 1000)}"
+                            startTime="${startTime}"
+                            endTime="${endTime}"
+                            substitution="${substitution}"
+                            day="${i}"
+                            hour="${h}"
+                            order="${j}"
+                            total="${hour.length}"
+                            class="${this._unload ? 'unload' : ''}"
+                            style="
                         --color: ${this._colors[subjectShort] ||
-                            this._colors['default']};
+                              this._colors['default']};
                         --color-brighter:${this._colors[subjectShort] ||
-                            this._colors['default']}AA;
+                              this._colors['default']}AA;
                         --delay: ${i + h};
                         --highest: ${this._highest};
                         --total: ${1};
                         --order: ${j};
-                        display: ${j === 0 ? 'block' : 'none'}
+                        display: ${j === 0 ? 'block' : 'none'};
+                        height: ${duration * 80 + (duration - 1) * 12}px;
                       "
-                        ></timetable-hour>
-                      `
+                          ></timetable-hour>
+                        `
+                      } else return null
                     },
                   )}
               </div>
