@@ -54,7 +54,7 @@ class TimetableHour extends LitElement {
     ${dialogStyles}
 
     :host {
-      --margin: 8px;
+      --margin: 0px;
       display: block;
       width: calc(
         100% / var(--total) - (var(--margin) * (var(--total) - 1)) /
@@ -234,6 +234,46 @@ class TimetableHour extends LitElement {
 
       box-shadow: none;
     }
+
+    #next {
+      content: '↘';
+      position: absolute;
+
+      bottom: -2px;
+      right: 8px;
+
+      font-size: 20px;
+
+      transform: scale(1);
+      transition: transform 0.1s ease-out;
+    }
+
+    #next:hover {
+      transform: scale(1.1);
+    }
+
+    :host([total='1']) #next {
+      display: none;
+    }
+
+    :host(:not([opened])) {
+      transform: rotateX(0deg);
+
+      transition: transform ease-out 300ms;
+      transform-origin: left;
+      transition-delay: 300ms;
+    }
+
+    :host {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    :host(.hidden) {
+      transform: rotateY(90deg);
+      transition-delay: 0s;
+    }
   `
 
   constructor() {
@@ -272,6 +312,24 @@ class TimetableHour extends LitElement {
         >
         <span id="subjectShort">${this.subjectShort || '…'}</span>
         <span id="roomShort">${this.roomShort}</span>
+
+        <div
+          id="next"
+          title="Anderen Gegenstand anzeigen"
+          @click="${(e: MouseEvent) => {
+            e.stopPropagation()
+            if (this.parentNode) {
+              this.classList.add('hidden')
+
+              const children = [...this.parentNode.children]
+              const next = children[children.indexOf(this) + 1] || children[0]
+
+              next.classList.remove('hidden')
+            }
+          }}"
+        >
+          ⟷
+        </div>
       </div>
 
       <div id="dialog">

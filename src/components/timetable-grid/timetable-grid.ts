@@ -30,6 +30,10 @@ class TimetableGrid extends LitElement {
       display: none;
     }
 
+    ::slotted(div) {
+      position: relative;
+    }
+
     /* Align per day */
     ${cssLiteral(
       [...Array(5)]

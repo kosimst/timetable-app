@@ -207,7 +207,7 @@ class ViewTimetable extends connect(store)(PageViewElement) {
                             hour="${h}"
                             order="${j}"
                             total="${hour.length}"
-                            class="${this._unload ? 'unload' : ''}"
+                            class="${this._unload ? 'unload' : ''} ${j === 0 ? '' : 'hidden'}"
                             style="
                         --color: ${this._colors[subjectShort] ||
                               this._colors['default']};
@@ -217,7 +217,6 @@ class ViewTimetable extends connect(store)(PageViewElement) {
                         --highest: ${this._highest};
                         --total: ${1};
                         --order: ${j};
-                        display: ${j === 0 ? 'block' : 'none'};
                         height: ${duration * 80 + (duration - 1) * 12}px;
                       "
                           ></timetable-hour>
