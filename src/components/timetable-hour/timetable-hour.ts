@@ -148,8 +148,8 @@ class TimetableHour extends LitElement {
       transition: color 300ms ease-out;
     }
 
-    :host([total='1']:hover) #roomShort,
-    :host([total='1']:hover) #teacherShort {
+    :host(:hover) #roomShort,
+    :host(:hover) #teacherShort {
       color: grey;
     }
 
