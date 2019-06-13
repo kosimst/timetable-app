@@ -230,7 +230,7 @@ class TimetableHour extends LitElement {
       }">
         <span id="teacherShort">${this.teacherShort}</span>
         <span id="subjectShort">${this.subjectShort}</span>
-        <span id="roomShort">R7C</span>
+        <span id="roomShort">${this.roomShort}</span>
       </div>
 
       <div id="dialog">
