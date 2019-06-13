@@ -22,6 +22,10 @@ class TimetableGrid extends LitElement {
       -webkit-mask-image: linear-gradient(rgba(0,0,0,0) 0%, rgba(0,0,0,1) 5%, rgba(0,0,0,1) 95%, rgba(0,0,0,0) 100%);
     }
 
+    :host([data-hour-opened]) {
+      -webkit-mask-image: none;
+    }
+
     :host::-webkit-scrollbar {
       display: none;
     }
@@ -52,6 +56,18 @@ class TimetableGrid extends LitElement {
         .join(' '),
     )}
   `
+
+  constructor() {
+    super()
+
+    this.addEventListener('hour-opened', () => {
+      this.setAttribute('data-hour-opened', '')
+    })
+
+    this.addEventListener('hour-closed', () => {
+      this.removeAttribute('data-hour-opened')
+    })
+  }
 
   protected render() {
     return html`

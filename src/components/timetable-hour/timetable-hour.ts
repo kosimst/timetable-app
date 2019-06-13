@@ -148,8 +148,8 @@ class TimetableHour extends LitElement {
       transition: color 300ms ease-out;
     }
 
-    :host([total='1']:hover) #roomShort,
-    :host([total='1']:hover) #teacherShort {
+    :host(:hover) #roomShort,
+    :host(:hover) #teacherShort {
       color: grey;
     }
 
@@ -220,10 +220,17 @@ class TimetableHour extends LitElement {
 
   protected render() {
     return html`
-      <div id="cell" @click="${() => (this.opened = true)}">
-        <span id="teacherShort">GUE</span>
+      <div id="cell" @click="${() => {
+          this.opened = true
+          const e = new CustomEvent('hour-opened', {
+            bubbles: true
+          })
+          this.dispatchEvent(e)
+        }
+      }">
+        <span id="teacherShort">${this.teacherShort}</span>
         <span id="subjectShort">${this.subjectShort}</span>
-        <span id="roomShort">R7C</span>
+        <span id="roomShort">${this.roomShort}</span>
       </div>
 
       <div id="dialog">
@@ -260,7 +267,15 @@ class TimetableHour extends LitElement {
           </div>
         </div>
       </div>
-      <div id="backdrop" @click="${() => (this.opened = false)}"></div>
+      <div id="backdrop" @click="${() => {
+          this.opened = false
+
+          const e = new CustomEvent('hour-closed', {
+            bubbles: true
+          })
+          this.dispatchEvent(e)
+        }
+      }"></div>
     `
   }
 
