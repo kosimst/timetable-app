@@ -1,4 +1,4 @@
-import { html, LitElement, css, unsafeCSS as cssLiteral, property } from 'lit-element'
+import { html, LitElement, css, unsafeCSS as cssLiteral } from 'lit-element'
 
 class TimetableGrid extends LitElement {
   static styles = css`
