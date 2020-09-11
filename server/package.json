@@ -15,7 +15,7 @@
     "array.prototype.flat": "^1.2.1",
     "express": "^4.16.4",
     "express-force-https": "^1.0.0",
-    "node-fetch": "^2.3.0",
+    "node-fetch": "^2.6.1",
     "rendertron-middleware": "^0.1.5",
     "ts-node-dev": "^1.0.0-pre.32"
   },
